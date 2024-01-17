@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FortuneWheel.Application.Services
+namespace FortuneWheel.Results.Auth
 {
     public class TokenResult
     {

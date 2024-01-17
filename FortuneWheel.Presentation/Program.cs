@@ -1,4 +1,5 @@
-using FortuneWheel.Persistence;
+using FortuneWheel.Application.Services.Auth;
+using FortuneWheel.Data.DbContexts;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +35,9 @@ public class Program
                 options.ExpireTimeSpan = TimeSpan.FromHours(12);
                 
             });
+
+        services.AddScoped<IDbContext>(provider => provider.GetService<ApplicationDbContext>());
+        services.AddTransient<IAuthService, AuthService>();
     }
 
     private static void ConfigureApp(WebApplication app)

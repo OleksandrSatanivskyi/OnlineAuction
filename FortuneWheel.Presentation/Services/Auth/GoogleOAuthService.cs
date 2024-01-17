@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.WebUtilities;
+﻿using FortuneWheel.Results.Auth;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Runtime.Intrinsics.Arm;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace FortuneWheel.Application.Services
+namespace FortuneWheel.Services.Auth
 {
     public class GoogleOAuthService
     {

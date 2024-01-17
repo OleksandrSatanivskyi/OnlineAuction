@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FortuneWheel.Presentation.Models.Auth;
+using FortuneWheel.Results.Auth;
+using System.Security.Claims;
 
 namespace FortuneWheel.Application.Services.Auth
 {
     public interface IAuthService
     {
-        //Task<> Login(LoginModel request);
+        Task<IEnumerable<Claim>> Login(LoginModel model);
+        Task SignUp(SignUpModel model);
     }
 }

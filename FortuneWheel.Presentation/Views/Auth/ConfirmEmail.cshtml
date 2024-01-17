@@ -1,0 +1,22 @@
+﻿@model FortuneWheel.Presentation.Models.Auth.ConfirmEmailModel
+
+<div class="auth-container">
+    <label class="auth-title">Login</label>
+    <form method="post" class="auth-form" asp-controller="Auth" asp-action="SubmitLogin">
+        <div class="auth-input-group">
+            <input type="text" class="form-control auth-input" placeholder="Email" asp-for="Email">
+            <span asp-validation-for="@Model.Email" class="text-danger"></span>
+        </div>
+
+        <div class="auth-input-group">
+            <input type="text" class="form-control auth-input" placeholder="Password" asp-for="Password">
+            <span asp-validation-for="@Model.Password" class="text-danger"></span>
+        </div>
+
+        <button class="btn auth-submit-btn" type="submit">Submit</button>
+    </form>
+    <button class="continue-with-google-btn" onclick="location.href='@Url.Action("ContinueWithGoogle", "GoogleOAuth")'">
+        <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google Logo">
+        Continue with Google
+    </button>
+</div>

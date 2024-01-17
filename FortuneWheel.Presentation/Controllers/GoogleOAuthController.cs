@@ -1,4 +1,4 @@
-﻿using FortuneWheel.Application.Services;
+﻿using FortuneWheel.Services.Auth;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
 using System.Text;
@@ -24,30 +24,14 @@ namespace FortuneWheel.Presentation.Controllers
             var codeVerifier = Guid.NewGuid().ToString("N");
             HttpContext.Session.SetString("сodeVerifier", codeVerifier);
 
-            var codeChallenge = ComputeSha256Hash(codeVerifier);
+            var codeChallenge = Services.CryptoService.ComputeSha256Hash(codeVerifier);
 
             var url = await GoogleOAuthService.GenerateOAuthRequestUrl(scope, redirectUrl, codeVerifier);
 
             return Redirect(url);
         }
 
-        private string ComputeSha256Hash(string rawData)
-        {
-            using (SHA256 sha256 = SHA256.Create())
-            {
-                byte[] inputBytes = Encoding.ASCII.GetBytes(rawData);
-                byte[] hashBytes = sha256.ComputeHash(inputBytes);
-
-                StringBuilder builder = new StringBuilder();
-
-                for (int i = 0; i < hashBytes.Length; i++)
-                {
-                    builder.Append(hashBytes[i].ToString("x2"));
-                }
-
-                return builder.ToString();
-            }
-        }
+        
 
         public async Task<IActionResult> HandleGoogleOAuthCode(string code)
         {
