@@ -16,6 +16,9 @@ namespace FortuneWheel.Presentation.Controllers
         [HttpGet]
         public async Task<IActionResult> Login()
         {
+            if (HttpContext.User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
             return View();
         }
 
