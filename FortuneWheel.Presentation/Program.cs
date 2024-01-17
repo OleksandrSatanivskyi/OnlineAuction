@@ -1,4 +1,5 @@
 using FortuneWheel.Persistence;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -26,25 +27,13 @@ public class Program
         options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
         services.AddSession();
         services.AddControllersWithViews().AddRazorRuntimeCompilation();
-        services.AddAuthentication(options =>
-        {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        }).AddJwtBearer(options =>
-        {
-            var key = Encoding.UTF8.GetBytes(configuration["Auth:Secret"]);
-            options.SaveToken = true;
-            options.TokenValidationParameters = new TokenValidationParameters
+        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options =>
             {
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = configuration["Auth:Issuer"],
-                ValidAudience = configuration["Auth:Audience"],
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateLifetime = true,
-                ValidateIssuer = true,
-                ValidateAudience = true,
-            };
-        });
+                options.LoginPath = "/Access/Login";
+                options.ExpireTimeSpan = TimeSpan.FromHours(12);
+                
+            });
     }
 
     private static void ConfigureApp(WebApplication app)
