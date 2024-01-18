@@ -1,8 +1,8 @@
-﻿@model FortuneWheel.Presentation.Models.Auth.SignUpModel
+﻿@model FortuneWheel.Models.Auth.SignUpModel
 
 <div class="auth-container">
     <label class="auth-title">Sign up</label>
-    <form method="post" class="auth-form" asp-controller="Auth" asp-action="SubmitSignUp">
+    <form method="post" class="auth-form" asp-controller="Auth" asp-action="SignUp">
         <div class="auth-input-group">
             <input type="text" class="form-control auth-input" placeholder="Email" asp-for="Email">
             <span asp-validation-for="@Model.Email" class="text-danger"></span>

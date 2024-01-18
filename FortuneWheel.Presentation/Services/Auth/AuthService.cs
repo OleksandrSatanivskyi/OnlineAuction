@@ -1,5 +1,4 @@
 ﻿using FortuneWheel.Data.DbContexts;
-using FortuneWheel.Presentation.Models.Auth;
 using FortuneWheel.Results.Auth;
 using Microsoft.EntityFrameworkCore;
 using FortuneWheel.Exceptions;
@@ -11,6 +10,9 @@ using System.Security.Claims;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.CodeAnalysis.Diagnostics;
 using System;
+using FortuneWheel.Models.Auth;
+using FortuneWheel.Presentation.Models.Auth;
+using Microsoft.IdentityModel.Tokens;
 
 namespace FortuneWheel.Application.Services.Auth
 {
@@ -54,8 +56,11 @@ namespace FortuneWheel.Application.Services.Auth
                 Id = Guid.NewGuid(),
                 Name = model.Name,
                 Surname = model.Surname,
-                Password = model.Password
+                Password = CryptoService.ComputeSha256Hash(model.Password)
             };
+
+            var existingEmails = DbContext.UnconfirmedEmails.Where(e => e.Email == model.Email).ToList();
+            if (existingEmails.Count > 0) DbContext.UnconfirmedEmails.RemoveRange(existingEmails);
 
             var unconfirmedEmail = new UnconfirmedEmail
             {
@@ -70,6 +75,7 @@ namespace FortuneWheel.Application.Services.Auth
 
             await DbContext.Accounts.AddAsync(account);
             await DbContext.UnconfirmedEmails.AddAsync(unconfirmedEmail);
+            await DbContext.SaveChangesAsync();
         }
 
         private Random random = new Random();
@@ -77,6 +83,22 @@ namespace FortuneWheel.Application.Services.Auth
         {
             int codeValue = random.Next(10000, 99999);
             return codeValue.ToString();
+        }
+
+        public async Task ConfirmEmail(ConfirmEmailModel model)
+        {
+            var email = await DbContext.UnconfirmedEmails.FirstOrDefaultAsync(e => e.Email == model.Email);
+            if (email == null) throw new NotFoundException($"There are no account registered with email {model.Email}.");
+            if (email.Code != model.Code) throw new UnauthorizedAccessException("Invalid code.");
+
+            var account = await DbContext.Accounts.FirstOrDefaultAsync(a => a.Id == email.AccountId);
+            if (account == null) throw new NotFoundException($"There are no account registered with email {model.Email}.");
+            if (!account.Email.IsNullOrEmpty()) throw new InvalidOperationException($"Account with id {account.Id} already has a verified email.");
+
+            account.Email = model.Email;
+            DbContext.UnconfirmedEmails.Remove(email);
+
+            await DbContext.SaveChangesAsync();
         }
     }
 

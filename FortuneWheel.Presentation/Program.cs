@@ -1,12 +1,10 @@
 using FortuneWheel.Application.Services.Auth;
 using FortuneWheel.Data.DbContexts;
+using FortuneWheel.Middlewares;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
-namespace FortuneWheel.Presentation;
+namespace FortuneWheel;
 
 public class Program
 {
@@ -54,6 +52,7 @@ public class Program
         app.UseRouting();
         app.UseAuthentication();
         app.UseAuthorization();
+        app.UseMiddleware<ExceptionHandlerMiddleware>();
 
         app.UseEndpoints(endpoints =>
         {
