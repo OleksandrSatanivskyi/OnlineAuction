@@ -86,3 +86,8 @@ body {
     height: 24px;
     margin-right: 10px;
 }
+
+.auth-label {
+    font-size: 20px;
+    margin-bottom: 30px;
+}
