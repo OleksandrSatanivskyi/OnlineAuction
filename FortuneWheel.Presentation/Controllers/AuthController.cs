@@ -16,7 +16,6 @@ using HttpGetAttribute = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
 
 namespace FortuneWheel.Presentation.Controllers
 {
-    [HandleError]
     public class AuthController : Controller
     {
         public IAuthService AuthService { get; set; }

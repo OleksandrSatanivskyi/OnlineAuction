@@ -10,6 +10,7 @@ namespace FortuneWheel.Domain
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
+        public WheelType WheelType { get; set; }
         public List<WheelSegment> Segments { get; set; }
     }
 

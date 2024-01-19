@@ -31,11 +31,9 @@ namespace FortuneWheel.Presentation.Controllers
             return Redirect(url);
         }
 
-        
-
         public async Task<IActionResult> HandleGoogleOAuthCode(string code)
         {
-            string redirectUrl = "https://localhost:7266/Auth/HandleGoogleOAuthCode";
+            string redirectUrl = Url.Action(nameof(HandleGoogleOAuthCode), "GoogleAuth", null, Request.Scheme);
             var сodeVerifier = HttpContext.Session.GetString("сodeVerifier");
 
             var url = await GoogleOAuthService.ExchangeCodeForToken(code, сodeVerifier, redirectUrl);
