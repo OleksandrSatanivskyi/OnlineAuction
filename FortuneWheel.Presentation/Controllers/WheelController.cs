@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using FortuneWheel.Services;
 using FortuneWheel.Models.Wheels;
+using Microsoft.EntityFrameworkCore;
+using FortuneWheel.Domain.WheelsOfFortune;
 
 namespace FortuneWheel.Controllers
 {
@@ -25,7 +27,7 @@ namespace FortuneWheel.Controllers
 
             var model = new GetAllWheelsModel
             {
-                Wheels = (List<Domain.WheelsOfFortune.WheelOfFortune>)await WheelService.GetUserWheels(userId)
+                Wheels = (List<WheelOfFortune>)await WheelService.GetUserWheels(userId)
             };
 
             return View(model);

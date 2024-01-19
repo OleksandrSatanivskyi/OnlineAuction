@@ -1,5 +1,4 @@
 ﻿using FortuneWheel.Data.DbContexts;
-using FortuneWheel.Results.Auth;
 using Microsoft.EntityFrameworkCore;
 using FortuneWheel.Exceptions;
 using FortuneWheel.Services;
@@ -9,6 +8,9 @@ using FortuneWheel.Models.Auth;
 using FortuneWheel.Presentation.Models.Auth;
 using Microsoft.IdentityModel.Tokens;
 using FortuneWheel.Domain.Auth;
+using Google.Apis.Auth;
+using System.Web.Helpers;
+using static Google.Apis.Auth.GoogleJsonWebSignature;
 
 namespace FortuneWheel.Application.Services.Auth
 {
@@ -95,6 +97,44 @@ namespace FortuneWheel.Application.Services.Auth
             DbContext.UnconfirmedEmails.Remove(email);
 
             await DbContext.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Claim>> ContinueWithGoogle(Payload payload)
+        {
+            if (DbContext.Accounts.FirstOrDefault(a => a.Email == payload.Email) != null)
+                return await LoginWithGoogle(payload);
+            else return await SignUpWithGoogle(payload);
+        }
+
+        private async Task<IEnumerable<Claim>> LoginWithGoogle(Payload payload)
+        {
+            var account = await DbContext.Accounts.FirstOrDefaultAsync(a => a.Email == payload.Email);
+
+            var claims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.NameIdentifier, account.Id.ToString()),
+                new Claim(ClaimTypes.Email, account.Email)
+            };
+
+            return claims;
+        }
+
+        private async Task<IEnumerable<Claim>> SignUpWithGoogle(Payload payload)
+        {
+            var account = new Account
+            {
+                Id = Guid.NewGuid(),
+                Email = payload.Email,
+                Name = payload.GivenName,
+                Surname = payload.FamilyName,
+            };
+            var claims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.NameIdentifier, account.Id.ToString()),
+                new Claim(ClaimTypes.Email, account.Email)
+            };
+
+            return claims;
         }
     }
 

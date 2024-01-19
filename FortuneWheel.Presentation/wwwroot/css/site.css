@@ -92,26 +92,6 @@ body {
     margin-bottom: 30px;
 }
 
-.active{
-    background-color: red;
-}
-
-.cont {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    overflow: hidden;
-}
-
-.nav {
-    width: 13%;
-    background-color: #f1f1f1;
-}
-
-.sidebar-sticky {
-    position: fixed;
-}
-
 main {
     width:100%;
 }
@@ -127,12 +107,6 @@ body, html {
     display: flex;
 }
 
-.menu {
-    flex: 0 0 15%;
-    height: 100%;
-    border-right: 1px solid gray;
-}
-
 .main-page {
     flex: 1;
     height: 100%;
@@ -140,6 +114,9 @@ body, html {
 }
 
 .menu {
+    flex: 0 0 15%;
+    height: 100%;
+    border-right: 1px solid gray;
     list-style: none;
     padding: 0;
     text-align: center;

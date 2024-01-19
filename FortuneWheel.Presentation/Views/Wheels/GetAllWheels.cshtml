@@ -1,5 +1,33 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model FortuneWheel.Models.Wheels.GetAllWheelsModel
+
+<table>
+    <thead>
+        <tr>
+            <th>Wheel Id</th>
+            <th>Title</th>
+            <th>Creation Date</th>
+            <!-- Add more headers for additional fields -->
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Wheels != null && Model.Wheels.Any())
+        {
+            foreach (var wheel in Model.Wheels)
+            {
+                <tr>
+                    <td>@wheel.Id</td>
+                    <td>@wheel.Title</td>
+                    <td>@wheel.CreationDate</td>
+                    <!-- Add more cells for additional fields -->
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="3">No wheels available.</td>
+                <!-- Use colspan to span across all columns -->
+            </tr>
+        }
+    </tbody>
+</table>

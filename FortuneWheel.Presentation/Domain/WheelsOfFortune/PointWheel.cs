@@ -6,7 +6,7 @@ namespace FortuneWheel.Domain.WheelsOfFortune
     {
         public List<PointSegment> Segments { get; set; }
 
-        public PointWheel(Guid id, string title, List<PointSegment> segments) : base(id, title)
+        public PointWheel(Guid id, string title, DateTime creationDate, Guid userId, List<PointSegment> segments) : base(id, title, creationDate, userId)
         {
             Segments = segments;
         }

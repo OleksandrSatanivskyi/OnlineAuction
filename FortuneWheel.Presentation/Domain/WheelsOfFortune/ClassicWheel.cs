@@ -6,7 +6,7 @@ namespace FortuneWheel.Domain.WheelsOfFortune
     {
         public List<Segment> Segments { get; set; }
 
-        public ClassicWheel(Guid id, string title, List<Segment> segments) : base(id, title)
+        public ClassicWheel(Guid id, string title, DateTime creationDate, Guid userId, List<Segment> segments) : base(id, title, creationDate, userId)
         {
             Segments = segments;
         }
