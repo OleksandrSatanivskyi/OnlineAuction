@@ -1,4 +1,4 @@
-﻿using FortuneWheel.Results.Auth;
+﻿using FortuneWheel.Results;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;

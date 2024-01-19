@@ -3,16 +3,12 @@ using FortuneWheel.Results.Auth;
 using Microsoft.EntityFrameworkCore;
 using FortuneWheel.Exceptions;
 using FortuneWheel.Services;
-using FortuneWheel.Domain;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.CodeAnalysis.Diagnostics;
-using System;
 using FortuneWheel.Models.Auth;
 using FortuneWheel.Presentation.Models.Auth;
 using Microsoft.IdentityModel.Tokens;
+using FortuneWheel.Domain.Auth;
 
 namespace FortuneWheel.Application.Services.Auth
 {
