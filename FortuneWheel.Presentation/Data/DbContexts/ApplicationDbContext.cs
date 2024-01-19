@@ -1,4 +1,6 @@
-﻿using FortuneWheel.Domain;
+﻿using FortuneWheel.Domain.Auth;
+using FortuneWheel.Domain.Segments;
+using FortuneWheel.Domain.WheelsOfFortune;
 using Microsoft.EntityFrameworkCore;
 
 namespace FortuneWheel.Data.DbContexts
@@ -7,7 +9,7 @@ namespace FortuneWheel.Data.DbContexts
     {
         public DbSet<Account> Accounts { get; set; }
         public DbSet<WheelOfFortune> WheelsOfFortune { get; set; }
-        public DbSet<WheelSegment> Segments { get; set; }
+        public DbSet<Segment> Segments { get; set; }
         public DbSet<UnconfirmedEmail> UnconfirmedEmails { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
