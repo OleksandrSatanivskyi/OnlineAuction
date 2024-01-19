@@ -21,73 +21,73 @@ body {
   margin-bottom: 60px;
 }
 
-.temp {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    width: 40px;
-    height: 40px;
+.nav-tabs .nav-link {
+    font-size: 30px; 
+    color: #fff !important; 
 }
 
-.wContainer {
-    position: relative;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.custom-margin {
+    margin-right: 50px;
 }
 
-.spinBtn {
-    position: absolute;
-    width: 60px;
-    height: 60px;
-    background: #fff;
-    border-radius: 50%;
-    z-index:10;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    text-transform:uppercase;
-    font-weight:600;
-    color: black;
-    letter-spacing: 0.1em;
-    border: 4px solid rgba(0, 0, 0, 0.75);
-    cursor: pointer;
-    user-select:none;
+.auth-title{
+    font-size: 50px;
+    margin-bottom: 100px;
 }
 
-.spinBtn::before {
-    position: absolute;
-    content: '';
-    top: -28px;
-    width: 20px;
-    height: 30px;
-    background: white;
-    clip-path: polygon(50% 0%, 15% 100%, 85% 100%);
-}
-
-.wheel {
-    position: absolute;
-    top: 0;
-    left: 0;
+.auth-form {
+    height: auto;
     width: 500px;
-    height: 500px;
-    background: #333;
-    border-radius: 50%;
-    box-shadow: 0 0 0 5px #333, 0 0 0 15px #fff, 0 0 0 18px #111;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    overflow: hidden;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content:start;
 }
 
-.number{
-    position: absolute;
-    width: 50%;
-    height: 50%;
-    background: var(--crl);
-    transform-origin: bottom right;
-    transform:rotate(calc(45deg* var(--i)))
+.auth-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    margin-top: 8%;
+}
+
+.auth-input{
+    font-size: 20px;
+}
+
+.auth-submit-btn {
+    font-size: 20px;
+    background: #4d94ff;
+    font-weight: 400;
+    margin-bottom: 50px;
+}
+
+.auth-input-group {
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.continue-with-google-btn {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: transparent;
+    color: #ffffff;
+    border-color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.continue-with-google-btn img {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
+
+.auth-label {
+    font-size: 20px;
+    margin-bottom: 30px;
 }

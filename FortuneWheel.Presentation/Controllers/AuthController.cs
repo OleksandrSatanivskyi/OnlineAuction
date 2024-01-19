@@ -1,62 +1,99 @@
-﻿using FortuneWheel.Application.Services;
-using Microsoft.AspNetCore.Mvc;
-using System.Security.Cryptography;
-using System.Text;
+﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
+using System.Net.Http.Headers;
+using System.Net.Http;
+using FortuneWheel.Application.Services.Auth;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
+using FortuneWheel.Models.Auth;
+using FortuneWheel.Presentation.Models.Auth;
+using FortuneWheel.Exceptions;
+using System.Web.Mvc;
+using Controller = Microsoft.AspNetCore.Mvc.Controller;
+using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
+using HttpGetAttribute = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
 
 namespace FortuneWheel.Presentation.Controllers
 {
-    [Route("[controller]/[action]")]
+    [HandleError]
     public class AuthController : Controller
     {
-        private readonly IConfiguration Configuration;
-        private GoogleOAuthService GoogleOAuthService { get; set; }
+        public IAuthService AuthService { get; set; }
 
-        public AuthController(IConfiguration configuration)
+        public AuthController(IAuthService authService)
         {
-            Configuration = configuration;
-            GoogleOAuthService = new GoogleOAuthService(Configuration);
+            AuthService = authService;
         }
 
-        public async Task<IActionResult> RedirectToOAuthServer()
+        [HttpGet]
+        public async Task<IActionResult> Login()
         {
-            string scope = "openid profile email";
-            string redirectUrl = "https://localhost:7266/Auth/HandleGoogleOAuthCode";
-            var codeVerifier = Guid.NewGuid().ToString();
-            HttpContext.Session.SetString("сodeVerifier", codeVerifier);
+            if (HttpContext.User.Identity.IsAuthenticated)
+                return RedirectToAction("", "");
 
-            var codeChallenge = ComputeSha256Hash(codeVerifier);
-
-            var url = await GoogleOAuthService.GenerateOAuthRequestUrl(scope, redirectUrl, codeVerifier);
-
-            return Redirect(url);
+            return View();
         }
 
-        private string ComputeSha256Hash(string rawData)
+        [HttpGet]
+        public async Task<IActionResult> SignUp()
         {
-            using (SHA256 sha256 = SHA256.Create())
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ConfirmEmail()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SuccessSignUp()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ConfirmEmail(ConfirmEmailModel model)
+        {
+            model.Email = HttpContext.Session.GetString("SignUpEmail");
+            if (!ModelState.IsValid) return View(model);
+
+            
+            HttpContext.Session.Remove("SignUpEmail");
+            await AuthService.ConfirmEmail(model);
+
+            return RedirectToAction("SuccessSignUp", "Auth");
+        }
+
+        [HttpPost]
+        [HandleError]
+        public async Task<IActionResult> Login(LoginModel model)
+        {
+            if(!ModelState.IsValid) return View(model);
+
+            var claims = await AuthService.Login(model);
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var properties = new AuthenticationProperties()
             {
-                byte[] inputBytes = Encoding.ASCII.GetBytes(rawData);
-                byte[] hashBytes = sha256.ComputeHash(inputBytes);
+                AllowRefresh = true,
+                IsPersistent = true,
+            };
 
-                StringBuilder builder = new StringBuilder();
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), properties);
 
-                for (int i = 0; i < hashBytes.Length; i++)
-                {
-                    builder.Append(hashBytes[i].ToString("x2"));
-                }
-
-                return builder.ToString();
-            }
+            return RedirectToAction("LoginRedirect", "Auth");
         }
 
-        public async Task<IActionResult> HandleGoogleOAuthCode(string code)
+        [HttpPost]
+        public async Task<IActionResult> SignUp(SignUpModel model)
         {
-            string redirectUrl = "https://localhost:7266/Auth/HandleGoogleOAuthCode";
-            var сodeVerifier = HttpContext.Session.GetString("сodeVerifier");
+            if (!ModelState.IsValid) return View(model);
 
-            var url = await GoogleOAuthService.ExchangeCodeForToken(code, сodeVerifier, redirectUrl);
-
-            return Redirect("https://localhost:7266");
+            HttpContext.Session.SetString("SignUpEmail", model.Email);
+            await AuthService.SignUp(model);
+            return RedirectToAction("ConfirmEmail", "Auth");
         }
     }
 }

@@ -23,10 +23,16 @@ namespace FortuneWheel.Presentation.Controllers
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [HttpGet]
+        public async Task<IActionResult> Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var model = new ErrorModel()
+            {
+                Message = HttpContext.Request.Query["message"],
+                PreviousPageRoute = HttpContext.Request.Query["route"]
+            };
+
+            return View(model);
         }
     }
 }
