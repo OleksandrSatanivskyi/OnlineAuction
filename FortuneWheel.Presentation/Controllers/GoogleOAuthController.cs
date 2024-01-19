@@ -8,7 +8,7 @@ namespace FortuneWheel.Presentation.Controllers
     public class GoogleOAuthController : Controller
     {
         private readonly IConfiguration Configuration;
-        private GoogleOAuthService GoogleOAuthService { get; set; }
+        private readonly GoogleOAuthService GoogleOAuthService;
 
         public GoogleOAuthController(IConfiguration configuration)
         {

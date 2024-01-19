@@ -18,7 +18,7 @@ namespace FortuneWheel.Presentation.Controllers
 {
     public class AuthController : Controller
     {
-        public IAuthService AuthService { get; set; }
+        private readonly IAuthService AuthService;
 
         public AuthController(IAuthService authService)
         {
@@ -66,7 +66,6 @@ namespace FortuneWheel.Presentation.Controllers
         }
 
         [HttpPost]
-        [HandleError]
         public async Task<IActionResult> Login(LoginModel model)
         {
             if(!ModelState.IsValid) return View(model);
