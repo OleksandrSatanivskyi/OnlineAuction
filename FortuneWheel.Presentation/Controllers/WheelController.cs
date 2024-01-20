@@ -27,7 +27,7 @@ namespace FortuneWheel.Controllers
 
             var model = new GetAllWheelsModel
             {
-                Wheels = (List<WheelOfFortune>)await WheelService.GetUserWheels(userId)
+                Wheels = await WheelService.GetUserWheels(userId)
             };
 
             return View(model);

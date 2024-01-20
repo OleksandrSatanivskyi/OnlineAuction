@@ -1,6 +1,7 @@
 using FortuneWheel.Application.Services.Auth;
 using FortuneWheel.Data.DbContexts;
 using FortuneWheel.Middlewares;
+using FortuneWheel.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,8 +35,7 @@ public class Program
                 
             });
 
-        services.AddScoped<IDbContext>(provider => provider.GetService<ApplicationDbContext>());
-        services.AddTransient<IAuthService, AuthService>();
+        services.AddServices();
     }
 
     private static void ConfigureApp(WebApplication app)
@@ -58,7 +58,7 @@ public class Program
         {
             endpoints.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Auth}/{action=Login}/{id?}");
+                pattern: "{controller=Wheel}/{action=GetAllWheels}");
         });
     }
 }

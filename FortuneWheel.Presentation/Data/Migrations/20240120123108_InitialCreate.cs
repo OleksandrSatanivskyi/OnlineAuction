@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FortuneWheel.Migrations
 {
     /// <inheritdoc />
-    public partial class Initialization : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -27,6 +27,34 @@ namespace FortuneWheel.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ClassicWheels",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClassicWheels", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PointWheels",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PointWheels", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UnconfirmedEmails",
                 columns: table => new
                 {
@@ -41,41 +69,40 @@ namespace FortuneWheel.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "WheelsOfFortune",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_WheelsOfFortune", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Segments",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Points = table.Column<float>(type: "real", nullable: false),
                     HexColor = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    WheelOfFortuneId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    ClassicWheelId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Discriminator = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
+                    PointWheelId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Segments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Segments_WheelsOfFortune_WheelOfFortuneId",
-                        column: x => x.WheelOfFortuneId,
-                        principalTable: "WheelsOfFortune",
+                        name: "FK_Segments_ClassicWheels_ClassicWheelId",
+                        column: x => x.ClassicWheelId,
+                        principalTable: "ClassicWheels",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Segments_PointWheels_PointWheelId",
+                        column: x => x.PointWheelId,
+                        principalTable: "PointWheels",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Segments_WheelOfFortuneId",
+                name: "IX_Segments_ClassicWheelId",
                 table: "Segments",
-                column: "WheelOfFortuneId");
+                column: "ClassicWheelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Segments_PointWheelId",
+                table: "Segments",
+                column: "PointWheelId");
         }
 
         /// <inheritdoc />
@@ -91,7 +118,10 @@ namespace FortuneWheel.Migrations
                 name: "UnconfirmedEmails");
 
             migrationBuilder.DropTable(
-                name: "WheelsOfFortune");
+                name: "ClassicWheels");
+
+            migrationBuilder.DropTable(
+                name: "PointWheels");
         }
     }
 }

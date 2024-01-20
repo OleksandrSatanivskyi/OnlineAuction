@@ -1,9 +1,10 @@
 ﻿using FortuneWheel.Domain.WheelsOfFortune;
+using FortuneWheel.Models.Wheels;
 
 namespace FortuneWheel.Services
 {
     public interface IWheelService
     {
-        Task<IEnumerable<WheelOfFortune>> GetUserWheels(Guid userId);
+        Task<List<WheelItem>> GetUserWheels(Guid userId);
     }
 }

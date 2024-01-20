@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FortuneWheel.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240117164720_Initialization")]
-    partial class Initialization
+    [Migration("20240120123108_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace FortuneWheel.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("FortuneWheel.Domain.Account", b =>
+            modelBuilder.Entity("FortuneWheel.Domain.Auth.Account", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -51,7 +51,7 @@ namespace FortuneWheel.Migrations
                     b.ToTable("Accounts");
                 });
 
-            modelBuilder.Entity("FortuneWheel.Domain.UnconfirmedEmail", b =>
+            modelBuilder.Entity("FortuneWheel.Domain.Auth.UnconfirmedEmail", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -73,56 +73,113 @@ namespace FortuneWheel.Migrations
                     b.ToTable("UnconfirmedEmails");
                 });
 
-            modelBuilder.Entity("FortuneWheel.Domain.WheelOfFortune", b =>
+            modelBuilder.Entity("FortuneWheel.Domain.Segments.Segment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Title")
+                    b.Property<Guid?>("ClassicWheelId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Discriminator")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("WheelsOfFortune");
-                });
-
-            modelBuilder.Entity("FortuneWheel.Domain.WheelSegment", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
 
                     b.Property<string>("HexColor")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float>("Points")
-                        .HasColumnType("real");
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassicWheelId");
+
+                    b.ToTable("Segments");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Segment");
+
+                    b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("FortuneWheel.Domain.WheelsOfFortune.ClassicWheel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("WheelOfFortuneId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("WheelOfFortuneId");
-
-                    b.ToTable("Segments");
+                    b.ToTable("ClassicWheels");
                 });
 
-            modelBuilder.Entity("FortuneWheel.Domain.WheelSegment", b =>
+            modelBuilder.Entity("FortuneWheel.Domain.WheelsOfFortune.PointWheel", b =>
                 {
-                    b.HasOne("FortuneWheel.Domain.WheelOfFortune", null)
-                        .WithMany("Segments")
-                        .HasForeignKey("WheelOfFortuneId");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PointWheels");
                 });
 
-            modelBuilder.Entity("FortuneWheel.Domain.WheelOfFortune", b =>
+            modelBuilder.Entity("FortuneWheel.Domain.Segments.PointSegment", b =>
+                {
+                    b.HasBaseType("FortuneWheel.Domain.Segments.Segment");
+
+                    b.Property<Guid?>("PointWheelId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasIndex("PointWheelId");
+
+                    b.HasDiscriminator().HasValue("PointSegment");
+                });
+
+            modelBuilder.Entity("FortuneWheel.Domain.Segments.Segment", b =>
+                {
+                    b.HasOne("FortuneWheel.Domain.WheelsOfFortune.ClassicWheel", null)
+                        .WithMany("Segments")
+                        .HasForeignKey("ClassicWheelId");
+                });
+
+            modelBuilder.Entity("FortuneWheel.Domain.Segments.PointSegment", b =>
+                {
+                    b.HasOne("FortuneWheel.Domain.WheelsOfFortune.PointWheel", null)
+                        .WithMany("Segments")
+                        .HasForeignKey("PointWheelId");
+                });
+
+            modelBuilder.Entity("FortuneWheel.Domain.WheelsOfFortune.ClassicWheel", b =>
+                {
+                    b.Navigation("Segments");
+                });
+
+            modelBuilder.Entity("FortuneWheel.Domain.WheelsOfFortune.PointWheel", b =>
                 {
                     b.Navigation("Segments");
                 });

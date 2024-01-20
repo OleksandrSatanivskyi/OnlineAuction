@@ -1,12 +1,14 @@
 ﻿@model FortuneWheel.Models.Wheels.GetAllWheelsModel
+@{
+    Layout = "_ApplicationLayout";
+}
 
 <table>
     <thead>
         <tr>
-            <th>Wheel Id</th>
             <th>Title</th>
+            <th>Type</th>
             <th>Creation Date</th>
-            <!-- Add more headers for additional fields -->
         </tr>
     </thead>
     <tbody>
@@ -18,7 +20,6 @@
                     <td>@wheel.Id</td>
                     <td>@wheel.Title</td>
                     <td>@wheel.CreationDate</td>
-                    <!-- Add more cells for additional fields -->
                 </tr>
             }
         }
@@ -26,7 +27,6 @@
         {
             <tr>
                 <td colspan="3">No wheels available.</td>
-                <!-- Use colspan to span across all columns -->
             </tr>
         }
     </tbody>

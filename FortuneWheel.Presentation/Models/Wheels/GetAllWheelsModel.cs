@@ -4,6 +4,6 @@ namespace FortuneWheel.Models.Wheels
 {
     public class GetAllWheelsModel
     {
-        public List<WheelOfFortune> Wheels { get; set; }
+        public List<WheelItem> Wheels { get; set; }
     }
 }

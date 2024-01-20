@@ -51,7 +51,7 @@ body {
     align-items: center;
     justify-content: center;
     height: auto;
-    margin-top: 8%;
+    padding-top: 8%;
 }
 
 .auth-input{
