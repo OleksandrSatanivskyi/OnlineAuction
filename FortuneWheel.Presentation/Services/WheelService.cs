@@ -13,6 +13,22 @@ namespace FortuneWheel.Services
             DbContext = dbContext;
         }
 
+        public async Task CreateWheel(CreateWheelModel model)
+        {
+            if(model.WheelType == WheelType.Classic)
+            {
+                var wheel = new ClassicWheel(Guid.NewGuid(), model.Title, DateTime.UtcNow, (Guid)model.UserId);
+                DbContext.ClassicWheels.Add(wheel);
+                await DbContext.SaveChangesAsync();
+            }
+            else if (model.WheelType == WheelType.Point)
+            {
+                var wheel = new PointWheel(Guid.NewGuid(), model.Title, DateTime.UtcNow, (Guid)model.UserId);
+                DbContext.PointWheels.Add(wheel);
+                await DbContext.SaveChangesAsync();
+            }
+        }
+
         public async Task<List<WheelItem>> GetUserWheels(Guid userId)
         {
             var classicWheels = DbContext.ClassicWheels.Where(w => w.UserId == userId)
@@ -27,7 +43,7 @@ namespace FortuneWheel.Services
             var allWheels = classicWheels
                 .Concat(pointWheels)
                 .ToArray()
-                .OrderBy(w => w.CreationDate)
+                .OrderByDescending(w => w.CreationDate)
                 .ToList();
 
             return allWheels;

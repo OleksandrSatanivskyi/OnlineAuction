@@ -18,5 +18,10 @@ namespace FortuneWheel.Models.Wheels
             UserId = userId;
             WheelType = wheelType;
         }
+
+        public WheelItem()
+        {
+            
+        }
     }
 }

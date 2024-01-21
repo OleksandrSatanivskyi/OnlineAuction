@@ -5,6 +5,7 @@ namespace FortuneWheel.Services
 {
     public interface IWheelService
     {
+        Task CreateWheel(CreateWheelModel model);
         Task<List<WheelItem>> GetUserWheels(Guid userId);
     }
 }

@@ -1,33 +1,48 @@
-﻿@model FortuneWheel.Models.Wheels.GetAllWheelsModel
+﻿@using FortuneWheel.Models.Wheels
+@model FortuneWheel.Models.Wheels.GetAllWheelsModel
 @{
-    Layout = "_ApplicationLayout";
+    Layout = "_WheelsLayout";
 }
 
-<table>
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Type</th>
-            <th>Creation Date</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model.Wheels != null && Model.Wheels.Any())
-        {
-            foreach (var wheel in Model.Wheels)
+<div class="wheel-actions">
+    <button class="create-wheel-button btn" type="button" data-bs-toggle="modal" data-bs-target="#addWheelModal">Create New Wheel</button>
+</div>
+
+<div class="modal fade" id="addWheelModal" tabindex="-1" aria-hidden="true">
+    @await Html.PartialAsync("_CreateWheelPartialView", new CreateWheelModel())
+</div>
+
+@if (Model.Wheels != null && Model.Wheels.Any())
+{
+    <table class="wheels-table">
+        <thead>
+            <tr >
+                <th style="width: 40%;">Title</th>
+                <th style="width: 10%;">Type</th>
+                <th style="width: 20%;">Creation Date</th>
+                <th style="width: 30%;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var wheel in Model.Wheels)
             {
                 <tr>
-                    <td>@wheel.Id</td>
                     <td>@wheel.Title</td>
-                    <td>@wheel.CreationDate</td>
+                    <td>@wheel.WheelType</td>
+                    <td>@wheel.CreationDate.ToString("dd.MM.yyyy")</td>
+                    <td>
+                        <div class="wheel-settings-container">
+                            <button class="select-wheel-button btn">Select</button>
+                            <button class="remove-wheel-button btn">Remove</button>
+                        </div>
+                    </td>
                 </tr>
             }
-        }
-        else
-        {
-            <tr>
-                <td colspan="3">No wheels available.</td>
-            </tr>
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+}
+else
+{
+    <label>No wheels available.</label>
+}
+

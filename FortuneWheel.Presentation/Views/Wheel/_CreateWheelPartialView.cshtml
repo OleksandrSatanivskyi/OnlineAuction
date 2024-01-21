@@ -1,0 +1,28 @@
+﻿@model FortuneWheel.Models.Wheels.CreateWheelModel
+
+<div class="modal-dialog">
+    <form method="post" class="modal-content bg-dark text-light" asp-controller="Wheel" asp-action="CreateWheel">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title:</label>
+                <input type="text" class="form-control" id="title" name="Title" />
+            </div>
+
+            <div class="mb-3">
+                <label for="wheelType" class="form-label">Wheel Type:</label>
+                <select class="form-select" id="wheelType" name="WheelType">
+                    <option value="Classic">Classic</option>
+                    <option value="Point">Point</option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Create</button>
+        </div>
+    </form>
+</div>

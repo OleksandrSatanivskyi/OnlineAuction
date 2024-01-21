@@ -11,6 +11,11 @@ namespace FortuneWheel.Domain.WheelsOfFortune
             Segments = segments;
         }
 
+        public PointWheel(Guid id, string title, DateTime creationDate, Guid userId) : base(id, title, creationDate, userId)
+        {
+            Segments = new List<PointSegment>();
+        }
+
         public PointWheel() { }
     }
 }

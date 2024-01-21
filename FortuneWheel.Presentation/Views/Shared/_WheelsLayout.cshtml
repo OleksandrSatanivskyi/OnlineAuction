@@ -18,6 +18,9 @@
                 <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">
                     @Html.ActionLink("Index", "Index", "Home")
                 </li>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "GetAllWheels" ? "active" : "")">
+                @Html.ActionLink("Get all", "GetAllWheels", "Wheel")
+            </li>
         </ul>
 
         <div class="main-page">
@@ -31,6 +34,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

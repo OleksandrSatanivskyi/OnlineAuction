@@ -18,7 +18,6 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
 }
 
 .nav-tabs .nav-link {
@@ -138,4 +137,62 @@ body, html {
 
 .menu li.active a {
     background-color: #2A547E;
+}
+
+.wheel-actions {
+    width: 100%;
+    margin: 10px 0px;
+}
+
+.create-wheel-button {
+    font-size: 15px;
+    background: #03C03C;
+    font-weight: 400;
+}
+
+.modal-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.create-wheel-form {
+    display: none;
+}
+
+
+.wheels-table {
+    position: relative;
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+    overflow: hidden;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 10px;
+}
+
+.wheels-table th,
+.wheels-table td {
+    box-sizing: border-box;
+    word-wrap: break-word;
+}
+
+.select-wheel-button {
+    background: #318CE7;
+    margin-right: 20%;
+    width: 20%;
+    text-align: center;
+}
+
+.remove-wheel-button {
+    background: #CF352E;
+    width: 20%;
+    text-align: center;
+}
+
+.wheel-settings-container {
+    display: flex;
+    justify-content: flex-start;
 }
