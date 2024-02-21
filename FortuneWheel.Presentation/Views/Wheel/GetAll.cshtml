@@ -17,8 +17,8 @@
     <table class="wheels-table">
         <thead>
             <tr >
-                <th style="width: 40%;">Title</th>
-                <th style="width: 10%;">Type</th>
+                <th style="width: 30%;">Title</th>
+                <th style="width: 20%;">Type</th>
                 <th style="width: 20%;">Creation Date</th>
                 <th style="width: 30%;"></th>
             </tr>
@@ -28,12 +28,19 @@
             {
                 <tr>
                     <td>@wheel.Title</td>
-                    <td>@wheel.WheelType</td>
+                    <td>@wheel.Type</td>
                     <td>@wheel.CreationDate.ToString("dd.MM.yyyy")</td>
                     <td>
                         <div class="wheel-settings-container">
                             <button class="select-wheel-button btn">Select</button>
-                            <button class="remove-wheel-button btn">Remove</button>
+                            <button class="remove-wheel-button btn" type="button" data-bs-toggle="modal" data-bs-target="#removeWheelModal">Remove</button>
+                            <div class="modal fade" id="removeWheelModal" tabindex="-1" aria-hidden="true">
+                                @await Html.PartialAsync("_RemoveWheelPartialView", new RemoveWheelModel
+                                {
+                                    Id = wheel.Id,
+                                    Type = wheel.Type
+                                })
+                            </div>
                         </div>
                     </td>
                 </tr>

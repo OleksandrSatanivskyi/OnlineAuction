@@ -6,6 +6,9 @@ namespace FortuneWheel.Services
     public interface IWheelService
     {
         Task CreateWheel(CreateWheelModel model);
-        Task<List<WheelItem>> GetUserWheels(Guid userId);
+        Task<List<WheelItem>> GetAll(Guid userId);
+        Task Remove(Guid id, WheelType type);
+        Task<ClassicWheel> GetClassicWheel(Guid id);
+        Task<PointWheel> GetPointWheel(Guid id);
     }
 }
