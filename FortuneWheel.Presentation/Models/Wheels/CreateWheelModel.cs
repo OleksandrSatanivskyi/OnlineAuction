@@ -11,6 +11,6 @@ namespace FortuneWheel.Models.Wheels
         public string Title { get; set; }
         public Guid? UserId { get; set; }
         [Required(ErrorMessage = "Wheel type is required.")]
-        public WheelType WheelType { get; set; }
+        public WheelType Type { get; set; }
     }
 }

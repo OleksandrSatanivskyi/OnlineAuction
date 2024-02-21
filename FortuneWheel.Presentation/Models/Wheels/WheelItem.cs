@@ -8,7 +8,7 @@ namespace FortuneWheel.Models.Wheels
         public string Title { get; set; }
         public DateTime CreationDate { get; set; }
         public Guid UserId { get; set; }
-        public WheelType WheelType { get; set; }
+        public WheelType Type { get; set; }
 
         public WheelItem(Guid id, string title, DateTime creationDate, Guid userId, WheelType wheelType)
         {
@@ -16,7 +16,7 @@ namespace FortuneWheel.Models.Wheels
             Title = title;
             CreationDate = creationDate;
             UserId = userId;
-            WheelType = wheelType;
+            Type = wheelType;
         }
 
         public WheelItem()

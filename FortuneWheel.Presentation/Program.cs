@@ -58,7 +58,7 @@ public class Program
         {
             endpoints.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Wheel}/{action=GetAllWheels}");
+                pattern: "{controller=Auth}/{action=Login}");
         });
     }
 }
