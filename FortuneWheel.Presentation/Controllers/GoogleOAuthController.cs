@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 using static Google.Apis.Auth.GoogleJsonWebSignature;
 
@@ -57,7 +56,7 @@ namespace FortuneWheel.Presentation.Controllers
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), properties);
 
-            return RedirectToAction("LoginRedirect", "Auth");
+            return RedirectToAction("GetAllWheels", "Wheel");
         }
     }
 }

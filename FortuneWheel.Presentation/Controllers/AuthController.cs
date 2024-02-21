@@ -1,15 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
-using System.Net.Http.Headers;
-using System.Net.Http;
 using FortuneWheel.Application.Services.Auth;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using FortuneWheel.Models.Auth;
 using FortuneWheel.Presentation.Models.Auth;
-using FortuneWheel.Exceptions;
-using System.Web.Mvc;
 using Controller = Microsoft.AspNetCore.Mvc.Controller;
 using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
 using HttpGetAttribute = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
@@ -29,9 +24,17 @@ namespace FortuneWheel.Presentation.Controllers
         public async Task<IActionResult> Login()
         {
             if (HttpContext.User.Identity.IsAuthenticated)
-                return RedirectToAction("", "");
+                return RedirectToAction("GetAll", "Wheel");
 
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> LogOut()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return RedirectToAction("Login", "Auth");
         }
 
         [HttpGet]
@@ -81,7 +84,7 @@ namespace FortuneWheel.Presentation.Controllers
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), properties);
 
-            return RedirectToAction("LoginRedirect", "Auth");
+            return RedirectToAction("GetAllWheels", "Wheel");
         }
 
         [HttpPost]

@@ -1,6 +1,5 @@
 using FortuneWheel.Presentation.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
 namespace FortuneWheel.Presentation.Controllers
 {
