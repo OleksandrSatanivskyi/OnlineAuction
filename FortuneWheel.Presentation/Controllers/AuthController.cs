@@ -30,7 +30,7 @@ namespace FortuneWheel.Presentation.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> LogOut()
+        public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
