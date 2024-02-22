@@ -56,7 +56,7 @@ namespace FortuneWheel.Presentation.Controllers
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), properties);
 
-            return RedirectToAction("GetAllWheels", "Wheel");
+            return RedirectToAction("GetAll", "Wheel");
         }
     }
 }
