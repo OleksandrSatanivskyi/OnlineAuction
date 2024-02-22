@@ -10,5 +10,6 @@ namespace FortuneWheel.Services
         Task Remove(Guid id, WheelType type);
         Task<ClassicWheel> GetClassicWheel(Guid id);
         Task<PointWheel> GetPointWheel(Guid id);
+        Task AddPointSegment(Guid wheelId, string title, uint points, string colorHex = "");
     }
 }

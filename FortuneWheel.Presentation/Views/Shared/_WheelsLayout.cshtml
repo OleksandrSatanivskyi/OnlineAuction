@@ -12,14 +12,15 @@
     <div class="main-container">
 
         <ul class="menu" data-navigation="true">
-                <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Privacy" ? "active" : "")">
-                    @Html.ActionLink("Privacy", "Privacy", "Home")
-                </li>
-                <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">
-                    @Html.ActionLink("Index", "Index", "Home")
-                </li>
-            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "GetAllWheels" ? "active" : "")">
-                @Html.ActionLink("Get all", "GetAllWheels", "Wheel")
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "GetAll" ? "active" : "")">
+                @Html.ActionLink("Get all", "GetAll", "Wheel")
+            </li>
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Options" ? "active" : "")">
+                @Html.ActionLink("Options", "Options", "Wheel")
+            </li>
+
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Logout" ? "active" : "")">
+                @Html.ActionLink("Logout", "Logout", "Auth")
             </li>
         </ul>
 
@@ -28,7 +29,6 @@
                 @RenderBody()
             </main>
         </div>
-
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

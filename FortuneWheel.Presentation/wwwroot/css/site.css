@@ -144,7 +144,7 @@ body, html {
     margin: 10px 0px;
 }
 
-.create-wheel-button {
+.create-button {
     font-size: 15px;
     background: #03C03C;
     font-weight: 400;
@@ -196,3 +196,29 @@ body, html {
     display: flex;
     justify-content: flex-start;
 }
+
+.wheel-options-form {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+    margin: 10px;
+}
+
+.create-option-params {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    margin: 0 auto;
+    flex-direction: row;
+}
+
+/*display: flex;
+
+max-width: 400px;
+
+background: #A0C5E8;
+padding: 10px 0;*/

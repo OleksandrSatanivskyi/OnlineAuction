@@ -1,8 +1,10 @@
 ﻿using FortuneWheel.Data.DbContexts;
+using FortuneWheel.Domain.Segments;
 using FortuneWheel.Domain.WheelsOfFortune;
 using FortuneWheel.Exceptions;
 using FortuneWheel.Models.Wheels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace FortuneWheel.Services
 {
@@ -13,6 +15,39 @@ namespace FortuneWheel.Services
         public WheelService(IDbContext dbContext)
         {
             DbContext = dbContext;
+        }
+
+        public async Task AddPointSegment(Guid wheelId, string title, uint points, string colorHex = "")
+        {
+            var wheel = await DbContext.PointWheels.FirstOrDefaultAsync(w => w.Id == wheelId);
+
+            if (wheel == null)
+                throw new NotFoundException($"Wheel with Id {wheelId} not found.");
+
+            if (colorHex.IsNullOrEmpty())
+                colorHex = GenerateRandomHexColor();
+
+            var segment = new PointSegment
+            {
+                Id = Guid.NewGuid(),
+                Title = title,
+                Points = points,
+                ColorHex = colorHex
+            };
+
+            wheel.Segments.Add(segment);
+            await DbContext.SaveChangesAsync();
+        }
+
+        public string GenerateRandomHexColor()
+        {
+            Random random = new Random();
+            byte[] rgb = new byte[3];
+            random.NextBytes(rgb);
+
+            string hexColor = $"#{rgb[0]:X2}{rgb[1]:X2}{rgb[2]:X2}";
+
+            return hexColor;
         }
 
         public async Task CreateWheel(CreateWheelModel model)
@@ -57,7 +92,8 @@ namespace FortuneWheel.Services
 
         public async Task<ClassicWheel> GetClassicWheel(Guid id)
         {
-            var wheel  = await DbContext.ClassicWheels.FirstOrDefaultAsync(w => w.Id == id);
+            var wheel  = await DbContext.ClassicWheels.Include(w => w.Segments)
+                .FirstOrDefaultAsync(w => w.Id == id);
 
             if (wheel == null)
                 throw new NotFoundException($"Wheel with Id {id} not found.");
@@ -67,7 +103,8 @@ namespace FortuneWheel.Services
 
         public async Task<PointWheel> GetPointWheel(Guid id)
         {
-            var wheel = await DbContext.PointWheels.FirstOrDefaultAsync(w => w.Id == id);
+            var wheel = await DbContext.PointWheels.Include(w => w.Segments)
+                .FirstOrDefaultAsync(w => w.Id == id);
 
             if (wheel == null)
                 throw new NotFoundException($"Wheel with Id {id} not found.");

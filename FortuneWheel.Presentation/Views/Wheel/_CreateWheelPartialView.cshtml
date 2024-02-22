@@ -9,12 +9,12 @@
         <div class="modal-body">
             <div class="mb-3">
                 <label for="title" class="form-label">Title:</label>
-                <input type="text" class="form-control" id="title" name="Title" />
+                <input type="text" class="form-control" id="title" asp-for="Title"/>
             </div>
 
             <div class="mb-3">
                 <label for="wheelType" class="form-label">Wheel Type:</label>
-                <select class="form-select" id="wheelType" name="WheelType">
+                <select class="form-select" id="wheelType" asp-for="Type">
                     <option value="Classic">Classic</option>
                     <option value="Point">Point</option>
                 </select>
