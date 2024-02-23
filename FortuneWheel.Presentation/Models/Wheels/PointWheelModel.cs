@@ -14,6 +14,7 @@ namespace FortuneWheel.Models.Wheels
         {
             Title = "";
             ColorHex = "";
+            Points = 0;
         }
     }
 }

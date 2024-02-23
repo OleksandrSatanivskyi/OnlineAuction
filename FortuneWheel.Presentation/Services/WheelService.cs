@@ -19,7 +19,7 @@ namespace FortuneWheel.Services
 
         public async Task AddPointSegment(Guid wheelId, string title, uint points, string colorHex = "")
         {
-            var wheel = await DbContext.PointWheels.FirstOrDefaultAsync(w => w.Id == wheelId);
+            var wheel = DbContext.PointWheels.Include(w => w.Segments).FirstOrDefault(w => w.Id == wheelId);
 
             if (wheel == null)
                 throw new NotFoundException($"Wheel with Id {wheelId} not found.");
@@ -35,7 +35,12 @@ namespace FortuneWheel.Services
                 ColorHex = colorHex
             };
 
+            if (wheel.Segments == null) 
+                wheel.Segments = new List<PointSegment>();
+
             wheel.Segments.Add(segment);
+            DbContext.PointSegments.Add(segment);
+
             await DbContext.SaveChangesAsync();
         }
 
@@ -131,6 +136,38 @@ namespace FortuneWheel.Services
             }
 
             await DbContext.SaveChangesAsync();
+        }
+
+        public async Task DeletePointWheelSegment(Guid segmentId)
+        {
+            var segment = await DbContext.PointSegments.FirstOrDefaultAsync(s => s.Id == segmentId);
+
+            if (segment == null)
+                throw new NotFoundException($"Segment with id {segmentId} not found.");
+
+            DbContext.PointSegments.Remove(segment);
+            await DbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdatePointOptions(UpdatePointOptionsModel model)
+        {
+            var wheel = await DbContext.PointWheels.FirstOrDefaultAsync(w => w.Id == model.WheelId);
+
+            if (wheel == null)
+                throw new NotFoundException($"Wheel with Id {model.WheelId} not found.");
+
+            foreach (var newSegment in model.Segments)
+            {
+                var oldSegment = await DbContext.PointSegments.FirstOrDefaultAsync(p => p.Id == newSegment.Id);
+
+                if (oldSegment == null)
+                    throw new NotFoundException($"Segment with id {oldSegment} not found.");
+
+                DbContext.PointSegments.Remove(oldSegment);
+                wheel.Segments.Add(newSegment);
+
+                await DbContext.SaveChangesAsync();
+            }
         }
     }
 }
