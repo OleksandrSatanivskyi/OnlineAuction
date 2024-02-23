@@ -8,9 +8,9 @@ namespace FortuneWheel.Data.DbContexts
     public class ApplicationDbContext : DbContext, IDbContext
     {
         public DbSet<Account> Accounts { get; set; }
-        public DbSet<Segment> Segments { get; set; }
         public DbSet<UnconfirmedEmail> UnconfirmedEmails { get; set; }
         public DbSet<ClassicWheel> ClassicWheels { get; set; }
+        public DbSet<Segment> Segments { get; set; }
         public DbSet<PointWheel> PointWheels { get; set; }
         public DbSet<PointSegment> PointSegments { get; set; }
 
@@ -21,6 +21,12 @@ namespace FortuneWheel.Data.DbContexts
         public async Task<int> SaveChangesAsync()
         {
             return await base.SaveChangesAsync();
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Segment>().ToTable("Segments");
+            modelBuilder.Entity<PointSegment>().ToTable("PointSegments");
         }
     }
 

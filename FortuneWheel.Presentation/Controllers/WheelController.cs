@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using FortuneWheel.Services;
 using FortuneWheel.Models.Wheels;
 using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
 using FortuneWheel.Domain.WheelsOfFortune;
+using FortuneWheel.Exceptions;
 
 namespace FortuneWheel.Controllers
 {
@@ -89,17 +91,17 @@ namespace FortuneWheel.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Select(Guid wheelId, WheelType type)
+        public async Task<IActionResult> Select(Guid id, WheelType type)
         {
             switch (type)
             {
                 case WheelType.Classic:
                     var classicModel = new ClassicWheelModel
                     {
-                        Wheel = await WheelService.GetClassicWheel(wheelId)
+                        Wheel = await WheelService.GetClassicWheel(id)
                     };
 
-                    CurrentWheelId = wheelId.ToString();
+                    CurrentWheelId = id.ToString();
                     CurrentWheelType = type.ToString();
 
                     return View("ClassicWheelOptions", classicModel);
@@ -107,10 +109,10 @@ namespace FortuneWheel.Controllers
                 case WheelType.Point:
                     var pointModel = new PointWheelModel
                     {
-                        Wheel = await WheelService.GetPointWheel(wheelId)
+                        Wheel = await WheelService.GetPointWheel(id)
                     };
 
-                    CurrentWheelId = wheelId.ToString();
+                    CurrentWheelId = id.ToString();
                     CurrentWheelType = type.ToString();
 
                     return View("PointWheelOptions", pointModel);
@@ -177,8 +179,33 @@ namespace FortuneWheel.Controllers
         public async Task<IActionResult> AddSegment(PointWheelModel model)
         {
             await WheelService.AddPointSegment(model.Wheel.Id, model.Title, model.Points, model.ColorHex);
+            model.Wheel = await WheelService.GetPointWheel(model.Wheel.Id);
 
-            return View("PointWheelOptions");
+            return RedirectToAction("Options", "Wheel");
+        }
+
+        public async Task<IActionResult> DeleteSegment(Guid Id, WheelType Type)
+        {
+            switch (Type)
+            {
+                case WheelType.Classic:
+                    throw new NotFoundException("Type was not found.");
+                    break;
+                case WheelType.Point:
+                    await WheelService.DeletePointWheelSegment(Id);
+                    break;
+                default:
+                    throw new NotFoundException("Type was not found.");
+            }
+
+            return await Options();
+        }
+
+        public async Task<IActionResult> SaveChanges([FromBody] UpdatePointOptionsModel model)
+        {
+            await WheelService.UpdatePointOptions(model);
+
+            return RedirectToAction("Options", "Wheel");
         }
     }
 }

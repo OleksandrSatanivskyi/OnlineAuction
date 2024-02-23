@@ -4,7 +4,6 @@ using FortuneWheel.Data.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -12,11 +11,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FortuneWheel.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240120123108_InitialCreate")]
-    partial class InitialCreate
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,7 +36,6 @@ namespace FortuneWheel.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Surname")
@@ -82,12 +78,7 @@ namespace FortuneWheel.Migrations
                     b.Property<Guid?>("ClassicWheelId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(13)
-                        .HasColumnType("nvarchar(13)");
-
-                    b.Property<string>("HexColor")
+                    b.Property<string>("ColorHex")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -99,11 +90,9 @@ namespace FortuneWheel.Migrations
 
                     b.HasIndex("ClassicWheelId");
 
-                    b.ToTable("Segments");
+                    b.ToTable("Segments", (string)null);
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Segment");
-
-                    b.UseTphMappingStrategy();
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("FortuneWheel.Domain.WheelsOfFortune.ClassicWheel", b =>
@@ -155,9 +144,12 @@ namespace FortuneWheel.Migrations
                     b.Property<Guid?>("PointWheelId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<long>("Points")
+                        .HasColumnType("bigint");
+
                     b.HasIndex("PointWheelId");
 
-                    b.HasDiscriminator().HasValue("PointSegment");
+                    b.ToTable("PointSegments", (string)null);
                 });
 
             modelBuilder.Entity("FortuneWheel.Domain.Segments.Segment", b =>
@@ -169,6 +161,12 @@ namespace FortuneWheel.Migrations
 
             modelBuilder.Entity("FortuneWheel.Domain.Segments.PointSegment", b =>
                 {
+                    b.HasOne("FortuneWheel.Domain.Segments.Segment", null)
+                        .WithOne()
+                        .HasForeignKey("FortuneWheel.Domain.Segments.PointSegment", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("FortuneWheel.Domain.WheelsOfFortune.PointWheel", null)
                         .WithMany("Segments")
                         .HasForeignKey("PointWheelId");
