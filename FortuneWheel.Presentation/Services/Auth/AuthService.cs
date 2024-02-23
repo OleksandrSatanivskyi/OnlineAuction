@@ -134,6 +134,9 @@ namespace FortuneWheel.Application.Services.Auth
                 new Claim(ClaimTypes.Email, account.Email)
             };
 
+            DbContext.Accounts.Add(account);
+            await DbContext.SaveChangesAsync();
+
             return claims;
         }
     }

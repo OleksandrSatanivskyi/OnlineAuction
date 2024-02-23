@@ -15,7 +15,9 @@
             <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "GetAll" ? "active" : "")">
                 @Html.ActionLink("Get all", "GetAll", "Wheel")
             </li>
-            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Options" ? "active" : "")">
+
+            <li class="@((ViewContext.RouteData.Values["Action"].ToString() == "Options"
+             || ViewContext.RouteData.Values["Action"].ToString() == "Select") ? "active" : "")">
                 @Html.ActionLink("Options", "Options", "Wheel")
             </li>
 

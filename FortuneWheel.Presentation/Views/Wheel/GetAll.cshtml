@@ -32,7 +32,7 @@
                     <td>@wheel.CreationDate.ToString("dd.MM.yyyy")</td>
                     <td>
                         <div class="wheel-settings-container">
-                            <button class="select-wheel-button btn">Select</button>
+                            <input type="button" value="Select" class="select-wheel-button btn" onclick="location.href='@Url.Action("Select", "Wheel", new { id = wheel.Id, type = wheel.Type.ToString() })'" />
                             <button class="remove-wheel-button btn" type="button" data-bs-toggle="modal" data-bs-target="#removeWheelModal">Remove</button>
                             <div class="modal fade" id="removeWheelModal" tabindex="-1" aria-hidden="true">
                                 @await Html.PartialAsync("_RemoveWheelPartialView", new RemoveWheelModel
