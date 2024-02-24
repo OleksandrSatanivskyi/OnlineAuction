@@ -149,7 +149,7 @@ namespace FortuneWheel.Services
             await DbContext.SaveChangesAsync();
         }
 
-        public async Task UpdatePointOptions(UpdatePointOptionsModel model)
+        public async Task UpdatePointWheelOptions(UpdatePointWheelOptionsModel model)
         {
             var wheel = await DbContext.PointWheels.FirstOrDefaultAsync(w => w.Id == model.WheelId);
 
@@ -164,6 +164,64 @@ namespace FortuneWheel.Services
                     throw new NotFoundException($"Segment with id {oldSegment} not found.");
 
                 DbContext.PointSegments.Remove(oldSegment);
+                wheel.Segments.Add(newSegment);
+
+                await DbContext.SaveChangesAsync();
+            }
+        }
+
+        public async Task AddClassicSegment(Guid wheelId, string title, string colorHex)
+        {
+            var wheel = DbContext.ClassicWheels.Include(w => w.Segments).FirstOrDefault(w => w.Id == wheelId);
+
+            if (wheel == null)
+                throw new NotFoundException($"Wheel with Id {wheelId} not found.");
+
+            if (colorHex.IsNullOrEmpty())
+                colorHex = GenerateRandomHexColor();
+
+            var segment = new Segment
+            {
+                Id = Guid.NewGuid(),
+                Title = title,
+                ColorHex = colorHex
+            };
+
+            if (wheel.Segments == null)
+                wheel.Segments = new List<Segment>();
+
+            wheel.Segments.Add(segment);
+            DbContext.Segments.Add(segment);
+
+            await DbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteClassicWheelSegment(Guid id)
+        {
+            var segment = await DbContext.Segments.FirstOrDefaultAsync(s => s.Id == id);
+
+            if (segment == null)
+                throw new NotFoundException($"Segment with id {id} not found.");
+
+            DbContext.Segments.Remove(segment);
+            await DbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateClassicWheelOptions(UpdateClassicWheelOptionsModel model)
+        {
+            var wheel = await DbContext.ClassicWheels.FirstOrDefaultAsync(w => w.Id == model.WheelId);
+
+            if (wheel == null)
+                throw new NotFoundException($"Wheel with Id {model.WheelId} not found.");
+
+            foreach (var newSegment in model.Segments)
+            {
+                var oldSegment = await DbContext.Segments.FirstOrDefaultAsync(p => p.Id == newSegment.Id);
+
+                if (oldSegment == null)
+                    throw new NotFoundException($"Segment with id {oldSegment} not found.");
+
+                DbContext.Segments.Remove(oldSegment);
                 wheel.Segments.Add(newSegment);
 
                 await DbContext.SaveChangesAsync();

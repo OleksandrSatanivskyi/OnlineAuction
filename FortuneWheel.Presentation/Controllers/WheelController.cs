@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using FortuneWheel.Services;
 using FortuneWheel.Models.Wheels;
@@ -175,11 +174,26 @@ namespace FortuneWheel.Controllers
             return View();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> ClassicWheelOptions(ClassicWheelModel model)
+        {
+            return View();
+        }
+
         [HttpPost]
-        public async Task<IActionResult> AddSegment(PointWheelModel model)
+        public async Task<IActionResult> AddPointSegment(PointWheelModel model)
         {
             await WheelService.AddPointSegment(model.Wheel.Id, model.Title, model.Points, model.ColorHex);
             model.Wheel = await WheelService.GetPointWheel(model.Wheel.Id);
+
+            return RedirectToAction("Options", "Wheel");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddSegment(ClassicWheelModel model)
+        {
+            await WheelService.AddClassicSegment(model.Wheel.Id, model.Title, model.ColorHex);
+            model.Wheel = await WheelService.GetClassicWheel(model.Wheel.Id);
 
             return RedirectToAction("Options", "Wheel");
         }
@@ -189,7 +203,7 @@ namespace FortuneWheel.Controllers
             switch (Type)
             {
                 case WheelType.Classic:
-                    throw new NotFoundException("Type was not found.");
+                    await WheelService.DeleteClassicWheelSegment(Id);
                     break;
                 case WheelType.Point:
                     await WheelService.DeletePointWheelSegment(Id);
@@ -201,9 +215,16 @@ namespace FortuneWheel.Controllers
             return await Options();
         }
 
-        public async Task<IActionResult> SaveChanges([FromBody] UpdatePointOptionsModel model)
+        public async Task<IActionResult> UpdatePointWheelOptions([FromBody] UpdatePointWheelOptionsModel model)
         {
-            await WheelService.UpdatePointOptions(model);
+            await WheelService.UpdatePointWheelOptions(model);
+
+            return RedirectToAction("Options", "Wheel");
+        }
+
+        public async Task<IActionResult> UpdateClassicWheelOptions([FromBody] UpdateClassicWheelOptionsModel model)
+        {
+            await WheelService.UpdateClassicWheelOptions(model);
 
             return RedirectToAction("Options", "Wheel");
         }
