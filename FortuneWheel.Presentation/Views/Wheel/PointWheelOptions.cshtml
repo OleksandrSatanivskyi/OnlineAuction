@@ -5,7 +5,7 @@
     Layout = "_WheelsLayout";
 }
 <label class="h3 text-center">@Model.Wheel.Title</label>
-<form method="post" asp-controller="Wheel" asp-action="AddSegment" id="optionForm" class="wheel-options-form">
+<form method="post" asp-controller="Wheel" asp-action="AddPointSegment" id="optionForm" class="wheel-options-form">
     <div style="width: 65%;" class="create-option-params">
         <div style="width: 30%;">
             <input type="text" class="form-control" placeholder="Title" required asp-for="Title">
@@ -27,10 +27,6 @@
     <div style="width: 20%;"></div>
     <button style="width: 20%;" class="btn btn-primary" type="button" onclick="saveChanges()">Save changes</button>
 </form>
-<div>
-    <div class="d1"></div>
-    <div class="d2"></div>
-</div>
 <table class="table">
     <tbody>
         @for (int i = 0; i < Model.Wheel.Segments.Count; i++)
@@ -68,6 +64,16 @@
                 var points = $('#points@(i)').val();
                 var colorHex = $('#colorHex@(i)').val();
 
+            if (!isValidHexColor(colorHex)) {
+                alert('Invalid hex color format.');
+                return;
+            }
+
+            if (!title || !colorHex || !points) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
                 formData.segments.push({
                     id: segmentId,
                     title: title,
@@ -78,7 +84,7 @@
         }
 
         $.ajax({
-            url: '@Url.Action("SaveChanges", "Wheel")',
+                url: '@Url.Action("UpdatePointWheelOptions", "Wheel")',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(formData),
@@ -89,6 +95,12 @@
                 console.error('Error saving changes:', error);
             }
         });
+    }
+
+    function isValidHexColor(hex) {
+        var hexColorRegex = /^#([A-Fa-f0-9]{6})$/;
+
+        return hexColorRegex.test(hex);
     }
 
     function setInitialColorPickerValueForIndex(index) {
