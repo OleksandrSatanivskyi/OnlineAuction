@@ -1,0 +1,140 @@
+﻿@using FortuneWheel.Domain.WheelsOfFortune
+@using FortuneWheel.Models.Wheels
+@model FortuneWheel.Models.Wheels.ClassicWheelModel
+@{
+    Layout = "_WheelsLayout";
+}
+<label class="h3 text-center">@Model.Wheel.Title</label>
+<form method="post" asp-controller="Wheel" asp-action="AddSegment" id="optionForm" class="wheel-options-form">
+    <div style="width: 40%;" class="create-option-params">
+        <div style="width: 50%;">
+            <input type="text" class="form-control" placeholder="Title" required asp-for="Title">
+        </div>
+
+        <div class="d-flex align-items-center" style="width: 40%;">
+            <input type="text" id="colorHex" class="form-control" placeholder="Color hex" asp-for="ColorHex" onchange="updateColorPicker()">
+        </div>
+        <input type="color" id="colorPicker" onchange="updateColorPreview()">
+
+        <input type="hidden" asp-for="Wheel.Id" />
+    </div>
+
+    <button style="width: 10%;" type="submit" class="create-button btn">Add</button>
+    <div style="width: 30%;"></div>
+    <button style="width: 20%;" class="btn btn-primary" type="button" onclick="saveChanges()">Save changes</button>
+</form>
+<table class="table">
+    <tbody>
+        @for (int i = 0; i < Model.Wheel.Segments.Count; i++)
+        {
+            <tr>
+                <td class="col-auto text-light"><label />@(i + 1).</td>
+                <td class="col-auto"><input class="w-100" id="title@(i)" required type="text" value="@Model.Wheel.Segments[i].Title" /></td>
+                <td class="col-auto"><input class="w-100" id="colorHex@(i)" type="text" id="colorHex@(i)" name="Segments[@i].ColorHex" value="@Model.Wheel.Segments[i].ColorHex" onchange="updateColorPickerForIndex('@i')" /></td>
+                <td class="col-auto"><input class="w-100" id="colorPicker@(i)" type="color" id="colorPicker@(i)" name="ColorPickers[@i]" onchange="updateColorHexForIndex('@i')" /></td>
+                <td class="col-auto">
+                    <button type="button" onclick="location.href='@Url.Action("DeleteSegment", "Wheel", new RemoveSegmentModel{ Id = Model.Wheel.Segments[i].Id, Type = WheelType.Classic})'" class="btn btn-link text-white">
+                        <svg class="bi" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+                        </svg>
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    function saveChanges() {
+        var formData = {
+            wheelId: '@Model.Wheel.Id',
+            segments: []
+        };
+
+        @for (int i = 0; i < Model.Wheel.Segments.Count; i++)
+        {
+            <text>
+                var segmentId = '@Model.Wheel.Segments[i].Id';
+                var title = $('#title@(i)').val();
+                var colorHex = $('#colorHex@(i)').val();
+
+            if (!title || !colorHex) {
+                alert('Please fill in all required fields.');
+                return; 
+            }
+
+            if (!isValidHexColor(colorHex)) {
+                alert('Invalid hex color format.');
+                return; 
+            }
+
+                formData.segments.push({
+                    id: segmentId,
+                    title: title,
+                    colorHex: colorHex
+                });
+            </text>
+        }
+
+            $.ajax({
+                url: '@Url.Action("UpdateClassicWheelOptions", "Wheel")',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function (result) {
+                    console.log('Changes saved successfully!');
+                },
+                error: function (error) {
+                    console.error('Error saving changes:', error);
+                }
+            });
+    }
+
+    function isValidHexColor(hex) {
+        var hexColorRegex = /^#([A-Fa-f0-9]{6})$/;
+
+        return hexColorRegex.test(hex);
+    }
+
+    function setInitialColorPickerValueForIndex(index) {
+        var hexColorField = document.getElementById("colorHex" + index);
+        var colorPicker = document.getElementById("colorPicker" + index);
+        colorPicker.value = hexColorField.value;
+    }
+
+    function onLoad() {
+        for (var i = 0; i < @Model.Wheel.Segments.Count; i++) {
+            setInitialColorPickerValueForIndex(i);
+        }
+    };
+
+    window.onload = onLoad;
+
+    function updateColorPreview() {
+        var colorPicker = document.getElementById("colorPicker");
+        var hexColorField = document.getElementById("colorHex");
+        var colorValue = colorPicker.value;
+        hexColorField.value = colorValue;
+    }
+
+    function updateColorPicker() {
+        var hexColorField = document.getElementById("colorHex");
+        var colorPicker = document.getElementById("colorPicker");
+
+        var hexColorValue = hexColorField.value;
+
+        colorPicker.value = hexColorValue;
+    }
+
+    function updateColorPickerForIndex(index) {
+        var hexColorField = document.getElementById("colorHex" + index);
+        var colorPicker = document.getElementById("colorPicker" + index);
+        colorPicker.value = hexColorField.value;
+    }
+
+    function updateColorHexForIndex(index) {
+        var hexColorField = document.getElementById("colorHex" + index);
+        var colorPicker = document.getElementById("colorPicker" + index);
+        hexColorField.value = colorPicker.value;
+    }
+</script>
