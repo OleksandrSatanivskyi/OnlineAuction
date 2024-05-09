@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace FortuneWheel.Services
+namespace WheelOfFortune.Services
 {
     public static class CryptoService
     {

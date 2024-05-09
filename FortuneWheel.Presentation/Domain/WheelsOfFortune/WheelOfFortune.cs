@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FortuneWheel.Domain.WheelsOfFortune
+namespace WheelOfFortune.Domain.WheelsOfFortune
 {
     public class WheelOfFortune
     {
@@ -12,6 +12,7 @@ namespace FortuneWheel.Domain.WheelsOfFortune
         public string Title { get; set; }
         public DateTime CreationDate { get; set; }
         public Guid UserId { get; set; }
+        public List<Guid> RemainingOptions { get; set; }
 
         public WheelOfFortune(Guid id, string title, DateTime creationDate, Guid userId)
         {
@@ -19,6 +20,7 @@ namespace FortuneWheel.Domain.WheelsOfFortune
             Title = title;
             CreationDate = creationDate;
             UserId = userId;
+            RemainingOptions = new List<Guid>();
         }
 
         public WheelOfFortune() { }

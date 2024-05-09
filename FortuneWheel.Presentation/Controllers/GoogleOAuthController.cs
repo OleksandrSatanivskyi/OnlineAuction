@@ -1,5 +1,5 @@
-﻿using FortuneWheel.Application.Services.Auth;
-using FortuneWheel.Services.Auth;
+﻿using WheelOfFortune.Application.Services.Auth;
+using WheelOfFortune.Services.Auth;
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
@@ -8,7 +8,7 @@ using System.Security.Claims;
 using System.Text;
 using static Google.Apis.Auth.GoogleJsonWebSignature;
 
-namespace FortuneWheel.Presentation.Controllers
+namespace WheelOfFortune.Presentation.Controllers
 {
     public class GoogleOAuthController : Controller
     {

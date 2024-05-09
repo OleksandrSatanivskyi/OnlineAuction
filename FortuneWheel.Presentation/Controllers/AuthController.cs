@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using FortuneWheel.Application.Services.Auth;
+using WheelOfFortune.Application.Services.Auth;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
-using FortuneWheel.Models.Auth;
-using FortuneWheel.Presentation.Models.Auth;
+using WheelOfFortune.Models.Auth;
+using WheelOfFortune.Presentation.Models.Auth;
 using Controller = Microsoft.AspNetCore.Mvc.Controller;
 using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
 using HttpGetAttribute = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
 
-namespace FortuneWheel.Presentation.Controllers
+namespace WheelOfFortune.Presentation.Controllers
 {
     public class AuthController : Controller
     {

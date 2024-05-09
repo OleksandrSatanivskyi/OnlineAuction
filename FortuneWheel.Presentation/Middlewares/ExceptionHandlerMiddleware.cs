@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Net;
 
-namespace FortuneWheel.Middlewares
+namespace WheelOfFortune.Middlewares
 {
     public class ExceptionHandlerMiddleware
     {

@@ -1,12 +1,12 @@
-﻿using FortuneWheel.Data.DbContexts;
-using FortuneWheel.Domain.Segments;
-using FortuneWheel.Domain.WheelsOfFortune;
-using FortuneWheel.Exceptions;
-using FortuneWheel.Models.Wheels;
+﻿using WheelOfFortune.Data.DbContexts;
+using WheelOfFortune.Domain.Segments;
+using WheelOfFortune.Domain.WheelsOfFortune;
+using WheelOfFortune.Exceptions;
+using WheelOfFortune.Models.Wheels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
-namespace FortuneWheel.Services
+namespace WheelOfFortune.Services
 {
     public class WheelService : IWheelService
     {

@@ -1,4 +1,4 @@
-﻿namespace FortuneWheel.Domain.Segments
+﻿namespace WheelOfFortune.Domain.Segments
 {
     public class PointSegment: Segment
     {

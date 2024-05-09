@@ -1,6 +1,6 @@
-﻿@using FortuneWheel.Domain.WheelsOfFortune
-@using FortuneWheel.Models.Wheels
-@model FortuneWheel.Models.Wheels.ClassicWheelModel
+﻿@using WheelOfFortune.Domain.WheelsOfFortune
+@using WheelOfFortune.Models.Wheels
+@model global::WheelOfFortune.Models.Wheels.ClassicWheelModel
 @{
     Layout = "_WheelsLayout";
 }
@@ -29,9 +29,9 @@
         {
             <tr>
                 <td class="col-auto text-light"><label />@(i + 1).</td>
-                <td class="col-auto"><input class="w-100" id="title@(i)" required type="text" value="@Model.Wheel.Segments[i].Title" /></td>
-                <td class="col-auto"><input class="w-100" id="colorHex@(i)" type="text" id="colorHex@(i)" name="Segments[@i].ColorHex" value="@Model.Wheel.Segments[i].ColorHex" onchange="updateColorPickerForIndex('@i')" /></td>
-                <td class="col-auto"><input class="w-100" id="colorPicker@(i)" type="color" id="colorPicker@(i)" name="ColorPickers[@i]" onchange="updateColorHexForIndex('@i')" /></td>
+                <td class="col-auto"><input class="w-100 form-control bg-dark text-white" id="title@(i)" required type="text" value="@Model.Wheel.Segments[i].Title" /></td>
+                <td class="col-auto"><input class="w-100 form-control bg-dark text-white" id="colorHex@(i)" type="text" id="colorHex@(i)" name="Segments[@i].ColorHex" value="@Model.Wheel.Segments[i].ColorHex" onchange="updateColorPickerForIndex('@i')" /></td>
+                <td class="col-auto"><input class="w-100 " id="colorPicker@(i)" type="color" id="colorPicker@(i)" name="ColorPickers[@i]" onchange="updateColorHexForIndex('@i')" /></td>
                 <td class="col-auto">
                     <button type="button" onclick="location.href='@Url.Action("DeleteSegment", "Wheel", new RemoveSegmentModel{ Id = Model.Wheel.Segments[i].Id, Type = WheelType.Classic})'" class="btn btn-link text-white">
                         <svg class="bi" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">

@@ -1,9 +1,9 @@
-﻿using FortuneWheel.Results;
+﻿using WheelOfFortune.Results;
 using Microsoft.AspNetCore.WebUtilities;
 using Newtonsoft.Json;
 
 
-namespace FortuneWheel.Services.Auth
+namespace WheelOfFortune.Services.Auth
 {
     public class GoogleOAuthService
     {

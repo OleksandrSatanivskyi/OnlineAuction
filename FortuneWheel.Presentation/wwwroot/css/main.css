@@ -1,0 +1,39 @@
+.main-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+}
+
+.main-page {
+    flex: 1;
+    height: 100%;
+    width: 100%;
+    padding: 0px 10%;
+}
+
+.menu {
+    flex: 0 0 15%;
+    height: 100%;
+    border-right: 1px solid gray;
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+
+.menu li {
+    width: 100%;
+    margin: 13px 0;
+}    
+
+.menu li a {
+    display: block;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px 15px;
+    font-weight: 500;
+    color: white;
+}
+
+.menu li.active a {
+    background-color: #2A547E;
+}

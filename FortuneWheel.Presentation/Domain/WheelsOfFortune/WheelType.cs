@@ -1,4 +1,4 @@
-﻿namespace FortuneWheel.Domain.WheelsOfFortune
+﻿namespace WheelOfFortune.Domain.WheelsOfFortune
 {
     public enum WheelType
     {

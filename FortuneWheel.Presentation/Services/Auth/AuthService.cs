@@ -1,18 +1,18 @@
-﻿using FortuneWheel.Data.DbContexts;
+﻿using WheelOfFortune.Data.DbContexts;
 using Microsoft.EntityFrameworkCore;
-using FortuneWheel.Exceptions;
-using FortuneWheel.Services;
+using WheelOfFortune.Exceptions;
+using WheelOfFortune.Services;
 using System.Security.Claims;
 using System.ComponentModel.DataAnnotations;
-using FortuneWheel.Models.Auth;
-using FortuneWheel.Presentation.Models.Auth;
+using WheelOfFortune.Models.Auth;
+using WheelOfFortune.Presentation.Models.Auth;
 using Microsoft.IdentityModel.Tokens;
-using FortuneWheel.Domain.Auth;
+using WheelOfFortune.Domain.Auth;
 using Google.Apis.Auth;
 using System.Web.Helpers;
 using static Google.Apis.Auth.GoogleJsonWebSignature;
 
-namespace FortuneWheel.Application.Services.Auth
+namespace WheelOfFortune.Application.Services.Auth
 {
     public class AuthService : IAuthService
     {

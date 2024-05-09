@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FortuneWheel.Domain.Auth
+namespace WheelOfFortune.Domain.Auth
 {
     public class Account
     {

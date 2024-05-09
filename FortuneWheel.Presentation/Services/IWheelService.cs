@@ -1,7 +1,7 @@
-﻿using FortuneWheel.Domain.WheelsOfFortune;
-using FortuneWheel.Models.Wheels;
+﻿using WheelOfFortune.Domain.WheelsOfFortune;
+using WheelOfFortune.Models.Wheels;
 
-namespace FortuneWheel.Services
+namespace WheelOfFortune.Services
 {
     public interface IWheelService
     {

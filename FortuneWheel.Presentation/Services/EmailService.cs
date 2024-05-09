@@ -2,7 +2,7 @@
 using System.Net;
 using Microsoft.Extensions.Configuration;
 
-namespace FortuneWheel.Services
+namespace WheelOfFortune.Services
 {
     public class EmailService
     {

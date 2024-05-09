@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using FortuneWheel.Services;
-using FortuneWheel.Models.Wheels;
+using WheelOfFortune.Services;
+using WheelOfFortune.Models.Wheels;
 using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
-using FortuneWheel.Domain.WheelsOfFortune;
-using FortuneWheel.Exceptions;
+using WheelOfFortune.Domain.WheelsOfFortune;
+using WheelOfFortune.Exceptions;
 
-namespace FortuneWheel.Controllers
+namespace WheelOfFortune.Controllers
 {
     public class WheelController : Controller
     {
@@ -138,7 +138,7 @@ namespace FortuneWheel.Controllers
                 }
                 else
                 {
-                    return View();
+                    return View("NoWheelSelected");
                 }
             }
 
@@ -227,6 +227,69 @@ namespace FortuneWheel.Controllers
             await WheelService.UpdateClassicWheelOptions(model);
 
             return RedirectToAction("Options", "Wheel");
+        }
+
+        public async Task<IActionResult> Load()
+        {
+            if (CurrentWheelId.IsNullOrEmpty()
+                || CurrentWheelType.IsNullOrEmpty())
+            {
+                var wheels = await WheelService.GetAll(UserId);
+
+                if (wheels != null && wheels.Count > 0)
+                {
+                    var wheel = wheels[0];
+
+                    CurrentWheelId = wheel.Id.ToString();
+                    CurrentWheelType = wheel.Type.ToString();
+                }
+                else
+                {
+                    return View("NoWheelSelected");
+                }
+            }
+
+            Enum.TryParse(CurrentWheelType, out WheelType type);
+            Guid.TryParse(CurrentWheelId, out Guid id);
+        
+            if (type == WheelType.Classic) 
+            {
+                var wheel = await WheelService.GetClassicWheel(id);
+
+                var model = new LoadClassicWheelModel()
+                {
+                    WheelId = wheel.Id,
+                    RemainingOptions = wheel.Segments
+                };
+
+                return View("LoadClassicWheel", model);
+            }
+            else if(type == WheelType.Point)
+            {
+                var wheel = await WheelService.GetPointWheel(id);
+
+                var model = new LoadPointWheelModel()
+                {
+                    WheelId = wheel.Id,
+                    RemainingOptions = wheel.Segments
+                };
+
+                return View("LoadPointWheel", model);
+            }
+            else
+            {
+                throw new InvalidOperationException("Wheel type is not correct.");
+            }
+        }
+
+        public async Task<IActionResult> LoadClassicWheel(LoadClassicWheelModel model)
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> LoadPointWheel(LoadPointWheelModel model)
+        {
+            return View();
         }
     }
 }

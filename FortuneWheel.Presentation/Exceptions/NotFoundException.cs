@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FortuneWheel.Exceptions
+namespace WheelOfFortune.Exceptions
 {
     public class NotFoundException : Exception
     {

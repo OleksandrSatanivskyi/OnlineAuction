@@ -1,10 +1,10 @@
-﻿@model FortuneWheel.Models.Auth.SignUpModel
+﻿@model WheelOfFortune.Models.Auth.SignUpModel
 @{
     Layout = "_AuthLayout";
 }
 
-<div class="auth-container">
-    <label class="auth-title">Sign up</label>
+<div class="auth-card-body">
+    <h5 class="auth-title">Sign up</h5>
     <form method="post" class="auth-form" asp-controller="Auth" asp-action="SignUp">
         <div class="auth-input-group">
             <input type="text" class="form-control auth-input" placeholder="Email" asp-for="Email">
@@ -31,7 +31,7 @@
             <span asp-validation-for="@Model.ConfirmPassword" class="text-danger"></span>
         </div>
 
-        <button class="btn auth-submit-btn" type="submit">Submit</button>
+        <button class="btn btn-primary auth-submit-btn" type="submit">Submit</button>
     </form>
     <button class="continue-with-google-btn" onclick="location.href='@Url.Action("ContinueWithGoogle", "GoogleOAuth")'">
         <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google Logo">

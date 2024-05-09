@@ -1,6 +1,6 @@
-﻿using FortuneWheel.Domain.Segments;
+﻿using WheelOfFortune.Domain.Segments;
 
-namespace FortuneWheel.Models.Wheels
+namespace WheelOfFortune.Models.Wheels
 {
     public class UpdateClassicWheelOptionsModel
     {

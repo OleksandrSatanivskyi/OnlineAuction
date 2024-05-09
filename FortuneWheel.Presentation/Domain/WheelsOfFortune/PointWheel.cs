@@ -1,6 +1,6 @@
-﻿using FortuneWheel.Domain.Segments;
+﻿using WheelOfFortune.Domain.Segments;
 
-namespace FortuneWheel.Domain.WheelsOfFortune
+namespace WheelOfFortune.Domain.WheelsOfFortune
 {
     public class PointWheel : WheelOfFortune
     {

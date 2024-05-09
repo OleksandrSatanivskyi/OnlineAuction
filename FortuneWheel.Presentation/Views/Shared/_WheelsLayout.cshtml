@@ -3,26 +3,32 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - FortuneWheel</title>
+    <title>Wheel of fortune</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/main.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/wheel-settings.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/FortuneWheel.Presentation.styles.css" asp-append-version="true" />
 </head>
 <body class="bg-dark text-light">    
     <div class="main-container">
 
         <ul class="menu" data-navigation="true">
-            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "GetAll" ? "active" : "")">
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "GetAll" ? "bg-primary" : "")">
                 @Html.ActionLink("Get all", "GetAll", "Wheel")
             </li>
 
             <li class="@((ViewContext.RouteData.Values["Action"].ToString() == "Options"
-             || ViewContext.RouteData.Values["Action"].ToString() == "Select") ? "active" : "")">
+             || ViewContext.RouteData.Values["Action"].ToString() == "Select") ? "bg-primary" : "")">
                 @Html.ActionLink("Options", "Options", "Wheel")
             </li>
 
-            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Logout" ? "active" : "")">
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Logout" ? "bg-primary" : "")">
                 @Html.ActionLink("Logout", "Logout", "Auth")
+            </li>
+
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Logout" ? "bg-primary" : "")">
+                @Html.ActionLink("Wheel of fortune", "Load", "Wheel")
             </li>
         </ul>
 

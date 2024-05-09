@@ -1,4 +1,4 @@
-namespace FortuneWheel.Presentation.Models
+namespace WheelOfFortune.Presentation.Models
 {
     public class ErrorModel
     {

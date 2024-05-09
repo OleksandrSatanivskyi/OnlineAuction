@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FortuneWheel.Domain.Segments
+namespace WheelOfFortune.Domain.Segments
 {
     public class Segment
     {

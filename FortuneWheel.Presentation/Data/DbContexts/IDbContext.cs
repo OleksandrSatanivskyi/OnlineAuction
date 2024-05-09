@@ -1,9 +1,9 @@
-﻿using FortuneWheel.Domain.Auth;
-using FortuneWheel.Domain.Segments;
-using FortuneWheel.Domain.WheelsOfFortune;
+﻿using WheelOfFortune.Domain.Auth;
+using WheelOfFortune.Domain.Segments;
+using WheelOfFortune.Domain.WheelsOfFortune;
 using Microsoft.EntityFrameworkCore;
 
-namespace FortuneWheel.Data.DbContexts
+namespace WheelOfFortune.Data.DbContexts
 {
     public interface IDbContext
     {

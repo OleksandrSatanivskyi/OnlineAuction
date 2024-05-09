@@ -1,7 +1,7 @@
-using FortuneWheel.Presentation.Models;
+using WheelOfFortune.Presentation.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FortuneWheel.Presentation.Controllers
+namespace WheelOfFortune.Presentation.Controllers
 {
     public class HomeController : Controller
     {

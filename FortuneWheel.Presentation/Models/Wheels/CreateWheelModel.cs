@@ -1,7 +1,7 @@
-﻿using FortuneWheel.Domain.WheelsOfFortune;
+﻿using WheelOfFortune.Domain.WheelsOfFortune;
 using System.ComponentModel.DataAnnotations;
 
-namespace FortuneWheel.Models.Wheels
+namespace WheelOfFortune.Models.Wheels
 {
     public class CreateWheelModel
     {

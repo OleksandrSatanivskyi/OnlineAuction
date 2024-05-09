@@ -1,6 +1,6 @@
-﻿using FortuneWheel.Domain.WheelsOfFortune;
+﻿using WheelOfFortune.Domain.WheelsOfFortune;
 
-namespace FortuneWheel.Models.Wheels
+namespace WheelOfFortune.Models.Wheels
 {
     public class PointWheelModel
     {
@@ -14,7 +14,7 @@ namespace FortuneWheel.Models.Wheels
         {
             Title = "";
             ColorHex = "";
-            Points = 0;
+            Points = 1;
         }
     }
 }

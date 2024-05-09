@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FortuneWheel.Presentation.Models.Auth
+namespace WheelOfFortune.Presentation.Models.Auth
 {
     public class LoginModel
     {

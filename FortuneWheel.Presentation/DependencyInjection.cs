@@ -1,8 +1,8 @@
-﻿using FortuneWheel.Application.Services.Auth;
-using FortuneWheel.Data.DbContexts;
-using FortuneWheel.Services;
+﻿using WheelOfFortune.Application.Services.Auth;
+using WheelOfFortune.Data.DbContexts;
+using WheelOfFortune.Services;
 
-namespace FortuneWheel
+namespace WheelOfFortune
 {
     public static class DependencyInjection
     {

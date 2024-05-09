@@ -1,11 +1,11 @@
-using FortuneWheel.Application.Services.Auth;
-using FortuneWheel.Data.DbContexts;
-using FortuneWheel.Middlewares;
-using FortuneWheel.Services;
+using WheelOfFortune.Application.Services.Auth;
+using WheelOfFortune.Data.DbContexts;
+using WheelOfFortune.Middlewares;
+using WheelOfFortune.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
-namespace FortuneWheel;
+namespace WheelOfFortune;
 
 public class Program
 {

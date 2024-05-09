@@ -1,9 +1,9 @@
-﻿using FortuneWheel.Models.Auth;
-using FortuneWheel.Presentation.Models.Auth;
+﻿using WheelOfFortune.Models.Auth;
+using WheelOfFortune.Presentation.Models.Auth;
 using Google.Apis.Auth;
 using System.Security.Claims;
 
-namespace FortuneWheel.Application.Services.Auth
+namespace WheelOfFortune.Application.Services.Auth
 {
     public interface IAuthService
     {
