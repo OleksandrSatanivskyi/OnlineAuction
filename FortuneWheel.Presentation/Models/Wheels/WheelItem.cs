@@ -7,15 +7,17 @@ namespace WheelOfFortune.Models.Wheels
         public Guid Id { get; set; }
         public string Title { get; set; }
         public DateTime CreationDate { get; set; }
+        public int ElementCount { get; set; }
         public Guid UserId { get; set; }
         public WheelType Type { get; set; }
 
-        public WheelItem(Guid id, string title, DateTime creationDate, Guid userId, WheelType wheelType)
+        public WheelItem(Guid id, string title, DateTime creationDate, Guid userId, int elementCount, WheelType wheelType)
         {
             Id = id;
             Title = title;
             CreationDate = creationDate;
             UserId = userId;
+            ElementCount = elementCount;
             Type = wheelType;
         }
 

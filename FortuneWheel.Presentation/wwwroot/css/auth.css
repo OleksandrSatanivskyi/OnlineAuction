@@ -1,5 +1,4 @@
 .auth-title{
-    font-size: 50px;
     margin-bottom: 70px;
 }
 
@@ -31,7 +30,6 @@
     display: grid;
     place-items: center;
     height: 100vh;
-
 }
 
 .auth-input{
@@ -39,8 +37,6 @@
 }
 
 .auth-submit-btn {
-    font-size: 20px;
-    font-weight: 400;
     margin-bottom: 50px;
 }
 

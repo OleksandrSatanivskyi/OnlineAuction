@@ -27,6 +27,35 @@ body, html {
     margin: 0;
 }
 
+.page-title {
+    font-size: 50px;
+}
+
+.page-btn {
+    font-size: 19px;
+}
+
+.dark {
+    background: #1b1f22;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**/
 .create-option-params {
     display: flex;
     gap: 20px;

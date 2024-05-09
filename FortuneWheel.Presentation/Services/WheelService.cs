@@ -80,11 +80,11 @@ namespace WheelOfFortune.Services
         public async Task<List<WheelItem>> GetAll(Guid userId)
         {
             var classicWheels = DbContext.ClassicWheels.Where(w => w.UserId == userId)
-                .Select(c => new WheelItem(c.Id, c.Title, c.CreationDate, c.UserId, WheelType.Classic))
+                .Select(c => new WheelItem(c.Id, c.Title, c.CreationDate, c.UserId, c.Segments.Count, WheelType.Classic))
                 .ToArray();
 
             var pointWheels = DbContext.PointWheels.Where(w => w.UserId == userId)
-                .Select(c => new WheelItem(c.Id, c.Title, c.CreationDate, c.UserId, WheelType.Point))
+                .Select(c => new WheelItem(c.Id, c.Title, c.CreationDate, c.UserId, c.Segments.Count, WheelType.Point))
                 .ToArray();
 
             var allWheels = classicWheels

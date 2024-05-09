@@ -4,53 +4,46 @@
     Layout = "_WheelsLayout";
 }
 
-<div class="wheel-actions-header">
-
-</div>
-
-<div class="wheel-actions">
-    <button class="create-button btn" type="button" data-bs-toggle="modal" data-bs-target="#addWheelModal">Create New Wheel</button>
-</div>
+<header class="wheel-actions-header">
+    <h5 class="wheel-actions-title page-title">Wheels</h5>
+    <button class="create-wheel-button btn btn-outline-success page-btn" type="button" data-bs-toggle="modal" data-bs-target="#addWheelModal">Create</button>
+</header>
 
 <div class="modal fade" id="addWheelModal" tabindex="-1" aria-hidden="true">
     @await Html.PartialAsync("_CreateWheelPartialView", new CreateWheelModel())
 </div>
 
+
+
+
 @if (Model.Wheels != null && Model.Wheels.Any())
 {
-    <table class="wheels-table">
-        <thead>
-            <tr >
-                <th style="width: 30%;">Title</th>
-                <th style="width: 20%;">Type</th>
-                <th style="width: 20%;">Creation Date</th>
-                <th style="width: 30%;"></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var wheel in Model.Wheels)
-            {
-                <tr>
-                    <td>@wheel.Title</td>
-                    <td>@wheel.Type</td>
-                    <td>@wheel.CreationDate.ToString("dd.MM.yyyy")</td>
-                    <td>
-                        <div class="wheel-settings-container">
-                            <input type="button" value="Select" class="select-wheel-button btn" onclick="location.href='@Url.Action("Select", "Wheel", new { id = wheel.Id, type = wheel.Type.ToString() })'" />
-                            <button class="remove-wheel-button btn" type="button" data-bs-toggle="modal" data-bs-target="#removeWheelModal">Remove</button>
-                            <div class="modal fade" id="removeWheelModal" tabindex="-1" aria-hidden="true">
-                                @await Html.PartialAsync("_RemoveWheelPartialView", new RemoveWheelModel
-                                {
-                                    Id = wheel.Id,
-                                    Type = wheel.Type
-                                })
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    @foreach (var wheel in Model.Wheels)
+    {
+        <div class="bg-dark card wheel-card">
+            <h5 class="card-header dark wheel-card-header">@wheel.Title</h5>
+            <div class="card-body dark">
+                <label class="card-text">Type: @wheel.Type</label>
+                <br />
+                <label class="card-text">Created @wheel.CreationDate.ToString("dd.MM.yyyy")</label>
+                <br />
+                <label class="card-text">@wheel.ElementCount elements</label>
+
+                <div class="wheel-card-footer">
+                    <input type="button" value="Select" class="btn-primary btn" onclick="location.href='@Url.Action("Select", "Wheel", new { id = wheel.Id, type = wheel.Type.ToString() })'" />
+                    <button class="btn-danger btn" type="button" data-bs-toggle="modal" data-bs-target="#removeWheelModal">Remove</button>
+                    <div class="modal fade" id="removeWheelModal" tabindex="-1" aria-hidden="true">
+                        @await Html.PartialAsync("_RemoveWheelPartialView", new RemoveWheelModel
+                        {
+                            Id = wheel.Id,
+                            Type = wheel.Type
+                        })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
 }
 else
 {

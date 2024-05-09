@@ -1,98 +1,36 @@
-.main-container {
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-}
-
-.main-page {
-    flex: 1;
-    height: 100%;
+.wheel-actions-header {
     width: 100%;
-    padding: 0px 10%;
-}
-
-.menu {
-    flex: 0 0 15%;
-    height: 100%;
-    border-right: 1px solid gray;
-    list-style: none;
-    padding: 0;
+    margin: 80px 0px;
     text-align: center;
+    border-bottom: 2px solid #B7B7B7;
 }
 
-.menu li {
-    width: 100%;
-    margin: 13px 0;
-}    
-
-.menu li a {
-    display: block;
-    text-decoration: none;
-    font-size: 18px;
-    padding: 10px 15px;
-    font-weight: 500;
-    color: white;
+.wheel-actions-title {
+    display: inline-block;
+    margin-bottom: 30px;
 }
 
-.menu li.active a {
-    background-color: #2A547E;
+.create-wheel-button {
+    float: right;
+    display: inline-block;
 }
 
-.wheel-actions {
-    width: 100%;
-    margin: 10px 0px;
+.wheel-card {
+    width: calc(33.33% - 20px);
+    border-color: #B7B7B7;
+    margin: 10px;
+    float: left;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
 }
 
-.create-button {
-    font-size: 15px;
-    background: #4CBB17;
-    font-weight: 400;
+.wheel-card-header {
+    border-color: #B7B7B7;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
 }
 
-.modal-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.create-wheel-form {
-    display: none;
-}
-
-.wheels-table {
-    position: relative;
-    width: 100%;
-    height: auto;
-    box-sizing: border-box;
-    overflow: hidden;
-    table-layout: fixed;
-    border-collapse: separate;
-    border-spacing: 10px;
-}
-
-.wheels-table th,
-.wheels-table td {
-    box-sizing: border-box;
-    word-wrap: break-word;
-}
-
-.select-wheel-button {
-    background: #318CE7;
-    margin-right: 20%;
-    width: 20%;
-    text-align: center;
-}
-
-.remove-wheel-button {
-    background: #CF352E;
-    width: 20%;
-    text-align: center;
-}
-
-.wheel-settings-container {
-    display: flex;
-    justify-content: flex-start;
+.wheel-card-footer {
+    margin-top: 13px;
+    text-align: right;
 }
 
 .wheel-options-form {
@@ -104,7 +42,7 @@
     margin: 10px;
 }
 
-.create-option-params {
+/*.create-option-params {
     display: flex;
     gap: 20px;
     align-items: center;
@@ -112,9 +50,34 @@
     justify-content: space-between;
     margin: 0 auto;
     flex-direction: row;
-}
+}*/
 
-.load-wheel-container {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*.load-wheel-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -161,3 +124,4 @@
     right: 50%;
     transform: translate(50%, -50%);
 }
+*/
