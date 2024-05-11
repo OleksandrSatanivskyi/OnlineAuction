@@ -1,15 +1,13 @@
-﻿using WheelOfFortune.Data.DbContexts;
-using Microsoft.EntityFrameworkCore;
-using WheelOfFortune.Exceptions;
-using WheelOfFortune.Services;
-using System.Security.Claims;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
+using WheelOfFortune.Data.DbContexts;
+using WheelOfFortune.Domain.Auth;
+using WheelOfFortune.Exceptions;
 using WheelOfFortune.Models.Auth;
 using WheelOfFortune.Presentation.Models.Auth;
-using Microsoft.IdentityModel.Tokens;
-using WheelOfFortune.Domain.Auth;
-using Google.Apis.Auth;
-using System.Web.Helpers;
+using WheelOfFortune.Services;
 using static Google.Apis.Auth.GoogleJsonWebSignature;
 
 namespace WheelOfFortune.Application.Services.Auth

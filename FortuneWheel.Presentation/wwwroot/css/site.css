@@ -25,10 +25,11 @@ html {
 body, html {
     height: 100%;
     margin: 0;
+    overflow-x: hidden;
 }
 
 .page-title {
-    font-size: 50px;
+    font-size: 45px;
 }
 
 .page-btn {
@@ -37,79 +38,4 @@ body, html {
 
 .dark {
     background: #1b1f22;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/**/
-.create-option-params {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    width: 100%;
-    justify-content: space-between;
-    margin: 0 auto;
-    flex-direction: row;
-}
-
-.load-wheel-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: end;
-    width: 60%;
-    height: 100%;
-    background-color: lightblue;
-}
-
-.spin-wheel-header {
-    color: #fff;
-}
-
-    .spin-wheel-header h1,
-    p {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-
-.wheel {
-    display: flex;
-    justify-content: center;
-    position: relative;
-}
-
-.center-circle {
-    width: 100px;
-    height: 100px;
-    border-radius: 60px;
-    background-color: #fff;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.triangle {
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 30px solid white;
-    position: absolute;
-    top: -345%;
-    right: 50%;
-    transform: translate(50%, -50%);
 }

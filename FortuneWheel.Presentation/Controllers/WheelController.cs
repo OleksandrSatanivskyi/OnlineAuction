@@ -198,6 +198,7 @@ namespace WheelOfFortune.Controllers
             return RedirectToAction("Options", "Wheel");
         }
 
+        [HttpPost]
         public async Task<IActionResult> DeleteSegment(Guid Id, WheelType Type)
         {
             switch (Type)
@@ -212,7 +213,7 @@ namespace WheelOfFortune.Controllers
                     throw new NotFoundException("Type was not found.");
             }
 
-            return await Options();
+            return Redirect("Options");
         }
 
         public async Task<IActionResult> UpdatePointWheelOptions([FromBody] UpdatePointWheelOptionsModel model)

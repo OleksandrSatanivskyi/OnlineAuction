@@ -8,7 +8,7 @@ using WheelOfFortune.Data.DbContexts;
 
 #nullable disable
 
-namespace WheelOfFortune.Migrations
+namespace FortuneWheel.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -28,18 +28,25 @@ namespace WheelOfFortune.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("AvatarName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsDarkTheme")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Language")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Surname")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -164,7 +171,8 @@ namespace WheelOfFortune.Migrations
                 {
                     b.HasOne("WheelOfFortune.Domain.WheelsOfFortune.ClassicWheel", null)
                         .WithMany("Segments")
-                        .HasForeignKey("ClassicWheelId");
+                        .HasForeignKey("ClassicWheelId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("WheelOfFortune.Domain.Segments.PointSegment", b =>
@@ -177,7 +185,8 @@ namespace WheelOfFortune.Migrations
 
                     b.HasOne("WheelOfFortune.Domain.WheelsOfFortune.PointWheel", null)
                         .WithMany("Segments")
-                        .HasForeignKey("PointWheelId");
+                        .HasForeignKey("PointWheelId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("WheelOfFortune.Domain.WheelsOfFortune.ClassicWheel", b =>

@@ -1,4 +1,5 @@
-﻿using WheelOfFortune.Application.Services.Auth;
+﻿using FortuneWheel.Services;
+using WheelOfFortune.Application.Services.Auth;
 using WheelOfFortune.Data.DbContexts;
 using WheelOfFortune.Services;
 
@@ -11,6 +12,7 @@ namespace WheelOfFortune
             services.AddScoped<IDbContext>(provider => provider.GetService<ApplicationDbContext>());
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IWheelService, WheelService>();
+            services.AddTransient<IAccountService, AccountService>();
 
             return services;
         }

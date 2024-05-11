@@ -25,7 +25,18 @@ namespace WheelOfFortune.Data.DbContexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Segment>()
+                .HasOne<ClassicWheel>()
+                .WithMany(cw => cw.Segments)
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<Segment>().ToTable("Segments");
+
+            modelBuilder.Entity<PointSegment>()
+                .HasOne<PointWheel>()
+                .WithMany(pw => pw.Segments)
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<PointSegment>().ToTable("PointSegments");
         }
     }

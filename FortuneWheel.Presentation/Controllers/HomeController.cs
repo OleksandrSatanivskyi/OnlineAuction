@@ -1,23 +1,44 @@
 using WheelOfFortune.Presentation.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using FortuneWheel.Services;
+using FortuneWheel.Models;
 
 namespace WheelOfFortune.Presentation.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IAccountService AccountService;
+        private Guid UserId => Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+        
+        public HomeController(ILogger<HomeController> logger, IAccountService accountService)
         {
             _logger = logger;
+            AccountService = accountService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             return View();
         }
 
-        public IActionResult Privacy()
+        public async Task<IActionResult> Settings()
+        {
+            var account = await AccountService.Get(UserId);
+
+            return View(account);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateAccount(AccountModel model)
+        {
+            await AccountService.Update(model);
+
+            return Redirect("Settings");
+        }
+
+        public async Task<IActionResult> Privacy()
         {
             return View();
         }

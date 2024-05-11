@@ -1,8 +1,9 @@
 ﻿using FortuneWheel.Domain;
+using System.Web;
 
-namespace WheelOfFortune.Domain.Auth
+namespace FortuneWheel.Models
 {
-    public class Account
+    public class AccountModel
     {
         public Guid Id { get; set; }
         public string? Name { get; set; }
@@ -12,12 +13,7 @@ namespace WheelOfFortune.Domain.Auth
         public string? AvatarName { get; set; }
         public Language Language { get; set; }
         public bool IsDarkTheme { get; set; }
+        public IFormFile Photo { get; set; }
 
-        public Account()
-        {
-            Language = Language.English;
-            IsDarkTheme = false;
-        }
     }
-
 }

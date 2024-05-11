@@ -8,7 +8,7 @@
         <h1 id="winner">NONE</h1>
     </div>
     <div class="wheel">
-        <canvas class="" id="canvas" width="800" height="800"></canvas>
+        <canvas class="" id="canvas" width="700" height="700"></canvas>
 
         <div class="center-circle" onclick="spin()">
             <div class="triangle"></div>
@@ -88,7 +88,6 @@
 
             drawSeparator(centerX, centerY, radius - 1, startDeg, endDeg);
 
-            // draw text
             ctx.save();
             ctx.translate(centerX, centerY);
             ctx.rotate(toRad((startDeg + endDeg - 3) / 2));
@@ -157,6 +156,7 @@
     let speed = 0
     let maxRotation = randomRange(360 * 3, 360 * 6)
     let pause = false
+
     function animate() {
         if (pause) {
             return

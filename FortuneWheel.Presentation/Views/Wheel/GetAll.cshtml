@@ -13,9 +13,6 @@
     @await Html.PartialAsync("_CreateWheelPartialView", new CreateWheelModel())
 </div>
 
-
-
-
 @if (Model.Wheels != null && Model.Wheels.Any())
 {
     @foreach (var wheel in Model.Wheels)

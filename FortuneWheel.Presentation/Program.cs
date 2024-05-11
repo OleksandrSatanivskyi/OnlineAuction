@@ -1,9 +1,7 @@
-using WheelOfFortune.Application.Services.Auth;
-using WheelOfFortune.Data.DbContexts;
-using WheelOfFortune.Middlewares;
-using WheelOfFortune.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using WheelOfFortune.Data.DbContexts;
+using WheelOfFortune.Middlewares;
 
 namespace WheelOfFortune;
 
@@ -11,6 +9,11 @@ public class Program
 {
     public static void Main(string[] args)
     {
+        var rootPath = Directory.GetParent(
+            Directory.GetParent(
+            Directory.GetParent(
+                AppContext.BaseDirectory).FullName).FullName).FullName;
+
         var builder = WebApplication.CreateBuilder(args);
         ConfigureServices(builder.Services, builder.Configuration);
 

@@ -1,5 +1,5 @@
 .auth-title{
-    margin-bottom: 70px;
+    margin-bottom: 30px;
 }
 
 .auth-form {
@@ -22,8 +22,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: start;
-    padding-top: 8%;
-    height: 700px;
+    padding-top: 5%;
 }
 
 .auth-container {
@@ -33,15 +32,15 @@
 }
 
 .auth-input{
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .auth-submit-btn {
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 }
 
 .auth-input-group {
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     width: 100%;
 }
 

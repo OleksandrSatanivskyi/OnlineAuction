@@ -8,12 +8,18 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/main.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/wheel-settings.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/spin-wheel.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/settings.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/FortuneWheel.Presentation.styles.css" asp-append-version="true" />
 </head>
 <body class="bg-dark text-light">    
     <div class="main-container">
 
         <ul class="menu" data-navigation="true">
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "bg-primary" : "")">
+                @Html.ActionLink("About", "About", "Home")
+            </li>
+
             <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "GetAll" ? "bg-primary" : "")">
                 @Html.ActionLink("Get all", "GetAll", "Wheel")
             </li>
@@ -23,12 +29,16 @@
                 @Html.ActionLink("Options", "Options", "Wheel")
             </li>
 
-            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Logout" ? "bg-primary" : "")">
-                @Html.ActionLink("Logout", "Logout", "Auth")
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Load" ? "bg-primary" : "")">
+                @Html.ActionLink("Wheel of fortune", "Load", "Wheel")
+            </li>
+
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Settings" ? "bg-primary" : "")">
+                @Html.ActionLink("Settings", "Settings", "Home")
             </li>
 
             <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Logout" ? "bg-primary" : "")">
-                @Html.ActionLink("Wheel of fortune", "Load", "Wheel")
+                @Html.ActionLink("Logout", "Logout", "Auth")
             </li>
         </ul>
 
