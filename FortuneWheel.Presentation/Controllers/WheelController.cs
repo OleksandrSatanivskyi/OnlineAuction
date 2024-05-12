@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
 using WheelOfFortune.Domain.WheelsOfFortune;
 using WheelOfFortune.Exceptions;
+using FortuneWheel.Domain;
 
 namespace WheelOfFortune.Controllers
 {
@@ -138,7 +139,7 @@ namespace WheelOfFortune.Controllers
                 }
                 else
                 {
-                    return View("NoWheelSelected");
+                    return RedirectToAction("NoWheelSelected", "Wheel");
                 }
             }
 
@@ -252,7 +253,12 @@ namespace WheelOfFortune.Controllers
 
             Enum.TryParse(CurrentWheelType, out WheelType type);
             Guid.TryParse(CurrentWheelId, out Guid id);
-        
+
+            if (ViewBag.Mode == null)
+            {
+                ViewBag.Mode = SpinMode.Classic.ToString();
+            }
+
             if (type == WheelType.Classic) 
             {
                 var wheel = await WheelService.GetClassicWheel(id);

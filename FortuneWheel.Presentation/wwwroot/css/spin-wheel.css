@@ -8,14 +8,13 @@
     flex-direction: row;
 }
 
-.load-wheel-container {
+.load-wheel {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: end;
     width: 60%;
     height: 100%;
-    background-color: lightblue;
 }
 
 .spin-wheel-header {
@@ -32,6 +31,7 @@
     display: flex;
     justify-content: center;
     position: relative;
+
 }
 
 .center-circle {
@@ -44,6 +44,10 @@
     transform: translateY(-50%);
 }
 
+    .center-circle:hover {
+        cursor: pointer;
+    }
+
 .triangle {
     width: 0;
     height: 0;
@@ -54,4 +58,77 @@
     top: -300%;
     right: 50%;
     transform: translate(50%, -50%);
+}
+
+.spin-pannel {
+    margin-left: 50px;
+    margin-top: 70px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.spin-pannel-line {
+    margin-bottom: 2px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.wheel-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.spin-wheel-input {
+    margin: 8px;
+    width: 50%;
+}
+
+.spin-wheel-modes {
+    margin-left: 7px;
+}
+
+.spin-mode-nav-link {
+    cursor: pointer;
+}
+
+.shadow-circle {
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background-color: transparent;
+    position: absolute;
+    z-index: -1;
+    opacity: 0; 
+}
+
+    .shadow-circle:hover {
+        cursor: pointer;
+    }
+
+.winner-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: black;
+    white-space: nowrap;
+}
+
+.shadow-circle::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 600px; 
+    height: 600px;
+    border-radius: 50%; 
+    background-color: rgba(0, 0, 0, 0.3); 
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 54px 55px, rgba(0, 0, 0, 0.25) 0px -12px 30px, rgba(0, 0, 0, 0.25) 0px 4px 6px, rgba(0, 0, 0, 0.4) 0px 12px 13px, rgba(0, 0, 0, 0.2) 0px -3px 5px; /* Темна тінь */
+    filter: blur(20px); 
+    transform: translate(-50%, -50%); 
+    z-index: -1;
 }

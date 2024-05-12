@@ -3,21 +3,89 @@
     Layout = "_WheelsLayout";
 }
 
-<div class="load-wheel-container">
-    <div class="spin-wheel-header">
-        <h1 id="winner">NONE</h1>
+<div class="wheel-container">
+    <div class="load-wheel">
+        <div class="spin-wheel-header">
+            <h1 id="winner">NONE</h1>
+        </div>
+        <div class="wheel">
+            <canvas class="" id="canvas" width="700" height="700"></canvas>
+            <div class="shadow-circle">
+                <h5 class="winner-text page-title"></h5>
+            </div>
+            <div class="center-circle" onclick="spin()">
+                <div class="triangle"></div>
+            </div>
+        </div>
     </div>
-    <div class="wheel">
-        <canvas class="" id="canvas" width="700" height="700"></canvas>
-
-        <div class="center-circle" onclick="spin()">
-            <div class="triangle"></div>
+    <div class="spin-pannel">
+        <div class="spin-pannel-line">
+            <button class="btn btn-primary page-btn" onclick="spinBtn()">Spin</button>
         </div>
 
+        <div class="spin-pannel-line">
+            <label>From: </label>
+            <input id="minInput" class="spin-wheel-input form-control bg-dark text-white" placeholder="Min" type="text" value="1" />
+            <label>To: </label>                                                                                                
+            <input id="maxInput" class="spin-wheel-input form-control bg-dark text-white" placeholder="Max" type="text" value="1" />
+            <label> spins</label>
+        </div>
+        
+        <div class="spin-pannel-line">
+            <label>Mode:</label>
+            <ul class="nav nav-pills spin-wheel-modes">
+                <li class="nav-item">
+                    <a id="classicMode" class="spin-mode-nav-link nav-link" onclick="setMode('Classic')">Classic</a>
+                </li>
+                <li class="nav-item">
+                    <a id="eliminationMode" class="spin-mode-nav-link nav-link" onclick="setMode('Elimination')">Elimination</a>
+                </li>
+            </ul>
+        </div>
+        <div id="modeData" data-mode="@ViewBag.Mode"></div>
     </div>
+
 </div>
 
 <script>
+    window.onload = function () {
+        checkModeAndSetActiveTab();
+    };
+
+    function checkModeAndSetActiveTab() {
+        var mode = getCookie("Mode");
+
+        var classicTab = document.getElementById("classicMode");
+        var eliminationTab = document.getElementById("eliminationMode");
+
+        if (mode === 'Classic') {
+            eliminationMode.classList.remove('active');
+            classicMode.classList.add('active');
+        } else if (mode === 'Elimination') {
+            classicMode.classList.remove('active');
+            eliminationMode.classList.add('active');
+        }
+    }
+
+    function setMode(mode) {
+        document.cookie = "Mode=" + mode + ";path=/";
+
+        var classicMode = document.getElementById('classicMode');
+        var eliminationMode = document.getElementById('eliminationMode');
+
+        if (mode === 'Classic') {
+            eliminationMode.classList.remove('active');
+            classicMode.classList.add('active');
+        } else if (mode === 'Elimination') {
+            classicMode.classList.remove('active');
+            eliminationMode.classList.add('active');
+        }
+    }
+
+    document.querySelector(".shadow-circle").addEventListener("click", function () {
+        hideWinnerTitle();
+    });
+
     function toRad(deg) {
         return deg * (Math.PI / 180.0);
     }
@@ -123,10 +191,35 @@
 
             if (startDeg % 360 <= 270 && endDeg % 360 > 270) {
                 document.getElementById("winner").innerHTML = segments[i].title;
+                document.querySelector(".winner-text").innerHTML = segments[i].title;
             }
 
             startDeg = endDeg;
         }
+    }
+
+    function easeInOutQuad(x) {
+        return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
+    }
+
+    function isValidSpin() {
+        var minInput = document.getElementById('minInput');
+        var maxInput = document.getElementById('maxInput');
+
+        var min = parseInt(minInput.value);
+        var max = parseInt(maxInput.value);
+
+        if (isNaN(min) || isNaN(max) ||
+            min < 0 || max < 0 ||
+            max > 100 ||
+            max < min ||
+            !Number.isInteger(min) || !Number.isInteger(max))
+        {
+            alert("Enter valid integer values for the number of spins.");
+            return false;
+        }
+
+        return true;
     }
 
     function drawSegmentSeparator(centerX, centerY, radius, startDeg, endDeg) {
@@ -136,7 +229,6 @@
         let x = centerX + radius * Math.cos(middleRad);
         let y = centerY + radius * Math.sin(middleRad);
 
-
         ctx.beginPath();
         ctx.moveTo(centerX, centerY);
         ctx.lineTo(x, y);
@@ -144,7 +236,6 @@
         ctx.lineWidth = 3;
         ctx.stroke();
     }
-
     function drawSeparator(centerX, centerY, radius, startDeg, endDeg) {
         ctx.beginPath();
         ctx.arc(centerX, centerY, radius, toRad(startDeg), toRad(endDeg));
@@ -157,35 +248,126 @@
     let maxRotation = randomRange(360 * 3, 360 * 6)
     let pause = false
 
-    function animate() {
-        if (pause) {
-            return
-        }
-        speed = easeOutSine(getPercent(currentDeg, maxRotation, 0)) * 20
-        if (speed < 0.01) {
-            speed = 0
-            pause = true
-        }
-        currentDeg += speed
-        draw()
-        window.requestAnimationFrame(animate);
+    function showWinnerTitle() {
+        document.querySelector(".shadow-circle").style.opacity = 1;
+        document.querySelector(".shadow-circle").style.zIndex = 1;
     }
 
+    var winnerSegmentId = "";
+
+    function hideWinnerTitle() {
+        document.querySelector(".shadow-circle").style.opacity = 0;
+        document.querySelector(".shadow-circle").style.zIndex = -1;
+
+        var mode = getCookie("Mode");
+
+        if (mode == "Elimination" && speed == 0) {
+            // console.log(winnerSegmentId);
+            segments = segments.filter(function (segment) {
+                return segment.id !== winnerSegmentId;
+            });
+
+            segmentWidth = 360 / segments.length;
+
+            draw();
+        }
+    }
+
+    function getCookie(cookieName) {
+        var name = cookieName + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var cookieArray = decodedCookie.split(';');
+        for (var i = 0; i < cookieArray.length; i++) {
+            var cookie = cookieArray[i];
+            while (cookie.charAt(0) == ' ') {
+                cookie = cookie.substring(1);
+            }
+            if (cookie.indexOf(name) == 0) {
+                return cookie.substring(name.length, cookie.length);
+            }
+        }
+        return "";
+    }
+
+    var initialRotationAngle = 270;
+    var animationDeg = 0;
+
     function spin() {
-        if (speed != 0) {
+        if (speed != 0 || !isValidSpin()) {
             return
         }
 
-        maxRotation = 0;
-        currentDeg = 0;
-        segmentWidth = 360 / segments.length;
+        //currentDeg = 0;
+
         draw();
 
         var randomId = Math.floor(Math.random() * segments.length);
-        maxRotation = (360 * 8) - itemDegs[segments[randomId].id].endDeg + Math.floor(Math.random() * 200) + 1
+
+        var minInput = document.getElementById('minInput');
+        var maxInput = document.getElementById('maxInput');
+
+        var min = parseInt(minInput.value);
+        var max = parseInt(maxInput.value);
+
+        var rotationCount = Math.floor(Math.random() * (max - min + 1)) + min;
+
+        var startDeg = itemDegs[segments[randomId].id].startDeg % 360;
+        var endDeg = itemDegs[segments[randomId].id].endDeg % 360;
+        var randomDeg = (Math.floor(Math.random() * (endDeg - startDeg + 1)) + startDeg);
+        console.log(currentDeg);
+        maxRotation = (360 * rotationCount) + currentDeg + 270 - randomDeg;
+        //initialRotationAngle += maxRotation;
+        // console.log("initialRotationAngle  " + initialRotationAngle);
+        //console.log("randomDeg  " + randomDeg);
+        //console.log("maxRotation  " + maxRotation);
+        // console.log("");
+
+        console.log("title " + segments[randomId].title);
+
+        winnerSegmentId = segments[randomId].id;
+        //console.log(winnerSegmentId);
+
         itemDegs = {}
         pause = false
-        window.requestAnimationFrame(animate);
+        animate(maxRotation);
     }
 
+    function animate(distance) {
+        if (pause) {
+            return;
+        }
+
+        const startDeg = currentDeg;
+
+        // const distance = Math.abs(endDeg - startDeg);
+        // console.log(startDeg);
+        // console.log(endDeg);
+        // console.log(distance);
+        const duration = 2000;
+        const startTime = performance.now();
+
+        function update() {
+            const elapsed = performance.now() - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const easedProgress = easeInOutQuad(progress);
+            const rotation = startDeg + distance * easedProgress;
+
+            currentDeg = rotation;
+            draw();
+
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            } else {
+                showWinnerTitle();
+            }
+        }
+
+        update();
+    }
+
+
+    function spinBtn() {
+        hideWinnerTitle();
+        spin();
+    }
 </script>
