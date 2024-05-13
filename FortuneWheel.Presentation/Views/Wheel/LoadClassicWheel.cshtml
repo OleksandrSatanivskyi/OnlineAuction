@@ -25,10 +25,16 @@
 
         <div class="spin-pannel-line">
             <label>From: </label>
-            <input id="minInput" class="spin-wheel-input form-control bg-dark text-white" placeholder="Min" type="text" value="1" />
+            <input id="minInput" class="spin-wheel-input form-control bg-dark text-white" placeholder="Min" type="text"/>
             <label>To: </label>                                                                                                
-            <input id="maxInput" class="spin-wheel-input form-control bg-dark text-white" placeholder="Max" type="text" value="1" />
+            <input id="maxInput" class="spin-wheel-input form-control bg-dark text-white" placeholder="Max" type="text"/>
             <label> spins</label>
+        </div>
+
+        <div class="spin-pannel-line">
+            <label>Duration:</label>
+            <input id="durationInput" class="spin-wheel-input form-control bg-dark text-white" type="text" />
+            <label> seconds</label>
         </div>
         
         <div class="spin-pannel-line">
@@ -42,15 +48,66 @@
                 </li>
             </ul>
         </div>
+
         <div id="modeData" data-mode="@ViewBag.Mode"></div>
     </div>
 
 </div>
 
 <script>
+    var minInput = document.getElementById('minInput');
+    var maxInput = document.getElementById('maxInput');
+    var durationInput = document.getElementById('durationInput')
+
+    function updateMaxSpinCookie() {
+        var now = new Date();
+        var expires = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+        var expiresGMT = expires.toGMTString();
+
+        var maxInput = document.getElementById('maxInput');
+        document.cookie = "MaxSpin=" + maxInput.value + ";expires=" + expiresGMT + ";path=/";
+    }
+
+    function updateMinSpinCookie() {
+        var now = new Date();
+        var expires = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+        var expiresGMT = expires.toGMTString();
+        
+        var minInput = document.getElementById('minInput');
+        document.cookie = "MinSpin=" + minInput.value + ";expires=" + expiresGMT + ";path=/";
+    }
+
+    function updateDurationCookie() {
+        var now = new Date();
+        var expires = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+        var expiresGMT = expires.toGMTString();
+
+        var minInput = document.getElementById('durationInput');
+        document.cookie = "Duration=" + minInput.value + ";expires=" + expiresGMT + ";path=/";
+    }
+
     window.onload = function () {
         checkModeAndSetActiveTab();
+
+        minInput.value = getCookie("MinSpin") || 1;
+        maxInput.value = getCookie("MaxSpin") || parseInt(minInput.value) + 2;
+        durationInput.value = getCookie("Duration") || 6;
     };
+
+    var wheelWasSpinned = false;
+
+    window.addEventListener('beforeunload', function (e) {
+        var mode = getCookie("Mode");
+        if (mode === "Elimination" && segments.length > 1 && wheelWasSpinned) {
+            var confirmationMessage = 'Are you sure you want to leave?';
+            (e || window.event).returnValue = confirmationMessage;
+            return confirmationMessage;
+        }
+    });
+
+    minInput.addEventListener('input', updateMinSpinCookie);
+    maxInput.addEventListener('input', updateMaxSpinCookie);
+    durationInput.addEventListener('input', updateDurationCookie);
 
     function checkModeAndSetActiveTab() {
         var mode = getCookie("Mode");
@@ -65,10 +122,17 @@
             classicMode.classList.remove('active');
             eliminationMode.classList.add('active');
         }
+        else {
+            setMode('Classic');
+        }
     }
 
     function setMode(mode) {
-        document.cookie = "Mode=" + mode + ";path=/";
+        var now = new Date();
+        var expires = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+        var expiresGMT = expires.toGMTString();
+
+        document.cookie = "Mode=" + mode + ";expires=" + expiresGMT + ";path=/";
 
         var classicMode = document.getElementById('classicMode');
         var eliminationMode = document.getElementById('eliminationMode');
@@ -189,7 +253,7 @@
                 "endDeg": endDeg
             }
 
-            if (startDeg % 360 <= 270 && endDeg % 360 > 270) {
+            if ((startDeg % 360 <= 270 && endDeg % 360 > 270) || segments.length === 1) {
                 document.getElementById("winner").innerHTML = segments[i].title;
                 document.querySelector(".winner-text").innerHTML = segments[i].title;
             }
@@ -203,19 +267,14 @@
     }
 
     function isValidSpin() {
-        var minInput = document.getElementById('minInput');
-        var maxInput = document.getElementById('maxInput');
-
         var min = parseInt(minInput.value);
         var max = parseInt(maxInput.value);
+        var duration = parseInt(durationInput.value);
 
-        if (isNaN(min) || isNaN(max) ||
-            min < 0 || max < 0 ||
-            max > 100 ||
-            max < min ||
-            !Number.isInteger(min) || !Number.isInteger(max))
-        {
-            alert("Enter valid integer values for the number of spins.");
+        if (isNaN(min) || isNaN(max) || isNaN(duration) ||
+            min <= 0 || max <= 0 || duration <= 0 ||
+            max > 100 || max < min || !Number.isInteger(min) || !Number.isInteger(max) || !Number.isInteger(duration)) {
+            alert("Enter valid integer values for the number of spins and duration.");
             return false;
         }
 
@@ -261,8 +320,7 @@
 
         var mode = getCookie("Mode");
 
-        if (mode == "Elimination" && speed == 0) {
-            // console.log(winnerSegmentId);
+        if (mode == "Elimination" && speed == 0 && segments.length > 1) {
             segments = segments.filter(function (segment) {
                 return segment.id !== winnerSegmentId;
             });
@@ -297,8 +355,6 @@
             return
         }
 
-        //currentDeg = 0;
-
         draw();
 
         var randomId = Math.floor(Math.random() * segments.length);
@@ -311,25 +367,18 @@
 
         var rotationCount = Math.floor(Math.random() * (max - min + 1)) + min;
 
-        var startDeg = itemDegs[segments[randomId].id].startDeg % 360;
-        var endDeg = itemDegs[segments[randomId].id].endDeg % 360;
-        var randomDeg = (Math.floor(Math.random() * (endDeg - startDeg + 1)) + startDeg);
-        console.log(currentDeg);
-        maxRotation = (360 * rotationCount) + currentDeg + 270 - randomDeg;
-        //initialRotationAngle += maxRotation;
-        // console.log("initialRotationAngle  " + initialRotationAngle);
-        //console.log("randomDeg  " + randomDeg);
-        //console.log("maxRotation  " + maxRotation);
-        // console.log("");
+        var startDeg = itemDegs[segments[randomId].id].startDeg;
+        var endDeg = itemDegs[segments[randomId].id].endDeg;
 
-        console.log("title " + segments[randomId].title);
+        var randomDeg = (Math.floor(Math.random() * (endDeg - startDeg + 1)) + startDeg) % 360;
+        maxRotation = (360 * rotationCount) + 270 - randomDeg;
 
         winnerSegmentId = segments[randomId].id;
-        //console.log(winnerSegmentId);
 
         itemDegs = {}
         pause = false
         animate(maxRotation);
+        wheelWasSpinned = true;
     }
 
     function animate(distance) {
@@ -339,11 +388,7 @@
 
         const startDeg = currentDeg;
 
-        // const distance = Math.abs(endDeg - startDeg);
-        // console.log(startDeg);
-        // console.log(endDeg);
-        // console.log(distance);
-        const duration = 2000;
+        const duration = parseInt(durationInput.value) * 1000;
         const startTime = performance.now();
 
         function update() {
@@ -364,7 +409,6 @@
 
         update();
     }
-
 
     function spinBtn() {
         hideWinnerTitle();
