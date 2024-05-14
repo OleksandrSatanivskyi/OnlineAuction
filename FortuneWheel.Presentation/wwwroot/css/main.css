@@ -29,7 +29,11 @@
 .menu li {
     width: 100%;
     margin: 13px 0;
-}    
+}
+
+    .menu li:hover {
+        background-color: #404040;
+    }
 
 .menu li a {
     display: block;

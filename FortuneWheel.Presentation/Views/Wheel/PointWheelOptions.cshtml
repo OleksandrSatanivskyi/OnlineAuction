@@ -36,14 +36,14 @@
     <tbody>
         @for (int i = 0; i < Model.Wheel.Segments.Count; i++)
         {
-            <tr>
+            <tr id="segment-@Model.Wheel.Segments[i].Id">
                 <td class="col-auto text-light"><label />@(i + 1).</td>
                 <td class="col-auto"><input class="w-100 form-control bg-dark text-white" id="title@(i)" required type="text" value="@Model.Wheel.Segments[i].Title" /></td>
                 <td class="col-auto"><input class="w-100 form-control bg-dark text-white" id="points@(i)" required type="number" value="@Model.Wheel.Segments[i].Points" /></td>
                 <td class="col-auto"><input class="w-100 form-control bg-dark text-white" id="colorHex@(i)" type="text" id="colorHex@(i)" name="Segments[@i].ColorHex" value="@Model.Wheel.Segments[i].ColorHex" onchange="updateColorPickerForIndex('@i')" /></td>
                 <td class="col-auto"><input class="w-100" id="colorPicker@(i)" type="color" id="colorPicker@(i)" name="ColorPickers[@i]" onchange="updateColorHexForIndex('@i')" /></td>
                 <td class="col-auto">
-                    <button type="button" onclick="deleteSegment('@Model.Wheel.Segments[i].Id')" class="btn btn-link text-white">
+                    <button type="button" onclick="deleteSegment('@Model.Wheel.Segments[i].Id', 'Point')" class="btn btn-link text-white">
                         <svg class="bi" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                             <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
                         </svg>
@@ -55,6 +55,26 @@
 </table>
 
 <script>
+    function deleteSegment(segmentId, type) {
+        fetch(`/Wheel/DeleteSegment?Id=${segmentId}&Type=${type}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(() => {
+                var element = document.getElementById('segment-' + segmentId);
+                if (element) {
+                    element.parentNode.removeChild(element);
+                } else {
+                    alert('Error: No item found to delete.');
+                }
+            })
+            .catch(error => {
+                alert(error.message);
+            });
+    }
+
     function saveChanges() {
         var formData = {
             wheelId: '@Model.Wheel.Id',
@@ -89,13 +109,11 @@
         }
 
         $.ajax({
-                url: '@Url.Action("UpdatePointWheelOptions", "Wheel")',
+            url: '@Url.Action("UpdatePointWheelOptions", "Wheel")',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(formData),
-            success: function (result) {
-                console.log('Changes saved successfully!');
-            },
+            success: function (result) { },
             error: function (error) {
                 console.error('Error saving changes:', error);
             }
