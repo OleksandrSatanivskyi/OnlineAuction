@@ -6,11 +6,9 @@
 
 const profilePic = document.querySelector(".avatar-img");
 const userFile = document.querySelector("#avatar-file-input");
-
 userFile.onchange = function () {
     profilePic.src = URL.createObjectURL(userFile.files[0]);
 }
-
 function toggleTheme() {
     var theme = getCookie("Theme");
 

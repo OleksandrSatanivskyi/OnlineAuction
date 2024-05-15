@@ -117,28 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Confirm password" xml:space="preserve">
-    <value>Підтвердження паролю</value>
+  <data name="Create" xml:space="preserve">
+    <value>Créer</value>
   </data>
-  <data name="Continue with Google" xml:space="preserve">
-    <value>Продовжити через Google</value>
+  <data name="Created" xml:space="preserve">
+    <value>Créé</value>
   </data>
-  <data name="Email" xml:space="preserve">
-    <value>Емейл</value>
+  <data name="elements" xml:space="preserve">
+    <value>éléments</value>
   </data>
-  <data name="Name" xml:space="preserve">
-    <value>Ім'я</value>
+  <data name="No wheels available" xml:space="preserve">
+    <value>Aucune vente aux enchères disponible</value>
   </data>
-  <data name="Password" xml:space="preserve">
-    <value>Пароль</value>
+  <data name="Remove" xml:space="preserve">
+    <value>Retirer</value>
   </data>
-  <data name="Sign up" xml:space="preserve">
-    <value>Реєстрація</value>
+  <data name="Select" xml:space="preserve">
+    <value>Sélectionner</value>
   </data>
-  <data name="Submit" xml:space="preserve">
-    <value>Надіслати</value>
+  <data name="Type" xml:space="preserve">
+    <value>Taper</value>
   </data>
-  <data name="Surname" xml:space="preserve">
-    <value>Прізвище</value>
+  <data name="Wheels" xml:space="preserve">
+    <value>Les enchères</value>
   </data>
 </root>

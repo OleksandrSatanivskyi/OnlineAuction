@@ -117,28 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Confirm password" xml:space="preserve">
-    <value>Підтвердження паролю</value>
+  <data name="Classic" xml:space="preserve">
+    <value>Класичний</value>
   </data>
-  <data name="Continue with Google" xml:space="preserve">
-    <value>Продовжити через Google</value>
+  <data name="Close" xml:space="preserve">
+    <value>Закрити</value>
   </data>
-  <data name="Email" xml:space="preserve">
-    <value>Емейл</value>
+  <data name="Create" xml:space="preserve">
+    <value>Створити</value>
   </data>
-  <data name="Name" xml:space="preserve">
-    <value>Ім'я</value>
+  <data name="Create wheel of fortune" xml:space="preserve">
+    <value>Створити аукціон</value>
   </data>
-  <data name="Password" xml:space="preserve">
-    <value>Пароль</value>
+  <data name="Point" xml:space="preserve">
+    <value>Поінтовий</value>
   </data>
-  <data name="Sign up" xml:space="preserve">
-    <value>Реєстрація</value>
+  <data name="Title" xml:space="preserve">
+    <value>Назва</value>
   </data>
-  <data name="Submit" xml:space="preserve">
-    <value>Надіслати</value>
-  </data>
-  <data name="Surname" xml:space="preserve">
-    <value>Прізвище</value>
+  <data name="Wheel Type" xml:space="preserve">
+    <value>Тип</value>
   </data>
 </root>

@@ -118,27 +118,27 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Confirm password" xml:space="preserve">
-    <value>Підтвердження паролю</value>
+    <value>Confirmez le mot de passe</value>
   </data>
   <data name="Continue with Google" xml:space="preserve">
-    <value>Продовжити через Google</value>
+    <value>Continuer avec Google</value>
   </data>
   <data name="Email" xml:space="preserve">
-    <value>Емейл</value>
+    <value>Email</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Ім'я</value>
+    <value>Nom</value>
   </data>
   <data name="Password" xml:space="preserve">
-    <value>Пароль</value>
+    <value>Mot de passe</value>
   </data>
   <data name="Sign up" xml:space="preserve">
-    <value>Реєстрація</value>
+    <value>S'inscrire</value>
   </data>
   <data name="Submit" xml:space="preserve">
-    <value>Надіслати</value>
+    <value>Soumettre</value>
   </data>
   <data name="Surname" xml:space="preserve">
-    <value>Прізвище</value>
+    <value>Nom de famille</value>
   </data>
 </root>

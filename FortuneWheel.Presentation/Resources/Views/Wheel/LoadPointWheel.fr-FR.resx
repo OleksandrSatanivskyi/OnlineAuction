@@ -117,28 +117,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Confirm password" xml:space="preserve">
-    <value>Підтвердження паролю</value>
+  <data name="Classic" xml:space="preserve">
+    <value>Classique</value>
   </data>
-  <data name="Continue with Google" xml:space="preserve">
-    <value>Продовжити через Google</value>
+  <data name="Duration" xml:space="preserve">
+    <value>Durée</value>
   </data>
-  <data name="Email" xml:space="preserve">
-    <value>Емейл</value>
+  <data name="Elimination" xml:space="preserve">
+    <value>Élimination</value>
   </data>
-  <data name="Name" xml:space="preserve">
-    <value>Ім'я</value>
+  <data name="From" xml:space="preserve">
+    <value>Depuis</value>
   </data>
-  <data name="Password" xml:space="preserve">
-    <value>Пароль</value>
+  <data name="Max" xml:space="preserve">
+    <value>Max</value>
   </data>
-  <data name="Sign up" xml:space="preserve">
-    <value>Реєстрація</value>
+  <data name="Min" xml:space="preserve">
+    <value>Min</value>
   </data>
-  <data name="Submit" xml:space="preserve">
-    <value>Надіслати</value>
+  <data name="Mode" xml:space="preserve">
+    <value>Mode</value>
   </data>
-  <data name="Surname" xml:space="preserve">
-    <value>Прізвище</value>
+  <data name="NONE" xml:space="preserve">
+    <value>NONE</value>
+  </data>
+  <data name="seconds" xml:space="preserve">
+    <value>seconds</value>
+  </data>
+  <data name="Spin" xml:space="preserve">
+    <value>Rotation</value>
+  </data>
+  <data name="spins" xml:space="preserve">
+    <value>tourne</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>À</value>
   </data>
 </root>

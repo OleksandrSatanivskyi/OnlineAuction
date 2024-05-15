@@ -117,28 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Confirm password" xml:space="preserve">
-    <value>Підтвердження паролю</value>
+  <data name="Check your email and enter code" xml:space="preserve">
+    <value>Перевірте свою електронну пошту та введіть код</value>
   </data>
-  <data name="Continue with Google" xml:space="preserve">
-    <value>Продовжити через Google</value>
-  </data>
-  <data name="Email" xml:space="preserve">
-    <value>Емейл</value>
-  </data>
-  <data name="Name" xml:space="preserve">
-    <value>Ім'я</value>
-  </data>
-  <data name="Password" xml:space="preserve">
-    <value>Пароль</value>
-  </data>
-  <data name="Sign up" xml:space="preserve">
-    <value>Реєстрація</value>
+  <data name="Code" xml:space="preserve">
+    <value>Код</value>
   </data>
   <data name="Submit" xml:space="preserve">
     <value>Надіслати</value>
-  </data>
-  <data name="Surname" xml:space="preserve">
-    <value>Прізвище</value>
   </data>
 </root>
