@@ -126,6 +126,9 @@
   <data name="Elimination" xml:space="preserve">
     <value>Beseitigung</value>
   </data>
+  <data name="Enter valid integer values for the number of spins and duration" xml:space="preserve">
+    <value>Geben Sie gültige Ganzzahlwerte für die Anzahl der Drehungen und die Dauer ein</value>
+  </data>
   <data name="From" xml:space="preserve">
     <value>Aus</value>
   </data>

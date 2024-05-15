@@ -285,7 +285,7 @@
         document.querySelector(".shadow-circle").style.opacity = 1;
         document.querySelector(".shadow-circle").style.zIndex = 1;
     }
-
+    
     var winnerSegmentId = "";
 
     function hideWinnerTitle() {
@@ -407,7 +407,7 @@
         if (isNaN(min) || isNaN(max) || isNaN(duration) ||
             min <= 0 || max <= 0 || duration <= 0 ||
             max > 100 || max < min || !Number.isInteger(min) || !Number.isInteger(max) || !Number.isInteger(duration)) {
-            alert("Enter valid integer values for the number of spins and duration.");
+            alert("@Localizer["Enter valid integer values for the number of spins and duration"].");
             return false;
         }
 

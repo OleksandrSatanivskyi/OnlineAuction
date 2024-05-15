@@ -71,7 +71,7 @@
                 if (element) {
                     element.parentNode.removeChild(element);
                 } else {
-                    alert("Error: No item found to delete.");
+                    alert("@Localizer["Error: No item found to delete"].");
                 }
             })
             .catch(error => {
@@ -94,12 +94,12 @@
                 var colorHex = $('#colorHex@(i)').val();
 
             if (!isValidHexColor(colorHex)) {
-                alert("Invalid hex color format.");
+                alert("@Localizer["Invalid hex color format"].");
                 return;
             }
 
             if (!title || !colorHex || !points) {
-                alert("Please fill in all required fields.");
+                alert("@Localizer["Please fill in all required fields"].");
                 return;
             }
 

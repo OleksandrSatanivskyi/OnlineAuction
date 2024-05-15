@@ -123,6 +123,12 @@
   <data name="Color hex" xml:space="preserve">
     <value>Hex</value>
   </data>
+  <data name="Invalid hex color format" xml:space="preserve">
+    <value>Недійсний шістнадцятковий формат кольору</value>
+  </data>
+  <data name="Please fill in all required fields" xml:space="preserve">
+    <value>Будь ласка, заповніть всі обов'язкові поля</value>
+  </data>
   <data name="Save changes" xml:space="preserve">
     <value>Зберегти зміни</value>
   </data>

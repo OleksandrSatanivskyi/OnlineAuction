@@ -129,7 +129,7 @@
   <data name="Elimination" xml:space="preserve">
     <value>Вибування</value>
   </data>
-  <data name="Enter valid integer values for the number of spins and duration." xml:space="preserve">
+  <data name="Enter valid integer values for the number of spins and duration" xml:space="preserve">
     <value>Введіть дійсні цілі числа для кількості обертань і тривалості.</value>
   </data>
   <data name="From" xml:space="preserve">

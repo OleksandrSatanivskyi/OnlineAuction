@@ -51,7 +51,6 @@
     </tbody>
 </table>
 
-
 <script>
     function saveChanges() {
         var formData = {
@@ -67,12 +66,12 @@
                 var colorHex = $('#colorHex@(i)').val();
 
             if (!title || !colorHex) {
-                alert("Please fill in all required fields.");
+                alert("@Localizer["Please fill in all required fields"].");
                 return; 
             }
 
             if (!isValidHexColor(colorHex)) {
-                alert("Invalid hex color format.");
+                alert("@Localizer["Invalid hex color format"].");
                 return; 
             }
 
