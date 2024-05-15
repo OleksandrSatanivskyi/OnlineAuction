@@ -1,13 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using WheelOfFortune.Application.Services.Auth;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using WheelOfFortune.Application.Services.Auth;
 using WheelOfFortune.Models.Auth;
 using WheelOfFortune.Presentation.Models.Auth;
 using Controller = Microsoft.AspNetCore.Mvc.Controller;
-using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
 using HttpGetAttribute = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
+using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
 
 namespace WheelOfFortune.Presentation.Controllers
 {
@@ -23,6 +24,8 @@ namespace WheelOfFortune.Presentation.Controllers
         [HttpGet]
         public async Task<IActionResult> Login()
         {
+            var cultureCookieValue = Request.Cookies[CookieRequestCultureProvider.DefaultCookieName];
+
             if (HttpContext.User.Identity.IsAuthenticated)
                 return RedirectToAction("GetAll", "Wheel");
 
@@ -66,6 +69,20 @@ namespace WheelOfFortune.Presentation.Controllers
             await AuthService.ConfirmEmail(model);
 
             return RedirectToAction("SuccessSignUp", "Auth");
+        }
+
+        public IActionResult SetCulture(string culture, string returnUrl)
+        {
+            if (!string.IsNullOrWhiteSpace(culture))
+            {
+                Response.Cookies.Append(
+                    CookieRequestCultureProvider.DefaultCookieName,
+                    CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                    new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+                );
+            }
+
+            return LocalRedirect(returnUrl);
         }
 
         [HttpPost]

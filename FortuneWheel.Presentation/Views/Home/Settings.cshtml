@@ -3,8 +3,11 @@
 @{
     Layout = "_WheelsLayout";
 }
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
 <header class="wheel-actions-header">
-    <h5 class="wheel-actions-title page-title">User Settings</h5>
+    <h5 class="wheel-actions-title page-title">@Localizer["User Settings"]</h5>
 </header>
 
 <form enctype="multipart/form-data" method="post" asp-controller="Home" asp-action="UpdateAccount">
@@ -25,58 +28,43 @@
     </div>
 
     <div class="setting-row">
-        <div>Name:</div>
+        <div>@Localizer["Name"]:</div>
         <input type="text" class="form-control settings-input" asp-for="Name" />
     </div>
     <div class="setting-row">
-        <div>Surname:</div>
+        <div>@Localizer["Surname"]:</div>
         <input type="text" class="form-control settings-input" asp-for="Surname" />
     </div>
     <div class="setting-row">
-        <div>Email:</div>
+        <div>@Localizer["Email"]:</div>
         <input type="text" class="form-control settings-input" asp-for="Email" disabled />
     </div>
 
     <div class="setting-row">
-        <div class="setting-label">Language:</div>
+        <div class="setting-label">@Localizer["Language"]:</div>
         <div class="setting-value">
-            <select class="settings-dropdown" asp-for="Language">
-                <option value="@Language.English">@Language.English</option>
-                <option value="@Language.Ukrainian">@Language.Ukrainian</option>
-                <option value="@Language.German">@Language.German</option>
-                <option value="@Language.French">@Language.French</option>
+            <select class="settings-dropdown" asp-for="Language" id="languageSelector">
+                <option value="en-US">@Localizer["English"]</option>
+                <option value="uk-UA">@Localizer["Ukrainian"]</option>
+                <option value="de-DE">@Localizer["German"]</option>
+                <option value="fr-FR">@Localizer["French"]</option>
             </select>
         </div>
     </div>
     <div class="setting-row">
-        <div class="setting-label">Dark Theme:</div>
+        <div class="setting-label">@Localizer["Theme"]:</div>
         <div class="setting-value">
-            <select class="settings-dropdown" asp-for="IsDarkTheme">
-                <option value="true">Dark</option>
-                <option value="false">Light</option>
+            <select id="themeSelect" class="settings-dropdown" asp-for="IsDarkTheme">
+                <option value="true">@Localizer["Dark"]</option>
+                <option value="false">@Localizer["Light"]</option>
             </select>
         </div>
     </div>
     <div class="setting-row">
-        <button type="submit" class="btn-primary btn update-settings-button">Save</button>
+        <button type="submit" class="btn-primary btn update-settings-button" onclick="onSave()">@Localizer["Save"]</button>
     </div>
 
     <input type="hidden" asp-for="Id" value="@Model.Id">
 </form>
 
-
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelector('.upload-icon').addEventListener('click', function () {
-            document.querySelector('#avatar-file-input').click();
-        });
-    });
-
-    const profilePic = document.querySelector(".avatar-img");
-    const userFile = document.querySelector("#avatar-file-input");
-
-    userFile.onchange = function () {
-        profilePic.src = URL.createObjectURL(userFile.files[0]);
-    }
-</script>
+<script src="~/js/settings.js" asp-append-version="true"></script>

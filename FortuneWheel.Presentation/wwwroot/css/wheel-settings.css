@@ -20,12 +20,11 @@
     border-color: #B7B7B7;
     margin: 10px;
     float: left;
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .wheel-card-header {
     border-color: #B7B7B7;
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
 }
 
 .wheel-card-footer {
@@ -34,7 +33,7 @@
 }
 
 .add-wheel-option-card {
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-color: #B7B7B7;
     display: flex;
     flex-direction: row;

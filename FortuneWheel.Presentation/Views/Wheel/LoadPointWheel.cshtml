@@ -2,11 +2,13 @@
 @{
     Layout = "_WheelsLayout";
 }
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
 <div class="wheel-container">
     <div class="load-wheel">
         <div class="spin-wheel-header">
-            <h1 id="winner">NONE</h1>
+            <h1 id="winner">@Localizer["NONE"]</h1>
         </div>
         <div class="wheel">
             <canvas class="" id="canvas" width="700" height="700"></canvas>
@@ -20,39 +22,39 @@
     </div>
     <div class="spin-pannel">
         <div class="spin-pannel-line">
-            <button class="btn btn-primary page-btn" onclick="spinBtn()">Spin</button>
+            <button class="btn btn-primary page-btn" onclick="spinBtn()">@Localizer["Spin"]</button>
         </div>
 
         <div class="spin-pannel-line">
-            <label>From: </label>
-            <input id="minInput" class="spin-wheel-input form-control bg-dark text-white" placeholder="Min" type="text"/>
-            <label>To: </label>                                                                                                
-            <input id="maxInput" class="spin-wheel-input form-control bg-dark text-white" placeholder="Max" type="text"/>
-            <label> spins</label>
+            <label>@Localizer["From"]: </label>
+            <input id="minInput" class="spin-wheel-input form-control bg-dark text-white" placeholder="@Localizer["Min"]" type="text" />
+            <label>@Localizer["To"]: </label>
+            <input id="maxInput" class="spin-wheel-input form-control bg-dark text-white" placeholder="@Localizer["Max"]" type="text" />
+            <label> @Localizer["spins"]</label>
         </div>
 
         <div class="spin-pannel-line">
-            <label>Duration:</label>
+            <label>@Localizer["Duration"]:</label>
             <input id="durationInput" class="spin-wheel-input form-control bg-dark text-white" type="text" />
-            <label> seconds</label>
+            <label> @Localizer["seconds"]</label>
         </div>
         
         <div class="spin-pannel-line">
-            <label>Mode:</label>
+            <label>@Localizer["Mode"]:</label>
             <ul class="nav nav-pills spin-wheel-modes">
                 <li class="nav-item">
-                    <a id="classicMode" class="spin-mode-nav-link nav-link" onclick="setMode('Classic')">Classic</a>
+                    <a id="classicMode" class="spin-mode-nav-link nav-link" onclick="setMode('Classic')">@Localizer["Classic"]</a>
                 </li>
                 <li class="nav-item">
-                    <a id="eliminationMode" class="spin-mode-nav-link nav-link" onclick="setMode('Elimination')">Elimination</a>
+                    <a id="eliminationMode" class="spin-mode-nav-link nav-link" onclick="setMode('Elimination')">@Localizer["Elimination"]</a>
                 </li>
             </ul>
         </div>
-
-        <div id="modeData" data-mode="@ViewBag.Mode"></div>
     </div>
 
 </div>
+
+<script src="~/js/loadPointWheel.js" asp-append-version="true"></script>
 
 <script>
     var minInput = document.getElementById('minInput');
@@ -72,7 +74,7 @@
         var now = new Date();
         var expires = new Date(now.getTime() + 24 * 60 * 60 * 1000);
         var expiresGMT = expires.toGMTString();
-        
+
         var minInput = document.getElementById('minInput');
         document.cookie = "MinSpin=" + minInput.value + ";expires=" + expiresGMT + ";path=/";
     }
@@ -95,15 +97,6 @@
     };
 
     var wheelWasSpinned = false;
-
-    window.addEventListener('beforeunload', function (e) {
-        var mode = getCookie("Mode");
-        if (mode === "Elimination" && segments.length > 1 && wheelWasSpinned) {
-            var confirmationMessage = 'Are you sure you want to leave?';
-            (e || window.event).returnValue = confirmationMessage;
-            return confirmationMessage;
-        }
-    });
 
     minInput.addEventListener('input', updateMinSpinCookie);
     maxInput.addEventListener('input', updateMaxSpinCookie);
@@ -129,7 +122,7 @@
 
     function setMode(mode) {
         winnerSegmentId = "";
-        
+
         var now = new Date();
         var expires = new Date(now.getTime() + 24 * 60 * 60 * 1000);
         var expiresGMT = expires.toGMTString();
@@ -190,6 +183,7 @@
     const radius = width / 2
 
     let segmentsData = @Html.Raw(Json.Serialize(Model.RemainingOptions));
+
     let totalPoints = 0;
     let segments;
 
@@ -294,21 +288,6 @@
 
     function easeInOutQuad(x) {
         return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
-    }
-
-    function isValidSpin() {
-        var min = parseInt(minInput.value);
-        var max = parseInt(maxInput.value);
-        var duration = parseInt(durationInput.value);
-
-        if (isNaN(min) || isNaN(max) || isNaN(duration) ||
-            min <= 0 || max <= 0 || duration <= 0 ||
-            max > 100 || max < min || !Number.isInteger(min) || !Number.isInteger(max) || !Number.isInteger(duration)) {
-            alert("Enter valid integer values for the number of spins and duration.");
-            return false;
-        }
-
-        return true;
     }
 
     function drawSegmentSeparator(centerX, centerY, radius, startDeg, endDeg) {
@@ -483,5 +462,31 @@
     function spinBtn() {
         hideWinnerTitle();
         spin();
+    }
+
+    window.addEventListener('beforeunload', function (e) {
+        var mode = getCookie("Mode");
+        if (mode === "Elimination" && segments.length > 1 && wheelWasSpinned) {
+            var confirmationMessage = "Are you sure you want to leave?";
+            (e || window.event).returnValue = confirmationMessage;
+            return confirmationMessage;
+        }
+    });
+
+    segmentsData = @Html.Raw(Json.Serialize(Model.RemainingOptions));
+
+    function isValidSpin() {
+        var min = parseInt(minInput.value);
+        var max = parseInt(maxInput.value);
+        var duration = parseInt(durationInput.value);
+
+        if (isNaN(min) || isNaN(max) || isNaN(duration) ||
+            min <= 0 || max <= 0 || duration <= 0 ||
+            max > 100 || max < min || !Number.isInteger(min) || !Number.isInteger(max) || !Number.isInteger(duration)) {
+            alert("Enter valid integer values for the number of spins and duration.");
+            return false;
+        }
+
+        return true;
     }
 </script>

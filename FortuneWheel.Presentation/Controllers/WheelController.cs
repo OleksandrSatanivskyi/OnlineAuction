@@ -123,6 +123,12 @@ namespace WheelOfFortune.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> NoWheelSelected()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Options()
         {
             if(CurrentWheelId.IsNullOrEmpty() 

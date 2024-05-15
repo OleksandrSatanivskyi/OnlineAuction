@@ -1,19 +1,21 @@
 ﻿@model WheelOfFortune.Models.Wheels.RemoveWheelModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
 <div class="modal-dialog">
     <form method="post" class="modal-content bg-dark text-light" asp-controller="Wheel" asp-action="Remove">
         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Confirm action</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <h5 class="modal-title" id="exampleModalLabel">@Localizer["Confirm action"]</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@Localizer["Close"]"></button>
         </div>
         <div class="modal-body">
-            Are you shure to delete this wheel of fortune?
+            @Localizer["Are you shure to delete this wheel of fortune"]?
             <input type="hidden" name="id" value="@Model.Id" />
             <input type="hidden" name="type" value="@Model.Type" />
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-danger">Remove</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Close"]</button>
+            <button type="submit" class="btn btn-danger">@Localizer["Remove"]</button>
         </div>
     </form>
 </div>

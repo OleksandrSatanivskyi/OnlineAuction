@@ -10,12 +10,12 @@ namespace WheelOfFortune.Domain.Auth
         public string? Email { get; set; }
         public string? Password { get; set; }
         public string? AvatarName { get; set; }
-        public Language Language { get; set; }
+        public string? Language { get; set; }
         public bool IsDarkTheme { get; set; }
 
         public Account()
         {
-            Language = Language.English;
+            Language = "en-US";
             IsDarkTheme = false;
         }
     }

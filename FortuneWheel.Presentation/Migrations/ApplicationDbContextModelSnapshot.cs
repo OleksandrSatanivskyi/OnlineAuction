@@ -37,8 +37,8 @@ namespace FortuneWheel.Migrations
                     b.Property<bool>("IsDarkTheme")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Language")
-                        .HasColumnType("int");
+                    b.Property<string>("Language")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");

@@ -12,7 +12,7 @@ using WheelOfFortune.Data.DbContexts;
 namespace FortuneWheel.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240511095933_Initial")]
+    [Migration("20240514124827_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -40,8 +40,8 @@ namespace FortuneWheel.Migrations
                     b.Property<bool>("IsDarkTheme")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Language")
-                        .HasColumnType("int");
+                    b.Property<string>("Language")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");

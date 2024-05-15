@@ -1,4 +1,6 @@
+using FortuneWheel.Middlewares;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using WheelOfFortune.Data.DbContexts;
 using WheelOfFortune.Middlewares;
@@ -26,6 +28,25 @@ public class Program
 
     private static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
+        services.AddLocalization(options =>
+        {
+            options.ResourcesPath = "Resources";
+        });
+        
+        services.Configure<RequestLocalizationOptions>(options =>
+        {
+            options.AddSupportedUICultures("en-US", "uk-UA", "fr-FR", "de-DE");
+            options.FallBackToParentCultures = true;
+
+            var acceptLanguageProvider = options.RequestCultureProviders
+                .FirstOrDefault(p => p.GetType() == typeof(AcceptLanguageHeaderRequestCultureProvider));
+
+            if (acceptLanguageProvider != null)
+            {
+                options.RequestCultureProviders.Remove(acceptLanguageProvider);
+            }
+        });
+
         services.AddDbContext<ApplicationDbContext>(options =>
         options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
         services.AddSession(options =>
@@ -42,6 +63,8 @@ public class Program
             });
 
         services.AddServices();
+        services.AddRazorPages().AddViewLocalization();
+        services.AddScoped<RequestLocalizationCookiesMiddleware>();
     }
 
     private static void ConfigureApp(WebApplication app)
@@ -59,6 +82,8 @@ public class Program
         app.UseAuthentication();
         app.UseAuthorization();
         app.UseMiddleware<ExceptionHandlerMiddleware>();
+        app.UseRequestLocalization();
+        app.UseRequestLocalizationCookies();
 
         app.UseEndpoints(endpoints =>
         {

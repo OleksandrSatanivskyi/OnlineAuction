@@ -3,10 +3,12 @@
 @{
     Layout = "_WheelsLayout";
 }
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
 <header class="wheel-actions-header">
-    <h5 class="wheel-actions-title page-title">Wheels</h5>
-    <button class="create-wheel-button btn btn-outline-success page-btn" type="button" data-bs-toggle="modal" data-bs-target="#addWheelModal">Create</button>
+    <h5 class="wheel-actions-title page-title">@Localizer["Wheels"]</h5>
+    <button class="create-wheel-button btn btn-outline-success page-btn" type="button" data-bs-toggle="modal" data-bs-target="#addWheelModal">@Localizer["Create"]</button>
 </header>
 
 <div class="modal fade" id="addWheelModal" tabindex="-1" aria-hidden="true">
@@ -20,15 +22,15 @@
         <div class="bg-dark card wheel-card">
             <h5 class="card-header dark wheel-card-header">@wheel.Title</h5>
             <div class="card-body dark">
-                <label class="card-text">Type: @wheel.Type</label>
+                <label class="card-text">@Localizer["Type"]: @wheel.Type</label>
                 <br />
-                <label class="card-text">Created @wheel.CreationDate.ToString("dd.MM.yyyy")</label>
+                <label class="card-text">@Localizer["Created"] @wheel.CreationDate.ToString("dd.MM.yyyy")</label>
                 <br />
-                <label class="card-text">@wheel.ElementCount elements</label>
+                <label class="card-text">@wheel.ElementCount @Localizer["elements"]</label>
 
                 <div class="wheel-card-footer">
-                    <input type="button" value="Select" class="btn-primary btn" onclick="location.href='@Url.Action("Select", "Wheel", new { id = wheel.Id, type = wheel.Type.ToString() })'" />
-                    <button class="btn-danger btn" type="button" data-bs-toggle="modal" data-bs-target="#removeWheelModal">Remove</button>
+                    <input type="button" value="@Localizer["Select"]" class="btn-primary btn" onclick="location.href='@Url.Action("Select", "Wheel", new { id = wheel.Id, type = wheel.Type.ToString() })'" />
+                    <button class="btn-danger btn" type="button" data-bs-toggle="modal" data-bs-target="#removeWheelModal">@Localizer["Remove"]</button>
                     <div class="modal fade" id="removeWheelModal" tabindex="-1" aria-hidden="true">
                         @await Html.PartialAsync("_RemoveWheelPartialView", new RemoveWheelModel
                         {
@@ -44,6 +46,6 @@
 }
 else
 {
-    <label>No wheels available.</label>
+    <label>@Localizer["No wheels available"].</label>
 }
 

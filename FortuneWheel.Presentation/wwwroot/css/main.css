@@ -31,9 +31,13 @@
     margin: 13px 0;
 }
 
-    .menu li:hover {
-        background-color: #404040;
-    }
+.light-hover {
+    background-color: #89CFF0;
+}
+
+.dark-hover {
+    background-color: #383838;
+}
 
 .menu li a {
     display: block;
@@ -47,3 +51,5 @@
 .menu li.active a {
     background-color: #2A547E;
 }
+
+    

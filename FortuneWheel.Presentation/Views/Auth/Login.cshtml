@@ -2,25 +2,27 @@
 @{
     Layout = "_AuthLayout";
 }
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
 <div class="auth-card-body">
-    <h5 class="auth-title page-title">Login</h5>
+    <h5 class="auth-title page-title">@Localizer["Login"]</h5>
     <form method="post" class="auth-form" asp-controller="Auth" asp-action="Login">
         <div class="auth-input-group">
-            <input type="text" class="form-control auth-input" placeholder="Email" asp-for="Email">
+            <input type="text" class="form-control auth-input" placeholder="@Localizer["Email"]" asp-for="Email">
             <span asp-validation-for="@Model.Email" class="text-danger"></span>
         </div>
 
         <div class="auth-input-group">
-            <input type="password" class="form-control auth-input" placeholder="Password" asp-for="Password">
+            <input type="password" class="form-control auth-input" placeholder="@Localizer["Password"]" asp-for="Password">
             <span asp-validation-for="@Model.Password" class="text-danger"></span>
         </div>
 
-        <button class="btn btn-primary auth-submit-btn page-btn" type="submit">Submit</button>
+        <button class="btn btn-primary auth-submit-btn page-btn" type="submit">@Localizer["Submit"]</button>
     </form>
     <button class="continue-with-google-btn" onclick="location.href='@Url.Action("ContinueWithGoogle", "GoogleOAuth")'">
         <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google Logo">
-        Continue with Google
+        @Localizer["Continue with Google"]
     </button>
 </div>
 

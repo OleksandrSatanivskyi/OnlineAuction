@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -16,31 +19,32 @@
     <div class="main-container">
 
         <ul class="menu" data-navigation="true">
-            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "bg-primary" : "")">
-                @Html.ActionLink("About", "About", "Home")
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "bg-primary text-light" : "")">
+                <a class="@(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "text-light" : "text-primary")" href="@Url.Action("About", "Home")">@Localizer["About"]</a>
             </li>
 
-            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "GetAll" ? "bg-primary" : "")">
-                @Html.ActionLink("Get all", "GetAll", "Wheel")
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "GetAll" ? "bg-primary text-light" : "")">
+                <a class="@(ViewContext.RouteData.Values["Action"].ToString() == "GetAll" ? "text-light" : "text-primary")" href="@Url.Action("GetAll", "Wheel")">@Localizer["Get all"]</a>
             </li>
 
             <li class="@((ViewContext.RouteData.Values["Action"].ToString() == "Options"
-             || ViewContext.RouteData.Values["Action"].ToString() == "Select") ? "bg-primary" : "")">
-                @Html.ActionLink("Options", "Options", "Wheel")
+                || ViewContext.RouteData.Values["Action"].ToString() == "Select") ? "bg-primary text-light" : "")">
+                <a class="@(ViewContext.RouteData.Values["Action"].ToString() == "Options" ? "text-light" : "text-primary")" href="@Url.Action("Options", "Wheel")">@Localizer["Options"]</a>
             </li>
 
-            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Load" ? "bg-primary" : "")">
-                @Html.ActionLink("Wheel of fortune", "Load", "Wheel")
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Load" ? "bg-primary text-light" : "")">
+                <a class="@(ViewContext.RouteData.Values["Action"].ToString() == "Load" ? "text-light" : "text-primary")" href="@Url.Action("Load", "Wheel")">@Localizer["Wheel of fortune"]</a>
             </li>
 
-            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Settings" ? "bg-primary" : "")">
-                @Html.ActionLink("Settings", "Settings", "Home")
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Settings" ? "bg-primary text-light" : "")">
+                <a class="@(ViewContext.RouteData.Values["Action"].ToString() == "Settings" ? "text-light" : "text-primary")" href="@Url.Action("Settings", "Home")">@Localizer["Settings"]</a>
             </li>
 
-            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Logout" ? "bg-primary" : "")">
-                @Html.ActionLink("Logout", "Logout", "Auth")
+            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Logout" ? "bg-primary text-light" : "")">
+                <a class="@(ViewContext.RouteData.Values["Action"].ToString() == "Logout" ? "text-light" : "text-primary")" href="@Url.Action("Logout", "Auth")">@Localizer["Logout"]</a>
             </li>
         </ul>
+
 
         <div class="main-page">
             <main role="main">
@@ -56,3 +60,31 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var theme = getCookie("Theme");
+        var menuItems = document.querySelectorAll('.menu li');
+
+        if (theme === "light") {
+            menuItems.forEach(function (item) {
+                item.addEventListener('mouseover', function () {
+                    this.classList.add('light-hover');
+                });
+                item.addEventListener('mouseout', function () {
+                    this.classList.remove('light-hover');
+                });
+            });
+        } else {
+            menuItems.forEach(function (item) {
+                item.addEventListener('mouseover', function () {
+                    this.classList.add('dark-hover');
+                });
+                item.addEventListener('mouseout', function () {
+                    this.classList.remove('dark-hover');
+                });
+            });
+        }
+    });
+
+</script>

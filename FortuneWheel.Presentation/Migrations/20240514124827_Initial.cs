@@ -21,7 +21,7 @@ namespace FortuneWheel.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AvatarName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Language = table.Column<int>(type: "int", nullable: false),
+                    Language = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsDarkTheme = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>

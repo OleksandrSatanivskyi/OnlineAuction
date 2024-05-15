@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using FortuneWheel.Services;
 using FortuneWheel.Models;
+using Microsoft.AspNetCore.Localization;
+using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace WheelOfFortune.Presentation.Controllers
 {
@@ -34,6 +37,14 @@ namespace WheelOfFortune.Presentation.Controllers
         public async Task<IActionResult> UpdateAccount(AccountModel model)
         {
             await AccountService.Update(model);
+
+            if (!string.IsNullOrWhiteSpace(model.Language))
+            {
+                Response.Cookies.Append(
+                    CookieRequestCultureProvider.DefaultCookieName,
+                    CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(model.Language)),
+                    new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
+            }
 
             return Redirect("Settings");
         }

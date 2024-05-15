@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -14,14 +17,14 @@
         <div class="card-header border-light">
             <ul class="nav nav-pills card-header-pills justify-content-center">
                 <li class="nav-item">
-                    <a class="@(ViewContext.RouteData.Values["Action"].ToString() == "Login" ? "nav-link active" : "nav-link")" asp-area="" asp-controller="Auth" asp-action="Login">Login</a>
+                    <a class="@(ViewContext.RouteData.Values["Action"].ToString() == "Login" ? "nav-link active" : "nav-link")" asp-area="" asp-controller="Auth" asp-action="Login">@Localizer["Login"]</a>
                 </li>
                 <li class="nav-item">
-                    <a class="@(ViewContext.RouteData.Values["Action"].ToString() == "SignUp" ? "nav-link active" : "nav-link")" asp-area="" asp-controller="Auth" asp-action="SignUp">SignUp</a>
+                    <a class="@(ViewContext.RouteData.Values["Action"].ToString() == "SignUp" ? "nav-link active" : "nav-link")" asp-area="" asp-controller="Auth" asp-action="SignUp">@Localizer["SignUp"]</a>
                 </li>
             </ul>
         </div>
-        <div class="card-body">
+        <div>
             <div>
                 <main role="main" class="pb-3">
                     @RenderBody()
