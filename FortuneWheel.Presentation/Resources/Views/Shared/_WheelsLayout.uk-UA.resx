@@ -123,6 +123,9 @@
   <data name="Get all" xml:space="preserve">
     <value>Аукціони</value>
   </data>
+  <data name="Login" xml:space="preserve">
+    <value>Вхід</value>
+  </data>
   <data name="Logout" xml:space="preserve">
     <value>Вихід</value>
   </data>

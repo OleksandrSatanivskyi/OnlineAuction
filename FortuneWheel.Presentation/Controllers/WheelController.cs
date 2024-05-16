@@ -1,18 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using WheelOfFortune.Services;
-using WheelOfFortune.Models.Wheels;
+﻿using FortuneWheel.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using WheelOfFortune.Domain.WheelsOfFortune;
 using WheelOfFortune.Exceptions;
-using FortuneWheel.Domain;
+using WheelOfFortune.Models.Wheels;
+using WheelOfFortune.Services;
 
 namespace WheelOfFortune.Controllers
 {
     public class WheelController : Controller
     {
         private readonly IWheelService WheelService;
+        private readonly IGuestService GuestService;
         private Guid UserId => Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
         private string CurrentWheelId
@@ -39,9 +40,10 @@ namespace WheelOfFortune.Controllers
             }
         }
 
-        public WheelController(IWheelService wheelService)
+        public WheelController(IWheelService wheelService, IGuestService guestService)
         {
             WheelService = wheelService;
+            GuestService = guestService;
         }
 
         [HttpPost]
@@ -54,7 +56,15 @@ namespace WheelOfFortune.Controllers
             }
 
             model.UserId = UserId;
-            await WheelService.CreateWheel(model);
+
+            if (User.Identity.IsAuthenticated)
+            {
+                await WheelService.CreateWheel(model);
+            }
+            else
+            {
+                await GuestService.CreateWheel(model, HttpContext);
+            }
 
             return RedirectToAction("GetAll", "Wheel");
         }
@@ -62,11 +72,23 @@ namespace WheelOfFortune.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var model = new GetAllWheelsModel
-            {
-                Wheels = await WheelService.GetAll(UserId)
-            };
+            GetAllWheelsModel model;
 
+            if (User.Identity.IsAuthenticated)
+            {
+                model = new GetAllWheelsModel
+                {
+                    Wheels = await WheelService.GetAll(UserId)
+                };
+            }
+            else
+            {
+                model = new GetAllWheelsModel
+                {
+                    Wheels = await GuestService.GetAll(HttpContext)
+                };
+            }
+            
             return View(model);
         }
 
@@ -85,7 +107,14 @@ namespace WheelOfFortune.Controllers
                 CurrentWheelType = "";
             }
 
-            await WheelService.Remove(id, type);
+            if (User.Identity.IsAuthenticated)
+            {
+                await WheelService.Remove(id, type);
+            }
+            else
+            {
+                await GuestService.Remove(id, type, HttpContext);
+            }
             
             return RedirectToAction("GetAll", "Wheel");
         }
@@ -96,10 +125,22 @@ namespace WheelOfFortune.Controllers
             switch (type)
             {
                 case WheelType.Classic:
-                    var classicModel = new ClassicWheelModel
+                    ClassicWheelModel classicModel;
+
+                    if (User.Identity.IsAuthenticated)
                     {
-                        Wheel = await WheelService.GetClassicWheel(id)
-                    };
+                        classicModel = new ClassicWheelModel
+                        {
+                            Wheel = await WheelService.GetClassicWheel(id)
+                        };
+                    }
+                    else
+                    {
+                        classicModel = new ClassicWheelModel
+                        {
+                            Wheel = await GuestService.GetClassicWheel(id, HttpContext)
+                        };
+                    }
 
                     CurrentWheelId = id.ToString();
                     CurrentWheelType = type.ToString();
@@ -107,10 +148,22 @@ namespace WheelOfFortune.Controllers
                     return View("ClassicWheelOptions", classicModel);
 
                 case WheelType.Point:
-                    var pointModel = new PointWheelModel
+                    PointWheelModel pointModel;
+
+                    if (User.Identity.IsAuthenticated)
                     {
-                        Wheel = await WheelService.GetPointWheel(id)
-                    };
+                        pointModel = new PointWheelModel
+                        {
+                            Wheel = await WheelService.GetPointWheel(id)
+                        };
+                    }
+                    else
+                    {
+                        pointModel = new PointWheelModel
+                        {
+                            Wheel = await GuestService.GetPointWheel(id, HttpContext)
+                        };
+                    }
 
                     CurrentWheelId = id.ToString();
                     CurrentWheelType = type.ToString();
@@ -127,16 +180,25 @@ namespace WheelOfFortune.Controllers
         {
             return View();
         }
-
+        
         [HttpGet]
         public async Task<IActionResult> Options()
         {
             if(CurrentWheelId.IsNullOrEmpty() 
                 || CurrentWheelType.IsNullOrEmpty())
             {
-                var wheels = await WheelService.GetAll(UserId);
+                List<WheelItem> wheels;
 
-                if(wheels != null && wheels.Count > 0)
+                if (User.Identity.IsAuthenticated)
+                {
+                    wheels = await WheelService.GetAll(UserId);
+                }
+                else
+                {
+                    wheels = await GuestService.GetAll(HttpContext);
+                }
+
+                if (wheels != null && wheels.Count > 0)
                 {
                     var wheel = wheels[0];
 
@@ -155,18 +217,42 @@ namespace WheelOfFortune.Controllers
             switch (type)
             {
                 case WheelType.Classic:
-                    var classicModel = new ClassicWheelModel
+                    ClassicWheelModel classicModel;
+
+                    if (User.Identity.IsAuthenticated)
                     {
-                        Wheel = await WheelService.GetClassicWheel(id)
-                    };
+                        classicModel = new ClassicWheelModel
+                        {
+                            Wheel = await WheelService.GetClassicWheel(id)
+                        };
+                    }
+                    else
+                    {
+                        classicModel = new ClassicWheelModel
+                        {
+                            Wheel = await GuestService.GetClassicWheel(id, HttpContext)
+                        };
+                    }                  
 
                     return View("ClassicWheelOptions", classicModel);
 
                 case WheelType.Point:
-                    var pointModel = new PointWheelModel
+                    PointWheelModel pointModel;
+
+                    if (User.Identity.IsAuthenticated)
                     {
-                        Wheel = await WheelService.GetPointWheel(id)
-                    };
+                        pointModel = new PointWheelModel
+                        {
+                            Wheel = await WheelService.GetPointWheel(id)
+                        };
+                    }
+                    else
+                    {
+                        pointModel = new PointWheelModel
+                        {
+                            Wheel = await GuestService.GetPointWheel(id, HttpContext)
+                        };
+                    }
 
                     return View("PointWheelOptions", pointModel);
 
@@ -190,8 +276,16 @@ namespace WheelOfFortune.Controllers
         [HttpPost]
         public async Task<IActionResult> AddPointSegment(PointWheelModel model)
         {
-            await WheelService.AddPointSegment(model.Wheel.Id, model.Title, model.Points, model.ColorHex);
-            model.Wheel = await WheelService.GetPointWheel(model.Wheel.Id);
+            if (User.Identity.IsAuthenticated)
+            {
+                await WheelService.AddPointSegment(model.Wheel.Id, model.Title, model.Points, model.ColorHex);
+                model.Wheel = await WheelService.GetPointWheel(model.Wheel.Id);
+            }
+            else
+            {
+                await GuestService.AddPointSegment(model.Wheel.Id, model.Title, model.Points, model.ColorHex, HttpContext);
+                model.Wheel = await GuestService.GetPointWheel(model.Wheel.Id, HttpContext);
+            }
 
             return RedirectToAction("Options", "Wheel");
         }
@@ -199,8 +293,16 @@ namespace WheelOfFortune.Controllers
         [HttpPost]
         public async Task<IActionResult> AddSegment(ClassicWheelModel model)
         {
-            await WheelService.AddClassicSegment(model.Wheel.Id, model.Title, model.ColorHex);
-            model.Wheel = await WheelService.GetClassicWheel(model.Wheel.Id);
+            if (User.Identity.IsAuthenticated)
+            {
+                await WheelService.AddClassicSegment(model.Wheel.Id, model.Title, model.ColorHex);
+                model.Wheel = await WheelService.GetClassicWheel(model.Wheel.Id);
+            }
+            else
+            {
+                await GuestService.AddClassicSegment(model.Wheel.Id, model.Title, model.ColorHex, HttpContext);
+                model.Wheel = await GuestService.GetClassicWheel(model.Wheel.Id, HttpContext);
+            }
 
             return RedirectToAction("Options", "Wheel");
         }
@@ -211,10 +313,26 @@ namespace WheelOfFortune.Controllers
             switch (Type)
             {
                 case WheelType.Classic:
-                    await WheelService.DeleteClassicWheelSegment(Id);
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        await WheelService.DeleteClassicWheelSegment(Id);
+                    }
+                    else
+                    {
+                        await GuestService.DeleteClassicWheelSegment(Id, HttpContext);
+                    }
+                    
                     break;
                 case WheelType.Point:
-                    await WheelService.DeletePointWheelSegment(Id);
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        await WheelService.DeletePointWheelSegment(Id);
+                    }
+                    else
+                    {
+                        await GuestService.DeletePointWheelSegment(Id, HttpContext);
+                    }
+                    
                     break;
                 default:
                     throw new NotFoundException("Type was not found.");
@@ -225,14 +343,28 @@ namespace WheelOfFortune.Controllers
 
         public async Task<IActionResult> UpdatePointWheelOptions([FromBody] UpdatePointWheelOptionsModel model)
         {
-            await WheelService.UpdatePointWheelOptions(model);
-
+            if (User.Identity.IsAuthenticated)
+            {
+                await WheelService.UpdatePointWheelOptions(model);
+            }
+            else
+            {
+                await GuestService.UpdatePointWheelOptions(model, HttpContext);
+            }
+            
             return RedirectToAction("Options", "Wheel");
         }
 
         public async Task<IActionResult> UpdateClassicWheelOptions([FromBody] UpdateClassicWheelOptionsModel model)
         {
-            await WheelService.UpdateClassicWheelOptions(model);
+            if (User.Identity.IsAuthenticated)
+            {
+                await WheelService.UpdateClassicWheelOptions(model);
+            }
+            else
+            {
+                await GuestService.UpdateClassicWheelOptions(model, HttpContext);
+            }
 
             return RedirectToAction("Options", "Wheel");
         }
@@ -242,7 +374,16 @@ namespace WheelOfFortune.Controllers
             if (CurrentWheelId.IsNullOrEmpty()
                 || CurrentWheelType.IsNullOrEmpty())
             {
-                var wheels = await WheelService.GetAll(UserId);
+                List<WheelItem> wheels;
+
+                if (User.Identity.IsAuthenticated)
+                {
+                    wheels = await WheelService.GetAll(UserId);
+                }
+                else
+                {
+                    wheels = await GuestService.GetAll(HttpContext);
+                }
 
                 if (wheels != null && wheels.Count > 0)
                 {
@@ -260,14 +401,18 @@ namespace WheelOfFortune.Controllers
             Enum.TryParse(CurrentWheelType, out WheelType type);
             Guid.TryParse(CurrentWheelId, out Guid id);
 
-            if (ViewBag.Mode == null)
-            {
-                ViewBag.Mode = SpinMode.Classic.ToString();
-            }
-
             if (type == WheelType.Classic) 
             {
-                var wheel = await WheelService.GetClassicWheel(id);
+                ClassicWheel wheel;
+
+                if (User.Identity.IsAuthenticated)
+                {
+                    wheel = await WheelService.GetClassicWheel(id);
+                }
+                else
+                {
+                    wheel = await GuestService.GetClassicWheel(id, HttpContext);
+                }
 
                 var model = new LoadClassicWheelModel()
                 {
@@ -279,7 +424,16 @@ namespace WheelOfFortune.Controllers
             }
             else if(type == WheelType.Point)
             {
-                var wheel = await WheelService.GetPointWheel(id);
+                PointWheel wheel;
+
+                if (User.Identity.IsAuthenticated)
+                {
+                    wheel = await WheelService.GetPointWheel(id);
+                }
+                else
+                {
+                    wheel = await GuestService.GetPointWheel(id, HttpContext);
+                }
 
                 var model = new LoadPointWheelModel()
                 {

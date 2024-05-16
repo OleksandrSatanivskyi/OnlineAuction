@@ -123,6 +123,9 @@
   <data name="Get all" xml:space="preserve">
     <value>Les enchères</value>
   </data>
+  <data name="Login" xml:space="preserve">
+    <value>Se connecter</value>
+  </data>
   <data name="Logout" xml:space="preserve">
     <value>Se déconnecter</value>
   </data>

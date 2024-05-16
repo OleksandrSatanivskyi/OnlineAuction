@@ -36,13 +36,22 @@
                 <a class="@(ViewContext.RouteData.Values["Action"].ToString() == "Load" ? "text-light" : "text-primary")" href="@Url.Action("Load", "Wheel")">@Localizer["Wheel of fortune"]</a>
             </li>
 
-            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Settings" ? "bg-primary text-light" : "")">
-                <a class="@(ViewContext.RouteData.Values["Action"].ToString() == "Settings" ? "text-light" : "text-primary")" href="@Url.Action("Settings", "Home")">@Localizer["Settings"]</a>
-            </li>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Settings" ? "bg-primary text-light" : "")">
+                    <a class="@(ViewContext.RouteData.Values["Action"].ToString() == "Settings" ? "text-light" : "text-primary")" href="@Url.Action("Settings", "Home")">@Localizer["Settings"]</a>
+                </li>
 
-            <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Logout" ? "bg-primary text-light" : "")">
-                <a class="@(ViewContext.RouteData.Values["Action"].ToString() == "Logout" ? "text-light" : "text-primary")" href="@Url.Action("Logout", "Auth")">@Localizer["Logout"]</a>
-            </li>
+                <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Logout" ? "bg-primary text-light" : "")">
+                    <a class="@(ViewContext.RouteData.Values["Action"].ToString() == "Logout" ? "text-light" : "text-primary")" href="@Url.Action("Logout", "Auth")">@Localizer["Logout"]</a>
+                </li>
+            }
+            else
+            {
+                <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Login" ? "bg-primary text-light" : "")">
+                    <a class="@(ViewContext.RouteData.Values["Action"].ToString() == "Login" ? "text-light" : "text-primary")" href="@Url.Action("Login", "Auth")">@Localizer["Login"]</a>
+                </li>
+            }
         </ul>
 
 

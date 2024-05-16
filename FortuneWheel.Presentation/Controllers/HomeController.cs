@@ -1,23 +1,19 @@
-using WheelOfFortune.Presentation.Models;
+using FortuneWheel.Models;
+using FortuneWheel.Services;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using FortuneWheel.Services;
-using FortuneWheel.Models;
-using Microsoft.AspNetCore.Localization;
-using System.Text.RegularExpressions;
-using System.Globalization;
+using WheelOfFortune.Presentation.Models;
 
 namespace WheelOfFortune.Presentation.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly IAccountService AccountService;
         private Guid UserId => Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         
-        public HomeController(ILogger<HomeController> logger, IAccountService accountService)
+        public HomeController(IAccountService accountService)
         {
-            _logger = logger;
             AccountService = accountService;
         }
 

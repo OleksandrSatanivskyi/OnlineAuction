@@ -24,8 +24,6 @@ namespace WheelOfFortune.Presentation.Controllers
         [HttpGet]
         public async Task<IActionResult> Login()
         {
-            var cultureCookieValue = Request.Cookies[CookieRequestCultureProvider.DefaultCookieName];
-
             if (HttpContext.User.Identity.IsAuthenticated)
                 return RedirectToAction("GetAll", "Wheel");
 
@@ -69,20 +67,6 @@ namespace WheelOfFortune.Presentation.Controllers
             await AuthService.ConfirmEmail(model);
 
             return RedirectToAction("SuccessSignUp", "Auth");
-        }
-
-        public IActionResult SetCulture(string culture, string returnUrl)
-        {
-            if (!string.IsNullOrWhiteSpace(culture))
-            {
-                Response.Cookies.Append(
-                    CookieRequestCultureProvider.DefaultCookieName,
-                    CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-                    new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
-                );
-            }
-
-            return LocalRedirect(returnUrl);
         }
 
         [HttpPost]
