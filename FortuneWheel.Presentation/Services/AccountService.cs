@@ -1,9 +1,9 @@
-﻿using FortuneWheel.Models;
+﻿using OnlineAuc.Models;
 using Microsoft.EntityFrameworkCore;
-using WheelOfFortune.Data.DbContexts;
-using WheelOfFortune.Exceptions;
+using OnlineAuc.Data.DbContexts;
+using OnlineAuc.Exceptions;
 
-namespace FortuneWheel.Services
+namespace OnlineAuc.Services
 {
     public class AccountService : IAccountService
     {

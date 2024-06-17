@@ -1,6 +1,6 @@
-﻿using FortuneWheel.Domain;
+﻿using OnlineAuc.Domain;
 
-namespace WheelOfFortune.Domain.Auth
+namespace OnlineAuc.Domain.Auth
 {
     public class Account
     {

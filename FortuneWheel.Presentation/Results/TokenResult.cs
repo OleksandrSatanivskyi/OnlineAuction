@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WheelOfFortune.Results
+namespace OnlineAuc.Results
 {
     public class TokenResult
     {

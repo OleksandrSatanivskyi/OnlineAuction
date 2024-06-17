@@ -1,9 +1,9 @@
-﻿using WheelOfFortune.Results;
+﻿using OnlineAuc.Results;
 using Microsoft.AspNetCore.WebUtilities;
 using Newtonsoft.Json;
 
 
-namespace WheelOfFortune.Services.Auth
+namespace OnlineAuc.Services.Auth
 {
     public class GoogleOAuthService
     {

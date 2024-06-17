@@ -1,4 +1,4 @@
-﻿namespace WheelOfFortune.Domain.Auth
+﻿namespace OnlineAuc.Domain.Auth
 {
     public class UnconfirmedEmail
     {

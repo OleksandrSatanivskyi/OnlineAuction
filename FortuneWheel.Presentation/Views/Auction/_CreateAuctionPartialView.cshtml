@@ -1,0 +1,33 @@
+﻿@model OnlineAuc.Models.Auctions.CreateAuctionModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<div class="modal-dialog">
+    <form method="post" class="modal-content bg-dark text-light" asp-controller="Auction" asp-action="Create">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">@Localizer["Create auction"]</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mb-3">
+                <label for="title" class="form-label">@Localizer["Title"]:</label>
+                <input type="text" class="form-control" id="title" asp-for="Title"/>
+                <span asp-validation-for="Title" class="text-danger">@ViewBag.TitleError </span>
+            </div>
+
+            <div class="mb-3">
+                <label for="wheelType" class="form-label">@Localizer["Auction Type"]:</label>
+                <select class="form-select" id="wheelType" asp-for="Type">
+                    <option value="Classic">@Localizer["Classic"]</option>
+                    <option value="Point">@Localizer["Point"]</option>
+                </select>
+                <span asp-validation-for="Type" class="text-danger">@ViewBag.TypeError </span>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Close"]</button>
+            <button type="submit" class="btn btn-primary">@Localizer["Create"]</button>
+        </div>
+    </form>
+</div>

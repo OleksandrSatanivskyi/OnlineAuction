@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WheelOfFortune.Data.DbContexts;
+using OnlineAuc.Data.DbContexts;
 
 #nullable disable
 
-namespace FortuneWheel.Migrations
+namespace OnlineAuc.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -22,7 +22,57 @@ namespace FortuneWheel.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("WheelOfFortune.Domain.Auth.Account", b =>
+            modelBuilder.Entity("OnlineAuc.Domain.Auctions.ClassicAuction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RemainingOptions")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ClassicWheels");
+                });
+
+            modelBuilder.Entity("OnlineAuc.Domain.Auctions.PointAuction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RemainingOptions")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PointWheels");
+                });
+
+            modelBuilder.Entity("OnlineAuc.Domain.Auth.Account", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -54,7 +104,7 @@ namespace FortuneWheel.Migrations
                     b.ToTable("Accounts");
                 });
 
-            modelBuilder.Entity("WheelOfFortune.Domain.Auth.UnconfirmedEmail", b =>
+            modelBuilder.Entity("OnlineAuc.Domain.Auth.UnconfirmedEmail", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -76,13 +126,13 @@ namespace FortuneWheel.Migrations
                     b.ToTable("UnconfirmedEmails");
                 });
 
-            modelBuilder.Entity("WheelOfFortune.Domain.Segments.Segment", b =>
+            modelBuilder.Entity("OnlineAuc.Domain.Segments.Segment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ClassicWheelId")
+                    b.Property<Guid?>("ClassicAuctionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ColorHex")
@@ -95,106 +145,56 @@ namespace FortuneWheel.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClassicWheelId");
+                    b.HasIndex("ClassicAuctionId");
 
                     b.ToTable("Segments", (string)null);
 
                     b.UseTptMappingStrategy();
                 });
 
-            modelBuilder.Entity("WheelOfFortune.Domain.WheelsOfFortune.ClassicWheel", b =>
+            modelBuilder.Entity("OnlineAuc.Domain.Segments.PointSegment", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.HasBaseType("OnlineAuc.Domain.Segments.Segment");
 
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("RemainingOptions")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ClassicWheels");
-                });
-
-            modelBuilder.Entity("WheelOfFortune.Domain.WheelsOfFortune.PointWheel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("RemainingOptions")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PointWheels");
-                });
-
-            modelBuilder.Entity("WheelOfFortune.Domain.Segments.PointSegment", b =>
-                {
-                    b.HasBaseType("WheelOfFortune.Domain.Segments.Segment");
-
-                    b.Property<Guid?>("PointWheelId")
+                    b.Property<Guid?>("PointAuctionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<long>("Points")
                         .HasColumnType("bigint");
 
-                    b.HasIndex("PointWheelId");
+                    b.HasIndex("PointAuctionId");
 
                     b.ToTable("PointSegments", (string)null);
                 });
 
-            modelBuilder.Entity("WheelOfFortune.Domain.Segments.Segment", b =>
+            modelBuilder.Entity("OnlineAuc.Domain.Segments.Segment", b =>
                 {
-                    b.HasOne("WheelOfFortune.Domain.WheelsOfFortune.ClassicWheel", null)
+                    b.HasOne("OnlineAuc.Domain.Auctions.ClassicAuction", null)
                         .WithMany("Segments")
-                        .HasForeignKey("ClassicWheelId")
+                        .HasForeignKey("ClassicAuctionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("WheelOfFortune.Domain.Segments.PointSegment", b =>
+            modelBuilder.Entity("OnlineAuc.Domain.Segments.PointSegment", b =>
                 {
-                    b.HasOne("WheelOfFortune.Domain.Segments.Segment", null)
+                    b.HasOne("OnlineAuc.Domain.Segments.Segment", null)
                         .WithOne()
-                        .HasForeignKey("WheelOfFortune.Domain.Segments.PointSegment", "Id")
+                        .HasForeignKey("OnlineAuc.Domain.Segments.PointSegment", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WheelOfFortune.Domain.WheelsOfFortune.PointWheel", null)
+                    b.HasOne("OnlineAuc.Domain.Auctions.PointAuction", null)
                         .WithMany("Segments")
-                        .HasForeignKey("PointWheelId")
+                        .HasForeignKey("PointAuctionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("WheelOfFortune.Domain.WheelsOfFortune.ClassicWheel", b =>
+            modelBuilder.Entity("OnlineAuc.Domain.Auctions.ClassicAuction", b =>
                 {
                     b.Navigation("Segments");
                 });
 
-            modelBuilder.Entity("WheelOfFortune.Domain.WheelsOfFortune.PointWheel", b =>
+            modelBuilder.Entity("OnlineAuc.Domain.Auctions.PointAuction", b =>
                 {
                     b.Navigation("Segments");
                 });

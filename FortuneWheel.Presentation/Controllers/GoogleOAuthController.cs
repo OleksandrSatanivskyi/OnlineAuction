@@ -1,5 +1,5 @@
-﻿using WheelOfFortune.Application.Services.Auth;
-using WheelOfFortune.Services.Auth;
+﻿using OnlineAuc.Application.Services.Auth;
+using OnlineAuc.Services.Auth;
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
@@ -8,7 +8,7 @@ using System.Security.Claims;
 using System.Text;
 using static Google.Apis.Auth.GoogleJsonWebSignature;
 
-namespace WheelOfFortune.Presentation.Controllers
+namespace OnlineAuc.Presentation.Controllers
 {
     public class GoogleOAuthController : Controller
     {
@@ -56,7 +56,7 @@ namespace WheelOfFortune.Presentation.Controllers
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), properties);
 
-            return RedirectToAction("GetAll", "Wheel");
+            return RedirectToAction("GetAll", "Auction");
         }
     }
 }

@@ -1,11 +1,10 @@
-using FortuneWheel.Middlewares;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
-using WheelOfFortune.Data.DbContexts;
-using WheelOfFortune.Middlewares;
+using OnlineAuc.Data.DbContexts;
+using OnlineAuc.Middlewares;
 
-namespace WheelOfFortune;
+namespace OnlineAuc;
 
 public class Program
 {
@@ -35,6 +34,7 @@ public class Program
         
         services.Configure<RequestLocalizationOptions>(options =>
         {
+            options.DefaultRequestCulture = new RequestCulture("en-US");
             options.AddSupportedUICultures("en-US", "uk-UA", "fr-FR", "de-DE");
             options.FallBackToParentCultures = true;
 
@@ -89,7 +89,7 @@ public class Program
         {
             endpoints.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Auth}/{action=Login}");
+                pattern: "{controller=Auction}/{action=GetAll}");
         });
     }
 }

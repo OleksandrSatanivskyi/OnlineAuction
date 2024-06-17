@@ -1,11 +1,9 @@
-﻿using FortuneWheel.Services;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.Extensions.Localization;
-using WheelOfFortune.Application.Services.Auth;
-using WheelOfFortune.Data.DbContexts;
-using WheelOfFortune.Services;
+﻿using Microsoft.Extensions.Localization;
+using OnlineAuc.Application.Services.Auth;
+using OnlineAuc.Data.DbContexts;
+using OnlineAuc.Services;
 
-namespace WheelOfFortune
+namespace OnlineAuc
 {
     public static class DependencyInjection
     {
@@ -15,9 +13,9 @@ namespace WheelOfFortune
             services.AddTransient(typeof(IStringLocalizer<>), typeof(StringLocalizer<>));
             services.AddScoped<IDbContext>(provider => provider.GetService<ApplicationDbContext>());
             services.AddTransient<IAuthService, AuthService>();
-            services.AddTransient<IWheelService, WheelService>();
+            services.AddTransient<IAuctionService, AuctionService>();
             services.AddTransient<IAccountService, AccountService>();
-
+            services.AddTransient<IGuestService, GuestService>();
 
             return services;
         }

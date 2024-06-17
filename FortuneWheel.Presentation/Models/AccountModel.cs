@@ -1,7 +1,7 @@
-﻿using FortuneWheel.Domain;
+﻿using OnlineAuc.Domain;
 using System.Web;
 
-namespace FortuneWheel.Models
+namespace OnlineAuc.Models
 {
     public class AccountModel
     {

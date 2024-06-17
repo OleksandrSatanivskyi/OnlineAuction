@@ -1,4 +1,4 @@
-﻿namespace WheelOfFortune.Domain.Segments
+﻿namespace OnlineAuc.Domain.Segments
 {
     public class PointSegment: Segment
     {

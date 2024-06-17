@@ -60,3 +60,30 @@
     height: 24px;
     margin-right: 10px;
 }
+
+@media (max-width: 1280px) {
+    .auth-card {
+        width: 40%;
+    }
+
+    .auth-input {
+        font-size: 15px;
+    }
+
+    .auth-input-group {
+        margin-bottom: 20px;
+    }
+
+    .auth-submit-btn {
+        margin-bottom: 26px;
+    }
+}
+@media (max-width: 992px) {
+    .page-btn {
+        font-size: 15px;
+    }
+
+    .page-title {
+        font-size: 30px;
+    }
+}

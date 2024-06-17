@@ -1,17 +1,17 @@
-﻿using WheelOfFortune.Domain.Auth;
-using WheelOfFortune.Domain.Segments;
-using WheelOfFortune.Domain.WheelsOfFortune;
+﻿using OnlineAuc.Domain.Auth;
+using OnlineAuc.Domain.Segments;
+using OnlineAuc.Domain.Auctions;
 using Microsoft.EntityFrameworkCore;
 
-namespace WheelOfFortune.Data.DbContexts
+namespace OnlineAuc.Data.DbContexts
 {
     public class ApplicationDbContext : DbContext, IDbContext
     {
         public DbSet<Account> Accounts { get; set; }
         public DbSet<UnconfirmedEmail> UnconfirmedEmails { get; set; }
-        public DbSet<ClassicWheel> ClassicWheels { get; set; }
+        public DbSet<ClassicAuction> ClassicWheels { get; set; }
         public DbSet<Segment> Segments { get; set; }
-        public DbSet<PointWheel> PointWheels { get; set; }
+        public DbSet<PointAuction> PointWheels { get; set; }
         public DbSet<PointSegment> PointSegments { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -26,14 +26,14 @@ namespace WheelOfFortune.Data.DbContexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Segment>()
-                .HasOne<ClassicWheel>()
+                .HasOne<ClassicAuction>()
                 .WithMany(cw => cw.Segments)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Segment>().ToTable("Segments");
 
             modelBuilder.Entity<PointSegment>()
-                .HasOne<PointWheel>()
+                .HasOne<PointAuction>()
                 .WithMany(pw => pw.Segments)
                 .OnDelete(DeleteBehavior.Cascade);
 

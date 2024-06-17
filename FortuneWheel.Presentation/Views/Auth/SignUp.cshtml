@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
-@model WheelOfFortune.Models.Auth.SignUpModel
+@model OnlineAuc.Models.Auth.SignUpModel
 @{
     Layout = "_AuthLayout";
 }
@@ -10,22 +10,22 @@
     <form method="post" class="auth-form" asp-controller="Auth" asp-action="SignUp">
         <div class="auth-input-group">
             <input type="text" class="form-control auth-input" placeholder="@Localizer["Email"]" asp-for="Email">
-            <span asp-validation-for="@Model.Email" class="text-danger"></span>
+            <span asp-validation-for="@Model.Email" class="text-danger">@ViewBag.EmailError</span>
         </div>
 
         <div class="auth-input-group">
             <input type="text" class="form-control auth-input" placeholder="@Localizer["Name"]" asp-for="Name">
-            <span asp-validation-for="@Model.Name" class="text-danger"></span>
+            <span asp-validation-for="@Model.Name" class="text-danger">@ViewBag.NameError</span>
         </div>
 
         <div class="auth-input-group">
             <input type="text" class="form-control auth-input" placeholder="@Localizer["Surname"]" asp-for="Surname">
-            <span asp-validation-for="@Model.Surname" class="text-danger"></span>
+            <span asp-validation-for="@Model.Surname" class="text-danger">@ViewBag.SurnameError</span>
         </div>
 
         <div class="auth-input-group">
             <input type="password" class="form-control auth-input" placeholder="@Localizer["Password"]" asp-for="Password">
-            <span asp-validation-for="@Model.Password" class="text-danger"></span>
+            <span asp-validation-for="@Model.Password" class="text-danger">@ViewBag.PasswordError</span>
         </div>
 
         <div class="auth-input-group">

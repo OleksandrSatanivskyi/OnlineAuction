@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WheelOfFortune.Services
+namespace OnlineAuc.Services
 {
     public static class EmailContentBuilder
     {

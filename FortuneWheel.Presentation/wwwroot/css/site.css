@@ -33,9 +33,27 @@ body, html {
 }
 
 .page-btn {
-    font-size: 19px;
+    font-size: 18px;
 }
 
 .dark {
     background: #1b1f22;
+}
+
+@media (max-width: 1280px) {
+    .page-btn {
+        font-size: 17px;
+        margin-bottom: 2px;
+    }
+    .page-title {
+        font-size: 37px;
+    }
+}
+@media (max-width: 992px) {
+    .page-btn {
+        font-size: 15px;
+    }
+    .page-title {
+        font-size: 30px;
+    }
 }

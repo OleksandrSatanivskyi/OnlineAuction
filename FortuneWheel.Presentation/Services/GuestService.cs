@@ -1,13 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using System.Linq;
-using WheelOfFortune.Domain.Segments;
-using WheelOfFortune.Domain.WheelsOfFortune;
-using WheelOfFortune.Exceptions;
-using WheelOfFortune.Models.Wheels;
+using OnlineAuc.Domain.Segments;
+using OnlineAuc.Domain.Auctions;
+using OnlineAuc.Exceptions;
+using OnlineAuc.Models.Auctions;
 
-namespace FortuneWheel.Services
+namespace OnlineAuc.Services
 {
     public class GuestService : IGuestService
     {
@@ -21,7 +19,10 @@ namespace FortuneWheel.Services
             var wheel = wheels.FirstOrDefault(w => w.Id == wheelId);
 
             if (wheel == null)
-                throw new NotFoundException($"Wheel with Id {wheelId} not found.");
+                throw new NotFoundException($"Auction was not found.");
+
+            if (colorHex.IsNullOrEmpty())
+                colorHex = GenerateRandomHexColor();
 
             wheels.Remove(wheel);
 
@@ -45,13 +46,28 @@ namespace FortuneWheel.Services
             });
         }
 
+        public string GenerateRandomHexColor()
+        {
+            Random random = new Random();
+            byte[] rgb = new byte[3];
+            random.NextBytes(rgb);
+
+            string hexColor = $"#{rgb[0]:X2}{rgb[1]:X2}{rgb[2]:X2}";
+
+            return hexColor;
+        }
+
         public async Task AddPointSegment(Guid wheelId, string title, uint points, string colorHex, HttpContext httpContext)
         {
             var wheels = await GetPointWheels(httpContext);
             var wheel = wheels.FirstOrDefault(w => w.Id == wheelId);
 
             if (wheel == null)
-                throw new NotFoundException($"Wheel with Id {wheelId} not found.");
+                throw new NotFoundException($"Wheel was not found.");
+
+
+            if (colorHex.IsNullOrEmpty())
+                colorHex = GenerateRandomHexColor();
 
             wheels.Remove(wheel);
 
@@ -76,13 +92,13 @@ namespace FortuneWheel.Services
             });
         }
 
-        public async Task CreateWheel(CreateWheelModel model, HttpContext httpContext)
+        public async Task Create(CreateAuctionModel model, HttpContext httpContext)
         {
             switch (model.Type)
             {
-                case WheelType.Classic:
+                case AuctionType.Classic:
                     var classicWheels = await GetClassicWheels(httpContext);
-                    var classicWheel = new ClassicWheel(Guid.NewGuid(), model.Title, DateTime.UtcNow, (Guid)model.UserId);
+                    var classicWheel = new ClassicAuction(Guid.NewGuid(), model.Title, DateTime.UtcNow, new Guid());
 
                     classicWheels.Add(classicWheel);
 
@@ -92,25 +108,25 @@ namespace FortuneWheel.Services
                     });
                     break;
 
-                case WheelType.Point:
+                case AuctionType.Point:
                     var pointWheels = await GetPointWheels(httpContext);
-                    var pointWheel = new PointWheel(Guid.NewGuid(), model.Title, DateTime.UtcNow, (Guid)model.UserId);
+                    var pointWheel = new PointAuction(Guid.NewGuid(), model.Title, DateTime.UtcNow, new Guid());
 
                     pointWheels.Add(pointWheel);
 
-                    httpContext.Response.Cookies.Append(ClassicWheels, JsonConvert.SerializeObject(pointWheels), new CookieOptions
+                    httpContext.Response.Cookies.Append(PointWheels, JsonConvert.SerializeObject(pointWheels), new CookieOptions
                     {
                         Expires = DateTime.UtcNow.AddDays(CookieExpirationDays)
                     });
                     break;
 
                 default:
-                    throw new InvalidOperationException("Unsupported type of wheel");
+                    throw new InvalidOperationException("Unsupported type of auction.");
             }
 
         }
 
-        public async Task DeleteClassicWheelSegment(Guid segmentId, HttpContext httpContext)
+        public async Task DeleteClassicSegment(Guid segmentId, HttpContext httpContext)
         {
             var wheels = await GetClassicWheels(httpContext);
             var wheelContainingSegment = wheels.FirstOrDefault(w => w.Segments.Any(s => s.Id == segmentId));
@@ -134,7 +150,7 @@ namespace FortuneWheel.Services
             });
         }
 
-        public async Task DeletePointWheelSegment(Guid segmentId, HttpContext httpContext)
+        public async Task DeletePointSegment(Guid segmentId, HttpContext httpContext)
         {
             var wheels = await GetPointWheels(httpContext);
             var wheelContainingSegment = wheels.FirstOrDefault(w => w.Segments.Any(s => s.Id == segmentId));
@@ -158,16 +174,16 @@ namespace FortuneWheel.Services
             });
         }
 
-        public async Task<List<WheelItem>> GetAll(HttpContext httpContext)
+        public async Task<List<AuctionItem>> GetAll(HttpContext httpContext)
         {
             var classicWheels = await GetClassicWheels(httpContext);
             var classicWheelsItems = classicWheels
-                .Select(c => new WheelItem(c.Id, c.Title, c.CreationDate, c.UserId, c.Segments.Count, WheelType.Classic))
+                .Select(c => new AuctionItem(c.Id, c.Title, c.CreationDate, c.UserId, c.Segments.Count, AuctionType.Classic))
                 .ToList();
 
             var pointWheels = await GetPointWheels(httpContext);
             var pointWheelsItems = pointWheels
-                .Select(c => new WheelItem(c.Id, c.Title, c.CreationDate, c.UserId, c.Segments.Count, WheelType.Point))
+                .Select(c => new AuctionItem(c.Id, c.Title, c.CreationDate, c.UserId, c.Segments.Count, AuctionType.Point))
                 .ToArray();
 
             var allWheels = classicWheelsItems
@@ -178,58 +194,94 @@ namespace FortuneWheel.Services
             return allWheels;
         }
 
-        public async Task<List<ClassicWheel>> GetClassicWheels(HttpContext httpContext)
+        public async Task<List<ClassicAuction>> GetClassicWheels(HttpContext httpContext)
         {
             var wheelsData = httpContext.Request.Cookies[ClassicWheels];
-            var wheels = JsonConvert.DeserializeObject<List<ClassicWheel>>(wheelsData);
+            List<ClassicAuction> wheels;
+
+            if (wheelsData != null)
+            {
+                wheels = JsonConvert.DeserializeObject<List<ClassicAuction>>(wheelsData);
+            }
+            else
+            {
+                wheels = new List<ClassicAuction>();
+            }
 
             return wheels;
         }
 
-        public async Task<List<PointWheel>> GetPointWheels(HttpContext httpContext)
+        public async Task<List<PointAuction>> GetPointWheels(HttpContext httpContext)
         {
             var wheelsData = httpContext.Request.Cookies[PointWheels];
-            var wheels = JsonConvert.DeserializeObject<List<PointWheel>>(wheelsData);
+            List<PointAuction> wheels;
+
+            if (wheelsData != null)
+            {
+                wheels = JsonConvert.DeserializeObject<List<PointAuction>>(wheelsData);
+            }
+            else
+            {
+                wheels = new List<PointAuction>();
+            }
 
             return wheels;
         }
 
-        public async Task<ClassicWheel> GetClassicWheel(Guid wheelId, HttpContext httpContext)
+        public async Task<ClassicAuction> GetClassic(Guid wheelId, HttpContext httpContext)
         {
             var wheelsData = httpContext.Request.Cookies[ClassicWheels];
-            var wheels = JsonConvert.DeserializeObject<List<ClassicWheel>>(wheelsData);
+            List<ClassicAuction> wheels;
+
+            if (wheelsData != null)
+            {
+                wheels = JsonConvert.DeserializeObject<List<ClassicAuction>>(wheelsData);
+            }
+            else
+            {
+                wheels = new List<ClassicAuction>();
+            }
 
             var wheel = wheels.FirstOrDefault(w => w.Id == wheelId);
 
             if (wheel == null)
-                throw new NotFoundException($"Wheel with Id {wheelId} not found.");
+                throw new NotFoundException($"Auction was not found.");
 
             return wheel;
         }
 
-        public async Task<PointWheel> GetPointWheel(Guid wheelId, HttpContext httpContext)
+        public async Task<PointAuction> GetPoint(Guid wheelId, HttpContext httpContext)
         {
             var wheelsData = httpContext.Request.Cookies[PointWheels];
-            var wheels = JsonConvert.DeserializeObject<List<PointWheel>>(wheelsData);
+            List<PointAuction> wheels;
+
+            if (wheelsData != null)
+            {
+                wheels = JsonConvert.DeserializeObject<List<PointAuction>>(wheelsData);
+            }
+            else
+            {
+                wheels = new List<PointAuction>();
+            }
 
             var wheel = wheels.FirstOrDefault(w => w.Id == wheelId);
 
             if (wheel == null)
-                throw new NotFoundException($"Wheel with Id {wheelId} not found.");
+                throw new NotFoundException($"Auction was not found.");
 
             return wheel;
         }
 
-        public async Task Remove(Guid wheelId, WheelType type, HttpContext httpContext)
+        public async Task Remove(Guid wheelId, AuctionType type, HttpContext httpContext)
         {
             switch (type)
             {
-                case WheelType.Classic:
+                case AuctionType.Classic:
                     var classicWheels = await GetClassicWheels(httpContext);
                     var classicWheel = classicWheels.FirstOrDefault(c => c.Id == wheelId);
 
                     if (classicWheel == null)
-                        throw new NotFoundException($"Wheel with Id {classicWheel.Id} not found.");
+                        throw new NotFoundException($"Auction was not found.");
 
                     classicWheels.Remove(classicWheel);
 
@@ -239,12 +291,12 @@ namespace FortuneWheel.Services
                     });
                     break;
 
-                case WheelType.Point:
+                case AuctionType.Point:
                     var pointWheels = await GetPointWheels(httpContext);
                     var pointWheel = pointWheels.FirstOrDefault(c => c.Id == wheelId);
 
                     if (pointWheel == null)
-                        throw new NotFoundException($"Wheel with Id {pointWheel.Id} not found.");
+                        throw new NotFoundException($"Auction was not found.");
 
                     pointWheels.Remove(pointWheel);
 
@@ -255,17 +307,17 @@ namespace FortuneWheel.Services
                     break;
 
                 default:
-                    throw new InvalidOperationException("Unsupported type of wheel");
+                    throw new InvalidOperationException("Unsupported type of auction.");
             }
         }
 
-        public async Task UpdateClassicWheelOptions(UpdateClassicWheelOptionsModel model, HttpContext httpContext)
+        public async Task UpdateClassicWheelOptions(UpdateClassicAuctionOptionsModel model, HttpContext httpContext)
         {
             var wheels = await GetClassicWheels(httpContext);
-            var wheel = wheels.FirstOrDefault(w => w.Id == model.WheelId);
+            var wheel = wheels.FirstOrDefault(w => w.Id == model.AuctionId);
 
             if (wheel == null)
-                throw new NotFoundException($"Wheel with Id {model.WheelId} not found.");
+                throw new NotFoundException($"Auction was not found.");
 
             wheels.Remove(wheel);
 
@@ -274,7 +326,7 @@ namespace FortuneWheel.Services
                 var oldSegment = wheel.Segments.FirstOrDefault(p => p.Id == newSegment.Id);
 
                 if (oldSegment == null)
-                    throw new NotFoundException($"Segment with id {oldSegment} not found.");
+                    throw new NotFoundException($"Segment was not found.");
 
                 wheel.Segments.Remove(oldSegment);
                 wheel.Segments.Add(newSegment);
@@ -286,13 +338,13 @@ namespace FortuneWheel.Services
             });
         }
 
-        public async Task UpdatePointWheelOptions(UpdatePointWheelOptionsModel model, HttpContext httpContext)
+        public async Task UpdatePointWheelOptions(UpdatePointAuctionOptionsModel model, HttpContext httpContext)
         {
             var wheels = await GetPointWheels(httpContext);
-            var wheel = wheels.FirstOrDefault(w => w.Id == model.WheelId);
+            var wheel = wheels.FirstOrDefault(w => w.Id == model.AuctionId);
 
             if (wheel == null)
-                throw new NotFoundException($"Wheel with Id {model.WheelId} not found.");
+                throw new NotFoundException($"Auction was not found.");
 
             wheels.Remove(wheel);
 
@@ -301,7 +353,7 @@ namespace FortuneWheel.Services
                 var oldSegment = wheel.Segments.FirstOrDefault(p => p.Id == newSegment.Id);
 
                 if (oldSegment == null)
-                    throw new NotFoundException($"Segment with id {oldSegment} not found.");
+                    throw new NotFoundException($"Segment was not found.");
 
                 wheel.Segments.Remove(oldSegment);
                 wheel.Segments.Add(newSegment);

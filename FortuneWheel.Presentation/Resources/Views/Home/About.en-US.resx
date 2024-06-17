@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="ASP.NET" xml:space="preserve">
+    <value>ASP.NET MVC was chosen because it has a number of advantages for project development in this context. It separates logic, data, and views using the MVC (Model-View-Controller) design pattern, which provides a simple structure, makes code management easier, and allows product development as quickly as possible, making it ideal for small solutions. ASP.NET MVC is based on the .NET platform, which is open to development by the developer community and allows you to create your own components and extend its functionality through various extensions and third-party libraries.</value>
+  </data>
+  <data name="Entity Framework" xml:space="preserve">
+    <value>Entity Framework allows developers to work with the database through an object-oriented approach, instead of writing complex SQL queries. This makes working with the database more understandable and convenient. It automatically creates and updates the database schema based on .NET data models, allowing developers to focus on business logic rather than the details of creating or modifying database tables.</value>
+  </data>
+  <data name="Feature 1" xml:space="preserve">
+    <value>The site provides reliable access to the platform through authorization and authentication procedures, guaranteeing the confidentiality and security of personal information.</value>
+  </data>
+  <data name="Feature 2" xml:space="preserve">
+    <value>Users have the ability not only to create and delete auctions, but also to save and modify them in the future for repeated use, which makes the process of conducting auctions more efficient and convenient.</value>
+  </data>
+  <data name="Feature 3" xml:space="preserve">
+    <value>There are two types of auctions: classic and point auctions. In a classic auction, all participants have the same number of points, while in a point auction, the distribution of points may differ from participant to participant. Depending on the number of points in the point auction, the size of the wheel of fortune segments will differ relative to each other. If the classic mode is selected, the segments with more points will be larger in size, if the elimination mode is selected, the segments with more points will be smaller in size to increase the chance of winning.</value>
+  </data>
+  <data name="Feature 4" xml:space="preserve">
+    <value>Auctions are conducted in the form of a wheel of fortune, which adds an element of randomness and intrigue to the process.</value>
+  </data>
+  <data name="Feature 5" xml:space="preserve">
+    <value>During the auction, users have the opportunity to adjust the participants' parameters. For a classic auction, this includes setting the bidder's color and name, while for a point auction, this also includes the number of points for each bidder.</value>
+  </data>
+  <data name="Feature 6" xml:space="preserve">
+    <value>One of the key advantages of the service is the ability to flexibly customize the wheel, including the number of revolutions per spin, the duration of the spin and the color of the segments.</value>
+  </data>
+  <data name="Feature 7" xml:space="preserve">
+    <value>The platform offers two auction modes: classic and elimination mode. In classic mode, the winner is the contestant who lands on the wheel after one spin, while in elimination mode, contestants are eliminated in succession until there is only one winner left.</value>
+  </data>
+  <data name="Frontend" xml:space="preserve">
+    <value>HTML, CSS, Javascript are standards in front-end development, they provide wide opportunities for customizing the appearance of the interface, are common and have the ability to expand functionality through third-party libraries. CSS is a quality tool that allows you to create specialized animations of various levels, which will be useful for the development of the wheel of fortune.</value>
+  </data>
+  <data name="General description" xml:space="preserve">
+    <value>The platform was created with the order to provide a convenient tool for conducting online auctions in the form of a wheel of fortune with flexible parameters. Main characteristics:</value>
+  </data>
+  <data name="Online auction platform" xml:space="preserve">
+    <value>Online auction platform</value>
+  </data>
+  <data name="SQL Server" xml:space="preserve">
+    <value>SQL Server provides a wide range of possibilities for working with data, which makes it a powerful solution for various web applications and systems, especially in the context of the .NET platform.</value>
+  </data>
+  <data name="Technical side" xml:space="preserve">
+    <value>The technical side of the platform and the rationale for the choice of technologies</value>
+  </data>
+  <data name="Technical side description" xml:space="preserve">
+    <value>The following technologies were chosen for software development: ASP.NET MVC, SQL Server, Entity Framework, Javascript, HTML, CSS, bootstrap.</value>
+  </data>
+</root>

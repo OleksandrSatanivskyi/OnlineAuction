@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Net;
+﻿using Microsoft.AspNetCore.Localization;
+using System.Globalization;
 
-namespace WheelOfFortune.Middlewares
+namespace OnlineAuc.Middlewares
 {
     public class ExceptionHandlerMiddleware
     {
@@ -26,9 +26,15 @@ namespace WheelOfFortune.Middlewares
 
         private async Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            var queryString = $"?message={exception.Message}&route={context.Request.Path}";
+            var cultureFeature = context.Features.Get<IRequestCultureFeature>();
+            var culture = cultureFeature?.RequestCulture.UICulture ?? CultureInfo.CurrentUICulture;
+
+            var localizedMessage = CultureHelper.Exception(exception.Message, culture) ?? exception.Message;
+
+            var queryString = $"?message={Uri.EscapeDataString(localizedMessage)}";
 
             context.Response.Redirect($"/Home/Error{queryString}");
+            await Task.CompletedTask;
         }
     }
 }

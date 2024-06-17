@@ -1,9 +1,9 @@
-﻿using WheelOfFortune.Models.Auth;
-using WheelOfFortune.Presentation.Models.Auth;
+﻿using OnlineAuc.Models.Auth;
+using OnlineAuc.Presentation.Models.Auth;
 using Google.Apis.Auth;
 using System.Security.Claims;
 
-namespace WheelOfFortune.Application.Services.Auth
+namespace OnlineAuc.Application.Services.Auth
 {
     public interface IAuthService
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
 
-namespace FortuneWheel.Middlewares
+namespace OnlineAuc.Middlewares
 {
     public static class RequestLocalizationCookiesMiddlewareExtensions
     {
@@ -37,10 +37,8 @@ namespace FortuneWheel.Middlewares
                 {
                     context.Response
                         .Cookies
-                        .Append(
-                            Provider.CookieName,
-                            CookieRequestCultureProvider.MakeCookieValue(feature.RequestCulture)
-                        );
+                        .Append(Provider.CookieName,
+                            CookieRequestCultureProvider.MakeCookieValue(feature.RequestCulture));
                 }
             }
 

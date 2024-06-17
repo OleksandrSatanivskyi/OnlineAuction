@@ -2,15 +2,15 @@
 using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
-using WheelOfFortune.Data.DbContexts;
-using WheelOfFortune.Domain.Auth;
-using WheelOfFortune.Exceptions;
-using WheelOfFortune.Models.Auth;
-using WheelOfFortune.Presentation.Models.Auth;
-using WheelOfFortune.Services;
+using OnlineAuc.Data.DbContexts;
+using OnlineAuc.Domain.Auth;
+using OnlineAuc.Exceptions;
+using OnlineAuc.Models.Auth;
+using OnlineAuc.Presentation.Models.Auth;
+using OnlineAuc.Services;
 using static Google.Apis.Auth.GoogleJsonWebSignature;
 
-namespace WheelOfFortune.Application.Services.Auth
+namespace OnlineAuc.Application.Services.Auth
 {
     public class AuthService : IAuthService
     {
@@ -26,7 +26,7 @@ namespace WheelOfFortune.Application.Services.Auth
         public async Task<IEnumerable<Claim>> Login(LoginModel model)
         {
             var account = await DbContext.Accounts.FirstOrDefaultAsync(a => a.Email == model.Email);
-            if (account == null) throw new NotFoundException($"Account with email {model.Email} is not found.");
+            if (account == null) throw new NotFoundException($"Account with email was not found.");
 
             var cipheredPassword = CryptoService.ComputeSha256Hash(model.Password);
             if (account.Password != cipheredPassword) throw new UnauthorizedAccessException("Invalid password.");
@@ -45,14 +45,15 @@ namespace WheelOfFortune.Application.Services.Auth
             if (model.Password != model.ConfirmPassword) throw new ValidationException("The password and confirm password do not match.");
 
             var existingAccountWithSameEmail = await DbContext.Accounts.FirstOrDefaultAsync(a => a.Email == model.Email);
-            if (existingAccountWithSameEmail != null) throw new DuplicateEmailException($"Email '{model.Email}' is already associated with another account.");
-
+            if (existingAccountWithSameEmail != null) throw new DuplicateEmailException($"Email is already associated with another account.");
+            
             var account = new Account
             {
                 Id = Guid.NewGuid(),
                 Name = model.Name,
                 Surname = model.Surname,
-                Password = CryptoService.ComputeSha256Hash(model.Password)
+                Password = CryptoService.ComputeSha256Hash(model.Password),
+                Language = "en-US"
             };
 
             var existingEmails = DbContext.UnconfirmedEmails.Where(e => e.Email == model.Email).ToList();
@@ -84,12 +85,12 @@ namespace WheelOfFortune.Application.Services.Auth
         public async Task ConfirmEmail(ConfirmEmailModel model)
         {
             var email = await DbContext.UnconfirmedEmails.FirstOrDefaultAsync(e => e.Email == model.Email);
-            if (email == null) throw new NotFoundException($"There are no account registered with email {model.Email}.");
+            if (email == null) throw new NotFoundException($"There are no account registered with this email.");
             if (email.Code != model.Code) throw new UnauthorizedAccessException("Invalid code.");
 
             var account = await DbContext.Accounts.FirstOrDefaultAsync(a => a.Id == email.AccountId);
-            if (account == null) throw new NotFoundException($"There are no account registered with email {model.Email}.");
-            if (!account.Email.IsNullOrEmpty()) throw new InvalidOperationException($"Account with id {account.Id} already has a verified email.");
+            if (account == null) throw new NotFoundException($"There are no account registered with this email.");
+            if (!account.Email.IsNullOrEmpty()) throw new InvalidOperationException($"Account already has a verified email.");
 
             account.Email = model.Email;
             DbContext.UnconfirmedEmails.Remove(email);

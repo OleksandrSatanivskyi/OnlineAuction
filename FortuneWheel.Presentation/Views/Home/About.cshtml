@@ -1,0 +1,59 @@
+﻿@using OnlineAuc.Models.Auctions
+@model OnlineAuc.Models.Auctions.GetAllAuctionsModel
+@{
+    Layout = "_AuctionsLayout";
+}
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+<link rel="stylesheet" href="~/css/about.css" asp-append-version="true" />
+
+<header class="wheel-actions-header">
+    <h5 class="wheel-actions-title page-title">@Localizer["Online auction platform"]</h5>
+</header>
+
+<div class="container">
+    <p class="text-center">@Localizer["General description"]</p>
+
+    <ul class="list-group my-4">
+        <li class="list-group-item bg-dark text-light">
+            <strong>1.</strong> @Localizer["Feature 1"]
+        </li>
+        <li class="list-group-item bg-dark text-light">
+            <strong>2.</strong> @Localizer["Feature 2"]
+        </li>
+        <li class="list-group-item bg-dark text-light">
+            <strong>3.</strong> @Localizer["Feature 3"]
+        </li>
+        <li class="list-group-item bg-dark text-light">
+            <strong>4.</strong> @Localizer["Feature 4"]
+        </li>
+        <li class="list-group-item bg-dark text-light">
+            <strong>5.</strong> @Localizer["Feature 5"]
+        </li>
+        <li class="list-group-item bg-dark text-light">
+            <strong>6.</strong> @Localizer["Feature 6"]
+        </li>
+        <li class="list-group-item bg-dark text-light">
+            <strong>7.</strong> @Localizer["Feature 7"]
+        </li>
+    </ul>
+
+    <h2 class="text-center">@Localizer["Technical side"]</h2>
+    <p>
+        @Localizer["Technical side description"]
+    </p>
+    <ul class="list-group my-4">
+        <li class="list-group-item bg-dark text-light">
+            <strong>1.</strong> @Localizer["ASP.NET"] 
+        </li>
+        <li class="list-group-item bg-dark text-light">
+            <strong>2.</strong> @Localizer["Frontend"]
+        </li>
+        <li class="list-group-item bg-dark text-light">
+            <strong>3.</strong> @Localizer["SQL Server"]
+        </li>
+        <li class="list-group-item bg-dark text-light">
+            <strong>4.</strong> @Localizer["Entity Framework"]
+        </li>
+    </ul>
+</div>

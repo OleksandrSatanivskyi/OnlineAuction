@@ -1,4 +1,4 @@
-﻿@model WheelOfFortune.Models.Auth.ConfirmEmailModel
+﻿@model OnlineAuc.Models.Auth.ConfirmEmailModel
 @{
     Layout = "_AuthLayout";
 }
@@ -13,7 +13,7 @@
 
         <div class="auth-input-group">
             <input type="text" class="form-control auth-input" placeholder="@Localizer["Code"]" asp-for="Code">
-            <span asp-validation-for="Code" class="text-danger"></span>
+            <span asp-validation-for="Code" class="text-danger">@ViewBag.CodeError </span>
         </div>
 
         <button class="btn auth-submit-btn page-btn" type="submit">@Localizer["Submit"]</button>

@@ -1,6 +1,6 @@
-﻿using FortuneWheel.Models;
+﻿using OnlineAuc.Models;
 
-namespace FortuneWheel.Services
+namespace OnlineAuc.Services
 {
     public interface IAccountService
     {

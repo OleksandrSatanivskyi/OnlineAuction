@@ -1,11 +1,11 @@
-using FortuneWheel.Models;
-using FortuneWheel.Services;
+using OnlineAuc.Models;
+using OnlineAuc.Services;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using WheelOfFortune.Presentation.Models;
+using OnlineAuc.Presentation.Models;
 
-namespace WheelOfFortune.Presentation.Controllers
+namespace OnlineAuc.Presentation.Controllers
 {
     public class HomeController : Controller
     {
@@ -18,6 +18,11 @@ namespace WheelOfFortune.Presentation.Controllers
         }
 
         public async Task<IActionResult> Index()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> About()
         {
             return View();
         }
@@ -56,7 +61,6 @@ namespace WheelOfFortune.Presentation.Controllers
             var model = new ErrorModel()
             {
                 Message = HttpContext.Request.Query["message"],
-                PreviousPageRoute = HttpContext.Request.Query["route"]
             };
 
             return View(model);

@@ -1,4 +1,4 @@
-﻿namespace FortuneWheel.Domain
+﻿namespace OnlineAuc.Domain
 {
     public enum SpinMode
     {

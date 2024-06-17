@@ -52,4 +52,16 @@
     background-color: #2A547E;
 }
 
-    
+.error-message{
+    margin-top: 50px;
+}
+
+@media (max-width: 1280px) {
+    .main-page {
+        height: auto;
+        min-height: 100vh;
+        width: 100%;
+        padding: 0px 8%;
+        margin-left: 15%;
+    }
+}
