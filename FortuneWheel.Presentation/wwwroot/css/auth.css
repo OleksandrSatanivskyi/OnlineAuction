@@ -80,11 +80,13 @@
 }
 
 @media (max-width: 992px) {
-    .page-btn {
-        font-size: 15px;
+    .auth-card {
+        width: 50%;
     }
+}
 
-    .page-title {
-        font-size: 30px;
+@media (max-width: 720px) {
+    .auth-card {
+        width: 60%;
     }
 }

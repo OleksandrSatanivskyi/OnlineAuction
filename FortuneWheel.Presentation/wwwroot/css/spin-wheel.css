@@ -21,7 +21,6 @@ p {
     display: flex;
     justify-content: center;
     position: relative;
-
 }
 
 .center-circle {
@@ -34,9 +33,9 @@ p {
     transform: translateY(-50%);
 }
 
-    .center-circle:hover {
-        cursor: pointer;
-    }
+.center-circle:hover {
+    cursor: pointer;
+}
 
 .triangle {
     width: 0;
@@ -135,7 +134,7 @@ p {
     }
 
     .triangle {
-        top: -250%;
+        top: -380%;
     }
 
     .shadow-circle {
@@ -145,5 +144,26 @@ p {
     .wheel-container {
         align-items: center;
         flex-direction: column;
+    }
+
+    .center-circle {
+        width: 70px;
+        height: 70px;
+    }
+}
+
+@media (max-width: 720px){
+    #canvas {
+        width: 440px;
+        height: 440px;
+    }
+
+    .triangle {
+        top: -430%;
+    }
+
+    .center-circle {
+        width: 45px;
+        height: 45px;
     }
 }
