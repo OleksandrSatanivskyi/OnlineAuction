@@ -23,7 +23,7 @@
             <div class="d-flex align-items-center point-auc-option-input">
                 <input type="text" id="colorHex" class="form-control" placeholder="@Localizer["Color hex"]" asp-for="ColorHex" onchange="updateColorPicker()">
             </div>
-            <input type="color" id="colorPicker" onchange="updateColorPreview()">
+            <input type="color" id="colorPicker" class="color-picker" onchange="updateColorPreview()">
 
             <input type="hidden" asp-for="Auction.Id" />
         </div>

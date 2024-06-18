@@ -68,7 +68,7 @@ p {
 
 .wheel-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 .spin-wheel-input {
@@ -144,5 +144,6 @@ p {
     }
     .wheel-container {
         align-items: center;
+        flex-direction: column;
     }
 }
