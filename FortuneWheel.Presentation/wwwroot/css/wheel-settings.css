@@ -60,7 +60,6 @@
     justify-content: space-between;
     margin: 0 auto;
     flex-direction: row;
-    background-color: black;
 }
 
 .add-point-auc-option-btn {
@@ -169,5 +168,9 @@
 
     .classic-auc-option-input {
         width: 40%;
+    }
+
+    .color-picker {
+        width: 30px;
     }
 }

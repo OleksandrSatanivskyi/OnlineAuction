@@ -10,13 +10,17 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/main.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/wheel-settings.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/spin-wheel.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/settings.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/FortuneWheel.Presentation.styles.css" asp-append-version="true" />
 </head>
 <body class="bg-dark text-light">    
     <div class="main-container">
+        <nav class="ham-menu-icon-container">
+            <div class="ham-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
 
         <ul class="menu" data-navigation="true">
             <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "bg-primary text-light" : "")">
@@ -71,6 +75,15 @@
 </html>
 
 <script>
+    const hamMenu = document.querySelector(".ham-menu");
+
+    const offScreenMenu = document.querySelector(".menu");
+
+    hamMenu.addEventListener("click", () => {
+        hamMenu.classList.toggle("active");
+        offScreenMenu.classList.toggle("active");
+    });
+
     document.addEventListener('DOMContentLoaded', function () {
         var theme = getCookie("Theme");
         var menuItems = document.querySelectorAll('.menu li');
