@@ -122,10 +122,6 @@
 @media (max-width: 992px) {
     .wheel-card {
         width: calc(50% - 20px);
-        border-color: #B7B7B7;
-        margin: 10px;
-        float: left;
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     }
 
     .create-option-params {
@@ -172,5 +168,11 @@
 
     .color-picker {
         width: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .wheel-card {
+        width: calc(90% - 20px);
     }
 }

@@ -166,4 +166,25 @@ p {
         width: 45px;
         height: 45px;
     }
+
+    .spin-pannel-line {
+        margin-right: 3px;
+    }
+
+    .shadow-circle {
+        width: 440px;
+        height: 440px;
+    }
+
+    .shadow-circle::before {
+        width: 400px;
+        height: 400px;
+    }
+}
+
+@media (max-width: 480px){
+    #canvas {
+        width: 320px;
+        height: 320px;
+    }
 }
