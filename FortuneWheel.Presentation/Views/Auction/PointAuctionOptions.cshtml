@@ -1,0 +1,134 @@
+﻿<link rel="stylesheet" href="~/css/wheel-settings.css" asp-append-version="true" />
+@using OnlineAuc.Domain.Auctions
+@using OnlineAuc.Models.Auctions
+@model global::OnlineAuc.Models.Auctions.PointAuctionModel
+@{
+    Layout = "_AuctionsLayout";
+}
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<header class="wheel-actions-header">
+    <h5 class="wheel-actions-title page-title">@Model.Auction.Title</h5>
+
+    <form method="post" asp-controller="Auction" asp-action="AddPointSegment" id="optionForm" class="card add-wheel-option-card dark">
+        <div class="create-option-params">
+            <div class="point-auc-option-input">
+                <input type="text" class="form-control" placeholder="@Localizer["Title"]" required asp-for="Title">
+            </div>
+
+            <div class="point-auc-option-input">
+                <input type="number" class="form-control" placeholder="@Localizer["Points"]" required asp-for="Points">
+            </div>
+
+            <div class="d-flex align-items-center point-auc-option-input">
+                <input type="text" id="colorHex" class="form-control" placeholder="@Localizer["Color hex"]" asp-for="ColorHex" onchange="updateColorPicker()">
+            </div>
+            <input type="color" id="colorPicker" class="color-picker" onchange="updateColorPreview()">
+
+            <input type="hidden" asp-for="Auction.Id" />
+        </div>
+
+        <button type="submit" class="btn btn-outline-success add-point-auc-option-btn page-btn">@Localizer["Add"]</button>
+        <button class="btn btn-primary page-btn save-point-options-changes" type="button" onclick="saveChanges()">@Localizer["Save changes"]</button>
+    </form>
+</header>
+
+<table class="table">
+    <tbody>
+        @for (int i = 0; i < Model.Auction.Segments.Count; i++)
+        {
+            <tr id="segment-@Model.Auction.Segments[i].Id">
+                <td class="col-auto text-light"><label />@(i + 1).</td>
+                <td class="col-auto"><input class="w-100 form-control" id="title@(i)" required type="text" value="@Model.Auction.Segments[i].Title" /></td>
+                <td class="col-auto"><input class="w-100 form-control" id="points@(i)" required type="number" value="@Model.Auction.Segments[i].Points" /></td>
+                <td class="col-auto"><input class="w-100 form-control" id="colorHex@(i)" type="text" id="colorHex@(i)" name="Segments[@i].ColorHex" value="@Model.Auction.Segments[i].ColorHex" onchange="updateColorPickerForIndex('@i')" /></td>
+                <td class="color-picker"><input class="w-100" id="colorPicker@(i)" type="color" id="colorPicker@(i)" name="ColorPickers[@i]" onchange="updateColorHexForIndex('@i')" /></td>
+                <td class="col-auto">
+                    <button type="button" onclick="deleteSegment('@Model.Auction.Segments[i].Id', 'Point')" class="btn btn-link text-danger">
+                        <svg class="bi" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+                        </svg>
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script src="~/js/pointWheelOptions.js" asp-append-version="true"></script>
+
+<script>
+    function deleteSegment(segmentId, type) {
+        fetch(`/Auction/DeleteSegment?Id=${segmentId}&Type=${type}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(() => {
+                var element = document.getElementById('segment-' + segmentId);
+                if (element) {
+                    element.parentNode.removeChild(element);
+                } else {
+                    alert("@Localizer["Error: No item found to delete"].");
+                }
+            })
+            .catch(error => {
+                alert(error.message);
+            });
+    }
+
+    function saveChanges() {
+        var formData = {
+            wheelId: '@Model.Auction.Id',
+            segments: []
+        };
+
+        @for (int i = 0; i < Model.Auction.Segments.Count; i++)
+        {
+            <text>
+                var segmentId = '@Model.Auction.Segments[i].Id';
+                var title = $('#title@(i)').val();
+                var points = $('#points@(i)').val();
+                var colorHex = $('#colorHex@(i)').val();
+
+            if (!isValidHexColor(colorHex)) {
+                alert("@Localizer["Invalid hex color format"].");
+                return;
+            }
+
+            if (!title || !colorHex || !points) {
+                alert("@Localizer["Please fill in all required fields"].");
+                return;
+            }
+
+                formData.segments.push({
+                    id: segmentId,
+                    title: title,
+                    points: points,
+                    colorHex: colorHex
+                });
+            </text>
+        }
+
+        $.ajax({
+                url: '@Url.Action("UpdatePointWheelOptions", "Auction")',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(formData),
+            success: function (result) { },
+            error: function (error) {
+                console.error('Error saving changes:', error);
+            }
+        });
+    }
+
+    function onLoad() {
+        for (var i = 0; i < @Model.Auction.Segments.Count; i++) {
+            setInitialColorPickerValueForIndex(i);
+        }
+    };
+
+    window.onload = onLoad;
+</script>

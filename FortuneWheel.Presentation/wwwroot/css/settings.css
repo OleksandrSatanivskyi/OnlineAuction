@@ -1,0 +1,65 @@
+.avatar-img {
+    margin-bottom: 30px;
+    max-width: 200px;
+    max-height: 200px;
+    width: auto;
+    height: auto;
+}
+
+.avatar-container {
+    position: relative;
+    display: inline-block;
+}
+
+.avatar-container:hover .avatar-img {
+    filter: brightness(70%);
+}
+
+.avatar-container .upload-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+
+.avatar-container:hover .upload-icon {
+    display: block;
+}
+
+.settings-input {
+    width: 100%;
+}
+
+.setting-row {
+    display: flex;
+    width: 50%;
+    flex-direction: column;
+}
+
+.setting-row {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.setting-value {
+    flex: 2;
+}
+
+.update-settings-button{
+    margin-left: 60%;
+}
+
+.upload-icon{
+    width: 50px;
+    height: 50px;
+}
+@media (max-width: 992px) {
+    .setting-row {
+        width: 100%;
+    }
+    .avatar-img {
+        max-width: 150px;
+        max-height: 150px;
+    }
+}

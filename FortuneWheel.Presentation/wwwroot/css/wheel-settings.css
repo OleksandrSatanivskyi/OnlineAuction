@@ -1,0 +1,178 @@
+.wheel-actions-header {
+    width: 100%;
+    margin: 80px 0px;
+    text-align: center;
+    border-bottom: 2px solid #B7B7B7;
+}
+
+.wheel-actions-title {
+    display: inline-block;
+    margin-bottom: 30px;
+}
+
+.create-wheel-button {
+    float: right;
+    display: inline-block;
+}
+
+.wheel-card {
+    width: calc(33.33% - 20px);
+    border-color: #B7B7B7;
+    margin: 10px;
+    float: left;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.wheel-card-header {
+    border-color: #B7B7B7;
+}
+
+.wheel-card-footer {
+    margin-top: 13px;
+    text-align: right;
+}
+
+.add-wheel-option-card {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-color: #B7B7B7;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+    margin: 10px;
+    padding: 20px 15px;
+    margin-bottom: 30px;
+}
+
+.point-auc-option-input {
+    width: 30%;
+}
+.classic-auc-option-input {
+    width: 40%;
+}
+
+.create-option-params {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    width: 50%;
+    justify-content: space-between;
+    margin: 0 auto;
+    flex-direction: row;
+}
+
+.add-point-auc-option-btn {
+   width: 10%;
+   margin-right: 20%;
+}
+
+.add-classic-auc-option-btn {
+    width: 10%;
+    margin-right: 20%;
+}
+
+.save-classic-options-changes {
+    width: 30%;
+}
+
+.save-point-options-changes {
+    width: 20%;
+}
+
+.color-picker{
+    min-width: 40px;
+}
+
+@media (max-width: 1280px) {
+    .wheel-actions-header {
+        margin: 40px 0px;
+    }
+
+    .wheel-actions-title {
+        margin-bottom: 25px;
+    }
+
+    .wheel-card {
+        margin: 7px;
+    }
+
+    .add-wheel-option-card {
+        gap: 10px;
+        margin: 5px;
+        padding: 14px 14px;
+        margin-bottom: 22px;
+    }
+
+    .create-option-params {
+        width: 60%;
+        gap: 10px;
+    }
+
+    .add-point-auc-option-btn {
+        width: 10%;
+        margin-right: 10%;
+    }
+
+    .save-point-options-changes {
+        width: 20%;
+    }
+}
+
+@media (max-width: 992px) {
+    .wheel-card {
+        width: calc(50% - 20px);
+    }
+
+    .create-option-params {
+        width: 62%;
+        gap: 5px;
+    }
+
+    .point-auc-option-input {
+        width: 30%;
+    }
+    .add-point-auc-option-btn {
+        width: 15%;
+        margin-right: 0%;
+    }
+
+    .classic-auc-option-input {
+        width: 31%;
+        margin: 0%;
+    }
+    .save-point-options-changes {
+        width: 20%;
+        margin: 0%;
+    }
+
+    .add-wheel-option-card {
+        gap: 7px;
+        margin: 5px;
+        padding: 10px 10px;
+        margin-bottom: 22px;
+    }
+
+    .add-classic-auc-option-btn {
+        width: 15%;
+        margin-right: 5%;
+    }
+
+    .save-classic-options-changes {
+        width: 30%;
+    }
+
+    .classic-auc-option-input {
+        width: 40%;
+    }
+
+    .color-picker {
+        width: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .wheel-card {
+        width: calc(90% - 20px);
+    }
+}

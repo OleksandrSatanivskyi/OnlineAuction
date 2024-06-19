@@ -1,0 +1,109 @@
+﻿<link rel="stylesheet" href="~/css/wheel-settings.css" asp-append-version="true" />
+@using OnlineAuc.Domain.Auctions
+@using OnlineAuc.Models.Auctions
+@model global::OnlineAuc.Models.Auctions.ClassicAuctionModel
+@{
+    Layout = "_AuctionsLayout";
+}
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<header class="wheel-actions-header">
+    <h5 class="wheel-actions-title page-title">@Model.Auction.Title</h5>
+
+    <form method="post" asp-controller="Auction" asp-action="AddSegment" id="optionForm" class="card add-wheel-option-card dark">
+        <div class="create-option-params">
+            <div class="classic-auc-option-input">
+                <input type="text" class="form-control" placeholder="@Localizer["Title"]" required asp-for="Title">
+            </div>
+
+            <div class="d-flex align-items-center classic-auc-option-input">
+                <input type="text" id="colorHex" class="form-control" placeholder="@Localizer["Color hex"]" asp-for="ColorHex" onchange="updateColorPicker()">
+            </div>
+            <input class="color-picker" type="color" id="colorPicker" onchange="updateColorPreview()">
+
+            <input type="hidden" asp-for="Auction.Id" />
+        </div>
+
+        <button type="submit" class="btn btn-outline-success add-classic-auc-option-btn">@Localizer["Add"]</button>
+        <button class="btn btn-primary save-classic-options-changes" type="button" onclick="saveChanges()">@Localizer["Save changes"]</button>
+    </form>
+</header>
+
+<table class="table">
+    <tbody>
+        @for (int i = 0; i < Model.Auction.Segments.Count; i++)
+        {
+            <tr id="segment-@Model.Auction.Segments[i].Id">
+                <td class="col-auto text-light"><label />@(i + 1).</td>
+                <td class="col-auto"><input class="w-100 form-control" id="title@(i)" required type="text" value="@Model.Auction.Segments[i].Title" /></td>
+                <td class="col-auto"><input class="w-100 form-control" id="colorHex@(i)" type="text" id="colorHex@(i)" name="Segments[@i].ColorHex" value="@Model.Auction.Segments[i].ColorHex" onchange="updateColorPickerForIndex('@i')" /></td>
+                <td class="col-auto"><input class="w-100 color-picker" id="colorPicker@(i)" type="color" id="colorPicker@(i)" name="ColorPickers[@i]" onchange="updateColorHexForIndex('@i')" /></td>
+                <td class="col-auto">
+                    <button type="button" onclick="deleteSegment('@Model.Auction.Segments[i].Id', 'Classic')" class="btn btn-link text-danger">
+                        <svg class="bi" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+                        </svg>
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    function saveChanges() {
+        var formData = {
+            wheelId: '@Model.Auction.Id',
+            segments: []
+        };
+
+        @for (int i = 0; i < Model.Auction.Segments.Count; i++)
+        {
+            <text>
+                var segmentId = '@Model.Auction.Segments[i].Id';
+                var title = $('#title@(i)').val();
+                var colorHex = $('#colorHex@(i)').val();
+
+            if (!title || !colorHex) {
+                alert("@Localizer["Please fill in all required fields"].");
+                return; 
+            }
+
+            if (!isValidHexColor(colorHex)) {
+                alert("@Localizer["Invalid hex color format"].");
+                return; 
+            }
+
+                formData.segments.push({
+                    id: segmentId,
+                    title: title,
+                    colorHex: colorHex
+                });
+            </text>
+        }
+
+            $.ajax({
+                url: '@Url.Action("UpdateClassicWheelOptions", "Wheel")',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function (result) {
+                    console.log('Changes saved successfully!');
+                },
+                error: function (error) {
+                    console.error('Error saving changes:', error);
+                }
+            });
+    }
+
+    function onLoad() {
+        for (var i = 0; i < @Model.Auction.Segments.Count; i++) {
+            setInitialColorPickerValueForIndex(i);
+        }
+    };
+
+    window.onload = onLoad;
+
+</script>
+<script src="~/js/classicWheelOption.js" asp-append-version="true"></script>

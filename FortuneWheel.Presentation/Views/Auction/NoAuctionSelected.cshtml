@@ -1,0 +1,11 @@
+﻿@{
+    Layout = "_AuctionsLayout";
+}
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<div class="container d-flex justify-content-center">
+    <div class="text-center">
+        <p class="lead">@Localizer["Select auction of fortune before open this page"].</p>
+    </div>
+</div>

@@ -1,11 +1,14 @@
 ﻿@model ErrorModel
 @{
-    Layout = "_ErrorLayout";
+    Layout = "_Layout";
 }
+<link rel="stylesheet" href="~/css/main.css" asp-append-version="true" />
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
 <div class="container d-flex  justify-content-center vh-100">
     <div class="text-center">
-        <p class="lead">@Model.Message</p>
-        <a href="@Model.PreviousPageRoute" class="btn btn-primary">Return to Previous Page</a>
+        <p class="lead error-message">@Model.Message</p>
+        <a href="@Url.Action("GetAll", "Auction")" class="btn btn-primary">@Localizer["Return back"]</a>
     </div>
 </div>

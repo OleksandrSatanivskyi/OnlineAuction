@@ -1,0 +1,493 @@
+﻿<link rel="stylesheet" href="~/css/spin-wheel.css" asp-append-version="true" />
+@model global::OnlineAuc.Models.Auctions.LoadPointAuctionModel
+@{
+    Layout = "_AuctionsLayout";
+}
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<div class="wheel-container">
+    <div class="load-wheel">
+        <div class="spin-wheel-header">
+            <h1 id="winner">@Localizer["NONE"]</h1>
+        </div>
+        <div class="wheel">
+            <canvas class="" id="canvas" width="700" height="700"></canvas>
+            <div class="shadow-circle">
+                <h5 class="winner-text page-title"></h5>
+            </div>
+            <div class="center-circle" onclick="spin()">
+                <div class="triangle"></div>
+            </div>
+        </div>
+    </div>
+    <div class="spin-pannel">
+        <div class="spin-pannel-line">
+            <button class="btn btn-primary page-btn" onclick="spinBtn()">@Localizer["Spin"]</button>
+        </div>
+
+        <div class="spin-pannel-line">
+            <label>@Localizer["From"]: </label>
+            <input id="minInput" class="spin-wheel-input form-control bg-dark text-white" placeholder="@Localizer["Min"]" type="text" />
+            <label>@Localizer["To"]: </label>
+            <input id="maxInput" class="spin-wheel-input form-control bg-dark text-white" placeholder="@Localizer["Max"]" type="text" />
+            <label> @Localizer["spins"]</label>
+        </div>
+
+        <div class="spin-pannel-line">
+            <label>@Localizer["Duration"]:</label>
+            <input id="durationInput" class="spin-wheel-input form-control bg-dark text-white" type="text" />
+            <label> @Localizer["seconds"]</label>
+        </div>
+        
+        <div class="spin-pannel-line">
+            <label>@Localizer["Mode"]:</label>
+            <ul class="nav nav-pills spin-wheel-modes">
+                <li class="nav-item">
+                    <a id="classicMode" class="spin-mode-nav-link nav-link" onclick="setMode('Classic')">@Localizer["Classic"]</a>
+                </li>
+                <li class="nav-item">
+                    <a id="eliminationMode" class="spin-mode-nav-link nav-link" onclick="setMode('Elimination')">@Localizer["Elimination"]</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+<script src="~/js/loadPointWheel.js" asp-append-version="true"></script>
+
+<script>
+    var minInput = document.getElementById('minInput');
+    var maxInput = document.getElementById('maxInput');
+    var durationInput = document.getElementById('durationInput')
+
+    function updateMaxSpinCookie() {
+        var now = new Date();
+        var expires = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+        var expiresGMT = expires.toGMTString();
+
+        var maxInput = document.getElementById('maxInput');
+        document.cookie = "MaxSpin=" + maxInput.value + ";expires=" + expiresGMT + ";path=/";
+    }
+
+    function updateMinSpinCookie() {
+        var now = new Date();
+        var expires = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+        var expiresGMT = expires.toGMTString();
+
+        var minInput = document.getElementById('minInput');
+        document.cookie = "MinSpin=" + minInput.value + ";expires=" + expiresGMT + ";path=/";
+    }
+
+    function updateDurationCookie() {
+        var now = new Date();
+        var expires = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+        var expiresGMT = expires.toGMTString();
+
+        var minInput = document.getElementById('durationInput');
+        document.cookie = "Duration=" + minInput.value + ";expires=" + expiresGMT + ";path=/";
+    }
+
+    window.onload = function () {
+        checkModeAndSetActiveTab();
+
+        minInput.value = getCookie("MinSpin") || 6;
+        maxInput.value = getCookie("MaxSpin") || parseInt(minInput.value) + 2;
+        durationInput.value = getCookie("Duration") || 5;
+    };
+
+    var wheelWasSpinned = false;
+
+    minInput.addEventListener('input', updateMinSpinCookie);
+    maxInput.addEventListener('input', updateMaxSpinCookie);
+    durationInput.addEventListener('input', updateDurationCookie);
+
+    function checkModeAndSetActiveTab() {
+        var mode = getCookie("Mode");
+
+        var classicTab = document.getElementById("classicMode");
+        var eliminationTab = document.getElementById("eliminationMode");
+
+        if (mode === 'Classic') {
+            eliminationMode.classList.remove('active');
+            classicMode.classList.add('active');
+        } else if (mode === 'Elimination') {
+            classicMode.classList.remove('active');
+            eliminationMode.classList.add('active');
+        }
+        else {
+            setMode('Classic');
+        }
+    }
+    alert
+    function setMode(mode) {
+        winnerSegmentId = "";
+
+        var now = new Date();
+        var expires = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+        var expiresGMT = expires.toGMTString();
+
+        document.cookie = "Mode=" + mode + ";expires=" + expiresGMT + ";path=/";
+
+        var classicMode = document.getElementById('classicMode');
+        var eliminationMode = document.getElementById('eliminationMode');
+
+        if (mode === 'Classic') {
+            eliminationMode.classList.remove('active');
+            classicMode.classList.add('active');
+            calculateSegmentsWidthForClassicMode();
+        } else if (mode === 'Elimination') {
+            classicMode.classList.remove('active');
+            eliminationMode.classList.add('active');
+            calculateSegmentsWidthForEliminationMode();
+        }
+
+        console.log(segments);
+        draw();
+    }
+
+    document.querySelector(".shadow-circle").addEventListener("click", function () {
+        hideWinnerTitle();
+    });
+
+    function toRad(deg) {
+        return deg * (Math.PI / 180.0);
+    }
+    function randomRange(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    function easeOutSine(x) {
+        return Math.sin((x * Math.PI) / 2);
+    }
+    function getPercent(input, min, max) {
+        return (((input - min) * 100) / (max - min)) / 100
+    }
+
+    function hexToRgb(hex) {
+        hex = hex.replace(/^#/, '');
+
+        let r = parseInt(hex.substring(0, 2), 16);
+        let g = parseInt(hex.substring(2, 4), 16);
+        let b = parseInt(hex.substring(4, 6), 16);
+
+        return { r, g, b };
+    }
+
+    const canvas = document.getElementById("canvas")
+    const ctx = canvas.getContext("2d")
+    const width = document.getElementById("canvas").width
+    const height = document.getElementById("canvas").height
+
+    const centerX = width / 2
+    const centerY = height / 2
+    const radius = width / 2
+
+    let segmentsData = @Html.Raw(Json.Serialize(Model.RemainingOptions));
+
+    let totalPoints = 0;
+    let segments;
+
+    let validSegments = segmentsData.filter(segment => segment.points > 0);
+
+    loadSegments();
+
+    let currentDeg = 0
+    let itemDegs = {}
+
+    function loadSegments() {
+        totalPoints = validSegments.reduce((total, segment) => total + segment.points, 0);
+
+        var mode = getCookie("Mode");
+
+        if (mode == "Classic") {
+            calculateSegmentsWidthForClassicMode();
+        }
+        else if (mode == "Elimination") {
+            calculateSegmentsWidthForEliminationMode();
+        }
+        else {
+            checkModeAndSetActiveTab();
+        }
+
+        console.log(segments);
+    }
+
+    draw();
+
+    function draw() {
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, toRad(0), toRad(360))
+        ctx.fillStyle = `rgb(${33},${33},${33})`
+        ctx.lineTo(centerX, centerY);
+        ctx.fill()
+
+        let startDeg = currentDeg;
+        for (let i = 0; i < segments.length; i++) {
+            let endDeg = startDeg + segments[i].width;
+            color = hexToRgb(segments[i].colorHex);
+            let colorStyle = `rgb(${color.r},${color.g},${color.b})`
+
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius - 2, toRad(startDeg), toRad(endDeg))
+            let colorStyle2 = `rgb(${color.r - 30},${color.g - 30},${color.b - 30})`
+            ctx.fillStyle = colorStyle2
+            ctx.lineTo(centerX, centerY);
+            ctx.fill()
+
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius - 10, toRad(startDeg), toRad(endDeg))
+            ctx.fillStyle = colorStyle
+            ctx.lineTo(centerX, centerY);
+            ctx.fill()
+
+            drawSegmentSeparator(centerX, centerY, radius, startDeg, endDeg);
+
+            drawSeparator(centerX, centerY, radius - 1, startDeg, endDeg);
+
+            ctx.save();
+            ctx.translate(centerX, centerY);
+            ctx.rotate(toRad((startDeg + endDeg - 3) / 2));
+            ctx.textAlign = "left";
+            if (color.r > 150 || color.g > 150 || color.b > 150) {
+                ctx.fillStyle = "#000";
+            }
+            else {
+                ctx.fillStyle = "#fff";
+            }
+            ctx.font = ctx.font = '16px Arial';
+
+            let text = segments[i].title;
+            let textWidth = ctx.measureText(text).width;
+            let availableWidth = 180;
+            if (textWidth > availableWidth) {
+                let charsThatFit = Math.floor((availableWidth - ctx.measureText('...').width) / textWidth * text.length);
+                text = text.substring(0, charsThatFit - 3) + '...';
+            }
+
+            if (textWidth / 3 > endDeg - startDeg) {
+                text = "";
+            }
+
+            ctx.fillText(text, 130, 10);
+            ctx.restore();
+
+            itemDegs[segments[i].id] =
+            {
+                "startDeg": startDeg,
+                "endDeg": endDeg
+            }
+
+            if ((startDeg % 360 <= 270 && endDeg % 360 > 270) || segments.length === 1) {
+                document.getElementById("winner").innerHTML = segments[i].title;
+                document.querySelector(".winner-text").innerHTML = segments[i].title;
+            }
+
+            startDeg = endDeg;
+        }
+    }
+
+    function easeInOutQuad(x) {
+        return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
+    }
+
+    function drawSegmentSeparator(centerX, centerY, radius, startDeg, endDeg) {
+        let middleDeg = (endDeg);
+        let middleRad = toRad(middleDeg);
+
+        let x = centerX + radius * Math.cos(middleRad);
+        let y = centerY + radius * Math.sin(middleRad);
+
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.lineTo(x, y);
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+    }
+
+    function drawSeparator(centerX, centerY, radius, startDeg, endDeg) {
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, toRad(startDeg), toRad(endDeg));
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+    }
+
+    let speed = 0;
+    let maxRotation = randomRange(360 * 3, 360 * 6)
+    let pause = false
+
+    function showWinnerTitle() {
+        document.querySelector(".shadow-circle").style.opacity = 1;
+        document.querySelector(".shadow-circle").style.zIndex = 1;
+    }
+
+    var winnerSegmentId = "";
+
+    function hideWinnerTitle() {
+        document.querySelector(".shadow-circle").style.opacity = 0;
+        document.querySelector(".shadow-circle").style.zIndex = -1;
+
+        var mode = getCookie("Mode");
+
+        if (mode == "Elimination" && speed == 0 && segments.length > 1) {
+            validSegments = validSegments.filter(function (segment) {
+                return segment.id !== winnerSegmentId;
+            });
+            segments = segments.filter(function (segment) {
+                return segment.id !== winnerSegmentId;
+            });
+
+            totalPoints = validSegments.reduce((total, segment) => total + segment.points, 0);
+            calculateSegmentsWidthForEliminationMode();
+
+            draw();
+        }
+    }
+
+    function calculateSegmentsWidthForClassicMode() {
+        totalPoints = validSegments.reduce((total, segment) => total + segment.points, 0);
+
+        segments = validSegments.map(function (segment) {
+            return {
+                id: segment.id,
+                title: segment.title,
+                colorHex: segment.colorHex,
+                width: (segment.points * 360) / totalPoints
+            };
+        });
+    }
+
+    function calculateSegmentsWidthForEliminationMode() {
+        let reversedPointsSegments = validSegments.map(function (segment) {
+            return {
+                id: segment.id,
+                title: segment.title,
+                colorHex: segment.colorHex,
+                points: (1 / segment.points)
+            };
+        });
+
+        totalPoints = reversedPointsSegments.reduce((total, segment) => total + segment.points, 0);
+
+        segments = reversedPointsSegments.map(function (segment) {
+            return {
+                id: segment.id,
+                title: segment.title,
+                colorHex: segment.colorHex,
+                width: (segment.points * 360) / totalPoints
+            };
+        });
+    }
+
+    function getCookie(cookieName) {
+        var name = cookieName + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var cookieArray = decodedCookie.split(';');
+        for (var i = 0; i < cookieArray.length; i++) {
+            var cookie = cookieArray[i];
+            while (cookie.charAt(0) == ' ') {
+                cookie = cookie.substring(1);
+            }
+            if (cookie.indexOf(name) == 0) {
+                return cookie.substring(name.length, cookie.length);
+            }
+        }
+        return "";
+    }
+
+    var initialRotationAngle = 270;
+    var animationDeg = 0;
+
+    function spin() {
+        if (speed != 0 || !isValidSpin()) {
+            return
+        }
+
+        draw();
+
+        var randomId = Math.floor(Math.random() * segments.length);
+
+        var minInput = document.getElementById('minInput');
+        var maxInput = document.getElementById('maxInput');
+
+        var min = parseInt(minInput.value);
+        var max = parseInt(maxInput.value);
+
+        var rotationCount = Math.floor(Math.random() * (max - min + 1)) + min;
+
+        var startDeg = itemDegs[segments[randomId].id].startDeg;
+        var endDeg = itemDegs[segments[randomId].id].endDeg;
+
+        var randomDeg = (Math.floor(Math.random() * (endDeg - startDeg + 1)) + startDeg) % 360;
+        maxRotation = (360 * rotationCount) + 270 - randomDeg;
+
+        winnerSegmentId = segments[randomId].id;
+
+        itemDegs = {}
+        pause = false
+        animate(maxRotation);
+        wheelWasSpinned = true;
+    }
+
+    function animate(distance) {
+        if (pause) {
+            return;
+        }
+
+        const startDeg = currentDeg;
+
+        const duration = parseInt(durationInput.value) * 1000;
+        const startTime = performance.now();
+
+        function update() {
+            const elapsed = performance.now() - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const easedProgress = easeInOutQuad(progress);
+            const rotation = startDeg + distance * easedProgress;
+
+            currentDeg = rotation;
+            draw();
+
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            } else {
+                showWinnerTitle();
+            }
+        }
+
+        update();
+    }
+
+    function spinBtn() {
+        hideWinnerTitle();
+        spin();
+    }
+
+    window.addEventListener('beforeunload', function (e) {
+        var mode = getCookie("Mode");
+        if (mode === "Elimination" && segments.length > 1 && wheelWasSpinned) {
+            var confirmationMessage = "Are you sure you want to leave?";
+            (e || window.event).returnValue = confirmationMessage;
+            return confirmationMessage;
+        }
+    });
+
+    segmentsData = @Html.Raw(Json.Serialize(Model.RemainingOptions));
+
+    function isValidSpin() {
+        var min = parseInt(minInput.value);
+        var max = parseInt(maxInput.value);
+        var duration = parseInt(durationInput.value);
+
+        if (isNaN(min) || isNaN(max) || isNaN(duration) ||
+            min <= 0 || max <= 0 || duration <= 0 ||
+            max > 100 || max < min || !Number.isInteger(min) || !Number.isInteger(max) || !Number.isInteger(duration)) {
+            alert("@Localizer["Enter valid integer values for the number of spins and duration"].");
+            return false;
+        }
+
+        return true;
+    }
+</script>

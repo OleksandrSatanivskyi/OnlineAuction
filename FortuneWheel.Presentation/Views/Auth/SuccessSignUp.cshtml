@@ -1,8 +1,13 @@
-﻿
-<div class="auth-container">
-    <label class="auth-title">Registration is successful</label>
+﻿@{
+    Layout = "_Layout";
+}
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
-    <a class="btn auth-submit-btn" href="@Url.Action("Login", "Auth")">Redirect to login page</a>
+<div class="auth-container">
+    <label class="auth-title page-title">@Localizer["Registration is successful"]</label>
+
+    <a class="btn auth-submit-btn" href="@Url.Action("Login", "Auth")">@Localizer["Redirect to login page"]</a>
 </div>
 
 

@@ -1,16 +1,21 @@
-﻿@model FortuneWheel.Models.Auth.ConfirmEmailModel
+﻿@model OnlineAuc.Models.Auth.ConfirmEmailModel
+@{
+    Layout = "_AuthLayout";
+}
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
 <div class="auth-container">
     
     <form method="post" class="auth-form" asp-controller="Auth" asp-action="ConfirmEmail">
 
-        <label class="auth-label">Check your email and enter code:</label>
+        <label class="auth-label">@Localizer["Check your email and enter code"]:</label>
 
         <div class="auth-input-group">
-            <input type="text" class="form-control auth-input" placeholder="Code" asp-for="Code">
-            <span asp-validation-for="Code" class="text-danger"></span>
+            <input type="text" class="form-control auth-input" placeholder="@Localizer["Code"]" asp-for="Code">
+            <span asp-validation-for="Code" class="text-danger">@ViewBag.CodeError </span>
         </div>
 
-        <button class="btn auth-submit-btn" type="submit">Submit</button>
+        <button class="btn auth-submit-btn page-btn" type="submit">@Localizer["Submit"]</button>
     </form>
 </div>

@@ -1,12 +1,9 @@
-﻿using FortuneWheel.Results.Auth;
+﻿using OnlineAuc.Results;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using System.Runtime.Intrinsics.Arm;
-using System.Security.Cryptography;
-using System.Text;
 
-namespace FortuneWheel.Services.Auth
+
+namespace OnlineAuc.Services.Auth
 {
     public class GoogleOAuthService
     {
@@ -23,7 +20,7 @@ namespace FortuneWheel.Services.Auth
             ClientSecret = configuration["GoogleOAuth:ClientSecret"];
         }
 
-        public async Task<string> ExchangeCodeForToken(string code, string сodeVerifier, string redirectUrl)
+        public async Task<TokenResult> ExchangeCodeForToken(string code, string сodeVerifier, string redirectUrl)
         {
             var authParams = new Dictionary<string, string>()
             {
@@ -43,7 +40,9 @@ namespace FortuneWheel.Services.Auth
                 var tokenResult = JsonConvert.DeserializeObject<TokenResult>(responseContent);
                 if (!response.IsSuccessStatusCode) throw new HttpRequestException($"HTTP request failed with status code {response.StatusCode}. Content: {responseContent}");
 
-                return tokenResult.AccessToken;
+               
+
+                return tokenResult;
             }
         }
 

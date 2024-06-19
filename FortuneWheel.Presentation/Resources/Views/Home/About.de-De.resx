@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About" xml:space="preserve">
+    <value>Um</value>
+  </data>
+  <data name="ASP.NET" xml:space="preserve">
+    <value>ASP.NET MVC wurde gewählt, weil es in diesem Zusammenhang eine Reihe von Vorteilen für die Projektentwicklung bietet. Es trennt Logik, Daten und Ansichten mithilfe des MVC-Entwurfsmusters (Model-View-Controller), was eine einfache Struktur bietet, die Codeverwaltung erleichtert und eine möglichst schnelle Produktentwicklung ermöglicht, was es ideal für kleine Lösungen macht. ASP.NET MVC basiert auf der .NET-Plattform, die für die Entwicklung durch die Entwickler-Community offen ist und es Ihnen ermöglicht, Ihre eigenen Komponenten zu erstellen und ihre Funktionalität durch verschiedene Erweiterungen und Bibliotheken von Drittanbietern zu erweitern.</value>
+  </data>
+  <data name="Entity Framework" xml:space="preserve">
+    <value>Entity Framework ermöglicht Entwicklern, mit der Datenbank über einen objektorientierten Ansatz zu arbeiten, anstatt komplexe SQL-Abfragen zu schreiben. Dies macht die Arbeit mit der Datenbank verständlicher und bequemer. Es erstellt und aktualisiert das Datenbankschema automatisch basierend auf .NET-Datenmodellen, sodass sich Entwickler auf die Geschäftslogik konzentrieren können und nicht auf die Details der Erstellung oder Änderung von Datenbanktabellen.</value>
+  </data>
+  <data name="Feature 1" xml:space="preserve">
+    <value>Die Site bietet durch Autorisierungs- und Authentifizierungsverfahren zuverlässigen Zugriff auf die Plattform und gewährleistet so die Vertraulichkeit und Sicherheit persönlicher Daten.</value>
+  </data>
+  <data name="Feature 2" xml:space="preserve">
+    <value>Benutzer haben nicht nur die Möglichkeit, Auktionen zu erstellen und zu löschen, sondern sie auch zur späteren Verwendung zu speichern und zu ändern, was die Durchführung von Auktionen effizienter und bequemer macht.</value>
+  </data>
+  <data name="Feature 3" xml:space="preserve">
+    <value>Es gibt zwei Arten von Auktionen: klassische und Punkteauktionen. Bei einer klassischen Auktion haben alle Teilnehmer die gleiche Anzahl an Punkten, während bei einer Punkteauktion die Punkteverteilung von Teilnehmer zu Teilnehmer unterschiedlich sein kann. Abhängig von der Anzahl der Punkte bei der Punkteauktion unterscheidet sich die Größe der Glücksradsegmente im Verhältnis zueinander. Wenn der klassische Modus ausgewählt ist, sind die Segmente mit mehr Punkten größer, wenn der Eliminationsmodus ausgewählt ist, sind die Segmente mit mehr Punkten kleiner, um die Gewinnchance zu erhöhen.</value>
+  </data>
+  <data name="Feature 4" xml:space="preserve">
+    <value>Auktionen werden in Form eines Glücksrads durchgeführt, was dem Prozess ein Element von Zufall und Intrige hinzufügt.</value>
+  </data>
+  <data name="Feature 5" xml:space="preserve">
+    <value>Während der Auktion haben Nutzer die Möglichkeit, Parameter für die Teilnehmer anzupassen. Bei einer klassischen Auktion sind das beispielsweise die Farbe und der Name des Bieters, bei einer Punkteauktion auch die Anzahl der Punkte für jeden Bieter.</value>
+  </data>
+  <data name="Feature 6" xml:space="preserve">
+    <value>Einer der Hauptvorteile des Dienstes ist die Möglichkeit, das Rad flexibel anzupassen, einschließlich der Anzahl der Umdrehungen pro Drehung, der Dauer der Drehung und der Farbe der Segmente.</value>
+  </data>
+  <data name="Feature 7" xml:space="preserve">
+    <value>Die Plattform bietet zwei Auktionsmodi: den klassischen und den Eliminationsmodus. Im klassischen Modus gewinnt der Teilnehmer, der nach einer Drehung auf dem Rad landet, während im Eliminationsmodus die Teilnehmer nacheinander eliminiert werden, bis nur noch ein Gewinner übrig ist.</value>
+  </data>
+  <data name="Frontend" xml:space="preserve">
+    <value>HTML, CSS und Javascript sind Standards in der Frontend-Entwicklung. Sie bieten umfassende Möglichkeiten zur Anpassung des Erscheinungsbilds der Benutzeroberfläche, sind weit verbreitet und bieten die Möglichkeit, die Funktionalität durch Bibliotheken von Drittanbietern zu erweitern. CSS ist ein hochwertiges Tool, mit dem Sie spezielle Animationen auf verschiedenen Ebenen erstellen können, die für die Entwicklung des Glücksrads nützlich sind.</value>
+  </data>
+  <data name="General description" xml:space="preserve">
+    <value>Die Plattform wurde mit dem Ziel geschaffen, ein praktisches Tool für die Durchführung von Online-Auktionen in Form eines Glücksrads mit flexiblen Parametern bereitzustellen. Hauptmerkmale:</value>
+  </data>
+  <data name="Online auction platform" xml:space="preserve">
+    <value>Online-Auktionsplattform</value>
+  </data>
+  <data name="SQL Server" xml:space="preserve">
+    <value>SQL Server bietet vielfältige Möglichkeiten zur Arbeit mit Daten und stellt damit insbesondere im Kontext der .NET-Plattform eine leistungsstarke Lösung für diverse Webanwendungen und -systeme dar.</value>
+  </data>
+  <data name="Technical side" xml:space="preserve">
+    <value>Die technische Seite der Plattform und die Gründe für die Wahl der Technologien</value>
+  </data>
+  <data name="Technical side description" xml:space="preserve">
+    <value>Für die Softwareentwicklung wurden folgende Technologien ausgewählt: ASP.NET MVC, SQL Server, Entity Framework, Javascript, HTML, CSS, Bootstrap.</value>
+  </data>
+</root>

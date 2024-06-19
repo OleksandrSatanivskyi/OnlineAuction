@@ -1,0 +1,101 @@
+.auth-title {
+    margin-bottom: 30px;
+}
+
+.auth-form {
+    height: auto;
+    width: 90%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+
+.auth-card{
+    height: 90%;
+    width: 30%;
+}
+
+.auth-card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    padding-top: 5%;
+}
+
+.auth-container {
+    display: grid;
+    place-items: center;
+    height: 100vh;
+}
+
+.auth-input{
+    font-size: 18px;
+}
+
+.auth-submit-btn {
+    margin-bottom: 30px;
+}
+
+.auth-input-group {
+    margin-bottom: 25px;
+    width: 100%;
+}
+
+.continue-with-google-btn {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: transparent;
+    color: #ffffff;
+    border-color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.continue-with-google-btn img {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
+
+@media (max-width: 1280px) {
+    .auth-card {
+        width: 40%;
+    }
+
+    .auth-input {
+        font-size: 15px;
+    }
+
+    .auth-input-group {
+        margin-bottom: 20px;
+    }
+
+    .auth-submit-btn {
+        margin-bottom: 26px;
+    }
+}
+
+@media (max-width: 992px) {
+    .auth-card {
+        width: 50%;
+    }
+}
+
+@media (max-width: 720px) {
+    .auth-card {
+        width: 70%;
+    }
+}
+
+@media (max-width: 480px){
+    .auth-form {
+        width: 100%;
+    }
+    .auth-card {
+        width: 90%;
+    }
+}

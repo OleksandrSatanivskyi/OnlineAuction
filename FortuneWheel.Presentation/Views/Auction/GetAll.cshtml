@@ -1,0 +1,52 @@
+﻿<link rel="stylesheet" href="~/css/wheel-settings.css" asp-append-version="true" />
+@using OnlineAuc.Models.Auctions
+@model OnlineAuc.Models.Auctions.GetAllAuctionsModel
+@{
+    Layout = "_AuctionsLayout";
+}
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<header class="wheel-actions-header">
+    <h5 class="wheel-actions-title page-title">@Localizer["Auctions"]</h5>
+    <button class="create-wheel-button btn btn-outline-success page-btn" type="button" data-bs-toggle="modal" data-bs-target="#addWheelModal">@Localizer["Create"]</button>
+</header>
+
+<div class="modal fade" id="addWheelModal" tabindex="-1" aria-hidden="true">
+    @await Html.PartialAsync("_CreateAuctionPartialView", new CreateAuctionModel())
+</div>
+
+@if (Model.Wheels != null && Model.Wheels.Any())
+{
+    @foreach (var wheel in Model.Wheels)
+    {
+        <div class="bg-dark card wheel-card">
+            <h5 class="card-header dark wheel-card-header">@wheel.Title</h5>
+            <div class="card-body dark">
+                <label class="card-text">@Localizer["Type"]: @wheel.Type</label>
+                <br />
+                <label class="card-text">@Localizer["Created"] @wheel.CreationDate.ToString("dd.MM.yyyy")</label>
+                <br />
+                <label class="card-text">@wheel.ElementCount @Localizer["elements"]</label>
+
+                <div class="wheel-card-footer">
+                    <input type="button" value="@Localizer["Select"]" class="btn-primary btn page-btn" onclick="location.href='@Url.Action("Select", "Auction", new { id = wheel.Id, type = wheel.Type.ToString() })'" />
+                    <button class="btn-danger btn page-btn" type="button" data-bs-toggle="modal" data-bs-target="#removeWheelModal">@Localizer["Remove"]</button>
+                    <div class="modal fade" id="removeWheelModal" tabindex="-1" aria-hidden="true">
+                        @await Html.PartialAsync("_RemoveAuctionPartialView", new RemoveAuctionModel
+                        {
+                            Id = wheel.Id,
+                            Type = wheel.Type
+                        })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+}
+else
+{
+    <label>@Localizer["No auctions available"].</label>
+}
+

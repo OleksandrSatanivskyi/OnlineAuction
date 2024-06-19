@@ -17,77 +17,43 @@ html {
   min-height: 100%;
 }
 
-body {
-  margin-bottom: 60px;
-}
-
 .nav-tabs .nav-link {
     font-size: 30px; 
     color: #fff !important; 
 }
 
-.custom-margin {
-    margin-right: 50px;
+body, html {
+    height: 100%;
+    margin: 0;
+    overflow-x: hidden;
 }
 
-.auth-title{
-    font-size: 50px;
-    margin-bottom: 100px;
+.page-title {
+    font-size: 45px;
 }
 
-.auth-form {
-    height: auto;
-    width: 500px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content:start;
+.page-btn {
+    font-size: 18px;
 }
 
-.auth-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: auto;
-    margin-top: 8%;
+.dark {
+    background: #1b1f22;
 }
 
-.auth-input{
-    font-size: 20px;
+@media (max-width: 1280px) {
+    .page-btn {
+        font-size: 17px;
+        margin-bottom: 2px;
+    }
+    .page-title {
+        font-size: 37px;
+    }
 }
-
-.auth-submit-btn {
-    font-size: 20px;
-    background: #4d94ff;
-    font-weight: 400;
-    margin-bottom: 50px;
-}
-
-.auth-input-group {
-    margin-bottom: 30px;
-    width: 100%;
-}
-
-.continue-with-google-btn {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    background-color: transparent;
-    color: #ffffff;
-    border-color: white;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.continue-with-google-btn img {
-    width: 24px;
-    height: 24px;
-    margin-right: 10px;
-}
-
-.auth-label {
-    font-size: 20px;
-    margin-bottom: 30px;
+@media (max-width: 992px) {
+    .page-btn {
+        font-size: 15px;
+    }
+    .page-title {
+        font-size: 27px;
+    }
 }
