@@ -92,9 +92,9 @@
     window.onload = function () {
         checkModeAndSetActiveTab();
 
-        minInput.value = getCookie("MinSpin") || 1;
+        minInput.value = getCookie("MinSpin") || 6;
         maxInput.value = getCookie("MaxSpin") || parseInt(minInput.value) + 2;
-        durationInput.value = getCookie("Duration") || 6;
+        durationInput.value = getCookie("Duration") || 5;
     };
 
     var wheelWasSpinned = false;

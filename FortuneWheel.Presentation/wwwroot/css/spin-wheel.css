@@ -24,8 +24,8 @@ p {
 }
 
 .center-circle {
-    width: 100px;
-    height: 100px;
+    width: 70px;
+    height: 70px;
     border-radius: 60px;
     background-color: #fff;
     position: absolute;
@@ -44,7 +44,7 @@ p {
     border-right: 10px solid transparent;
     border-top: 30px solid #FFBF00;
     position: absolute;
-    top: -300%;
+    top: -420%;
     right: 50%;
     transform: translate(50%, -50%);
 }
@@ -186,5 +186,9 @@ p {
     #canvas {
         width: 320px;
         height: 320px;
+    }
+
+    .triangle {
+        top: -300%;
     }
 }
