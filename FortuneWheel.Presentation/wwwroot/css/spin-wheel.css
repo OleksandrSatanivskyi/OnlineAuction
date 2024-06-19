@@ -44,7 +44,7 @@ p {
     border-right: 10px solid transparent;
     border-top: 30px solid #FFBF00;
     position: absolute;
-    top: -420%;
+    top: -450%;
     right: 50%;
     transform: translate(50%, -50%);
 }

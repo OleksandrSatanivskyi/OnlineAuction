@@ -48,7 +48,12 @@ public class Program
         });
 
         services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+        {
+            options.UseNpgsql(configuration.GetConnectionString("PostgresqlConnection"));
+        });
+
+        services.AddScoped<IDbContext>(provider => provider.GetService<ApplicationDbContext>());
+
         services.AddSession(options =>
         {
             options.IdleTimeout = TimeSpan.FromMinutes(30);
